@@ -16,13 +16,17 @@
             width:150px;
         }
         pre{
-            border:1px black solid;
+            border:1px #fff solid;
             cursor:default;
             user-select: none;
+            color:#fff;
+        }
+        td{
+            color:#fff
         }
     </style>
 </head>
-<body>
+<body style="background:#000">
     <div id="app">
         <button @click="game">Start</button>
         <pre id="game"></pre>

@@ -8,6 +8,7 @@
 <body>
     width: <input type="number" min="1">
     height: <input type="number" min="1">
+    text: <input type="text" maxlength="1">
     <button onclick="show()">show</button>
     <span></span>
     <pre>
@@ -25,9 +26,10 @@ E (o)(o) 3
         function show(){
             let width = document.querySelector("input").value;
             let height = document.querySelector("input+input").value;
+            let text = document.querySelector("input[type=text]").value;
             let aline = "";
             for(let i = 0;i < width;i++){
-                aline += "@";
+                aline += text;
             }
             let ret = ""
             for(let i = 0;i < height;i++){

@@ -9,7 +9,6 @@ window.Game=(program, root, clock=0)=>{
     let key = new libkey()
     let re = document.querySelector(root)
     let pc = 0;
-    let dc = 0; //Doing Count
     let screen = [];
     for(let i = 0;i < 40;i++){
         for(let j = 0;j < 100;j++){
@@ -19,8 +18,10 @@ window.Game=(program, root, clock=0)=>{
     }
     let reg = new Array(10)
     const nextVal = () => program[pc++]
-    let data,x,y,i;
+    let data,x,y,i,rg1,rg2,tjmp,fjmp;
+    let isWait = false;
     const frame = setInterval(()=>{
+        if(isWait) return;
         if(pc >= program.length) {
             console.log("Complete!")
             clearInterval(frame);
@@ -31,12 +32,25 @@ window.Game=(program, root, clock=0)=>{
                 ptr += nextVal();
                 pc = ptr - 1;
                 break;
-            case 7: //IF
-                let rg1 = reg[nextVal()];
-                let rg2 = reg[nextVal()];
-                let tjmp = nextVal() * 256;
+            case 5: //IF>
+                rg1 = reg[nextVal()];
+                rg2 = reg[nextVal()];
+                tjmp = nextVal() * 256;
                 tjmp += nextVal();
-                let fjmp = nextVal() * 256;
+                fjmp = nextVal() * 256;
+                fjmp += nextVal();
+                if(rg1 > rg2){
+                    pc = tjmp;
+                }else{
+                    pc = fjmp;
+                }
+                break;
+            case 7: //IF=
+                rg1 = reg[nextVal()];
+                rg2 = reg[nextVal()];
+                tjmp = nextVal() * 256;
+                tjmp += nextVal();
+                fjmp = nextVal() * 256;
                 fjmp += nextVal();
                 if(rg1 == rg2){
                     pc = tjmp;
@@ -52,7 +66,7 @@ window.Game=(program, root, clock=0)=>{
             case 17: //=
                 reg[nextVal()] = nextVal()
                 break;
-            case 19: //PIXEL
+            case 18: //PIXEL
                 data = String.fromCharCode(reg[nextVal()])
                 x = reg[nextVal()]
                 y = reg[nextVal()]
@@ -83,8 +97,13 @@ window.Game=(program, root, clock=0)=>{
                     reg[nextVal()] = 0
                 }
                 break;
+            case 26:
+                isWait = true;
+                setTimeout(e=>{
+                    isWait = false;
+                },nextVal())
+                break;
         }
-        dc++;
         let scrtext = ""
         for(let i = 0;i < screen.length;i++){
             scrtext += screen[i]

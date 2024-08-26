@@ -1,0 +1,7 @@
+/ 00FF 0000 store
+:loop
+/ 0000 load 0001 mul 0000 store cls
+; ptr[0]--
+/ 0000 0000 FFFF FFFF 0000 load 0000 0000 rect redraw
+/ 0000 load 0000 equal
+/ :loop truejump

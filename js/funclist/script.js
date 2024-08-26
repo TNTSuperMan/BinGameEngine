@@ -4,26 +4,20 @@ document.addEventListener("DOMContentLoaded",e=>{
         mounted:e=>fetch("./funcs.json").then(c=>c.json()).then(obj=>{
             let max = 0;
             Object.entries(obj).forEach(f=>{
-                let size = 0;
-                f[1].forEach(s=>{size += s.size})
-                if(size > max) max = size;
+                if(f[1].length > max) max = f[1].length;
             })
             Object.entries(obj).forEach((func,idx)=>{
                 let id = idx.toString(16)
                 if(id.length == 1) id = "0" + id;
 
-                let size = 0;
-                let emp = [];
-                func[1].forEach(s=>{size += s.size})
-                for(let i = 0;i < (max - size);i++) emp.push({})
                 app.funcs.push({
                     name: func[0],
                     id: id,
                     memory: func[1],
-                    emp:emp
+                    i:idx
                 })
             })
-            for(let i = 0;i < max;i++) app.loop.push(i + 2);
+            for(let i = 0;i < max;i++) app.loop.push(i + 1);
         })
     }).mount("#p")
 })

@@ -9,17 +9,23 @@
 </head>
 <body>
     <div id="p">
-        <p>※レジスタとはレジスタアドレスのことです</p>
         <table border>
-            <tr><th>ID</th><th>10進数</th><th>1バイト目</th>
-                <th v-for="i in loop">{{i}}バイト目</th>
+            <tr><th>ID</th><th>10進数</th><th>16進数</th>
+                <th v-for="i in loop">{{i}}b</th>
             </tr>
             <tr v-for="(func,i) in funcs">
                 <td>{{func.name}}</td>
                 <td>{{i}}</td>
                 <td>{{func.id}}</td>
-                <td v-for="m in func.memory" :colspan="m.size">{{m.desc}}</td>
+                <td v-for="m in func.memory">{{m}}</td>
                 <td v-for="e in func.emp"></td>
+            </tr>
+        </table>
+        <table border>
+            <tr v-for="(a,i) in [0,0,255,0,0,0,17,0,0,0,16,0,0,1,5,0,0,0,17,2,0,0,0,0,0,0,0,255,255,0,255,255,0,0,0,16,0,0,0,0,0,0,21,19,0,0,0,16,0,0,0,14,0,0,0,0,0,7,11]">
+                <th>{{i}}</th>
+                <th>{{a}}</th>
+                <th>{{funcs.find(e=>e.i==a)?.name}}</th>
             </tr>
         </table>
     </div>

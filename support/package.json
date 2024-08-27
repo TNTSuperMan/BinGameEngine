@@ -1,0 +1,27 @@
+{
+    "publisher": "TNTSuperMan",
+    "name": "bgesupport",
+    "displayName": "BGESupport",
+    "description": "BGE Language Support!",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.92.2"
+    },
+    "main": "./extension.js",
+    "activationEvents": [
+        "*"
+    ],
+    "contributes": {
+        "languages": [{
+            "id": "bge",
+            "extensions": [".bge"]
+        }],
+        "grammars": [
+            {
+                "language": "bge",
+                "scopeName": "source.bge",
+                "path": "./syntax.json"
+            }
+        ]
+    }
+}

@@ -1,0 +1,79 @@
+; CB - Left
+; CD - Right
+
+; memory map
+; 0000 ball x
+; 0001 ball y
+; 0002 player x
+; 0003 ball sx 1 or -0
+; 0004 ball sy 1 or -0
+/ 10 0000 store
+/ :main jump
+
+:Fdraw
+  / 0 0 ff ff 0 0 0 rect
+  ; background
+
+  / 0000 load 0001 load 5 5 ff ff ff rect
+  ; ball
+
+  / 0002 load f0 20 5 ff ff ff rect
+  ; player
+  / redraw ret
+
+:Fball
+  / 0000 load 00 equal :pxbind truejump
+  / :nopxbind jump
+  :pxbind
+  / 1 0003 store
+  :nopxbind
+
+  / 0000 load fa equal :nxbind truejump
+  / :nonxbind jump
+  :nxbind
+  / 0 0003 store
+  :nonxbind
+
+  / 0003 load 0 equal :nx truejump
+  / :px jump
+  :nx
+  / 0000 load 1 sub 0000 store
+  / :xend jump
+  :px
+  / 0000 load 1 pls 0000 store
+  :xend
+
+  
+  / 0001 load 00 equal :pybind truejump
+  / :nopybind jump
+  :pybind
+  / 1 0004 store
+  :nopybind
+
+  / e0 0001 load greater :nonybind truejump
+  / 0000 load 0002 load greater :nonybind truejump
+  / 0002 20 pls load 0000 load greater :nonybind truejump
+  / 0 0004 store
+  :nonybind
+
+  / 0004 load 0 equal :ny truejump
+  / :py jump
+  :ny
+  / 0001 load 1 sub 0001 store
+  / :yend jump
+  :py
+  / 0001 load 1 pls 0001 store
+  :yend
+  / ret
+
+:main
+/ cls
+/ 0002 load 0 equal :right truejump
+/ 0002 load cb chkkey sub 0002 store
+:right
+/ 0002 load e0 equal :d truejump
+/ 0002 load cd chkkey pls 0002 store
+:d
+/ :Fball call
+/ :Fdraw call
+/ :main jump

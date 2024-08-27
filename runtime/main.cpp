@@ -176,6 +176,8 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance,_In_opt_ HINSTANCE hPrevInstance,_I
             break;
         case 0x16: //chkkey
             push(CheckHitKey(pop()));
+            KEY_INPUT_LEFT;
+            KEY_INPUT_RIGHT;
             break;
         }
         pc++;

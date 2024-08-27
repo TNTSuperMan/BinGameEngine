@@ -1,30 +1,17 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
-using System.Text;
-using System.Text.RegularExpressions;
-using static System.Net.Mime.MediaTypeNames;
+﻿using System.Text.RegularExpressions;
 
 internal class Program
 {
     private static void Main(string[] args)
     {
-        string path = "C:\\Users\\broke\\Program(github)\\BinGameEngine\\sample.bge";
-        byte[] data = Compile(File.ReadAllText(path));
-        Console.Write("[");
-        foreach(byte x in data)
+        if(args.Length != 2)
         {
-            Console.Write(x.ToString() + ",");
-        }
-        Console.Write("\b]");
-        Console.ReadKey(true);
-        /*if(args.Length != 2)
-        {
-            Console.WriteLine("Usage: compiler.exe [Source] [Output] [EntryFuncName(default:Main)]");
+            Console.WriteLine("Usage: compiler.exe [Source] [Output]");
         }
         else
         {
-            new Module(args[0]);
-        }*/
+            File.WriteAllBytes(args[1], Compile(File.ReadAllText(args[0])));
+        }
     }
     private static byte[] Compile(string rawsrc)
     {
@@ -111,13 +98,14 @@ internal class Program
         List<BGEData> ret = new List<BGEData>();
         foreach (string text in texts)
         {
-            if (Regex.IsMatch(text, "^[\\da-fA-F]{4}$"))
+            if (Regex.IsMatch(text, "^[\\da-fA-F]{1,4}$"))
             {
-                ushort num =
-                       (ushort)(toStr(text[0]) << 12);
-                num += (ushort)(toStr(text[1]) << 8);
-                num += (ushort)(toStr(text[2]) << 4);
-                num += (ushort)(toStr(text[3]) << 0);
+                ushort num = 0;
+                foreach(char t in text)
+                {
+                    num = (ushort)(num << 4);
+                    num += (ushort)(toInt(t));
+                }
                 ret.Add(new BGEData(num));
             }
             else if (Regex.IsMatch(text, "^:.+"))
@@ -221,7 +209,7 @@ internal class Program
             }
         }
     }
-    public static ushort toStr(char data)
+    public static ushort toInt(char data)
     {
         switch (data)
         {

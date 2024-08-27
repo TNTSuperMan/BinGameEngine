@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "compiler": {
+      "commandName": "Project",
+      "commandLineArgs": "sample.bge x64\\debug\\game.bin",
+      "workingDirectory": "C:\\Users\\broke\\Program(github)\\BinGameEngine"
+    }
+  }
+}

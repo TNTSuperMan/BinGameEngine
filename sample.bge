@@ -1,7 +1,42 @@
-/ 00FF 0000 store
+;ゲームファイルは4GBまで☆
+/ :start jump
+
+:draw
+/ 0 0 FF FF 0000 load 0000 load 0000 load rect redraw
+/ ret
+
+:start
+/ FF 0000 store
+; [0000] = FF
 :loop
-/ 0000 load 0001 mul 0000 store cls
+/ cls 0000 load 1 sub 0000 store
 ; ptr[0]--
-/ 0000 0000 FFFF FFFF 0000 load 0000 0000 rect redraw
-/ 0000 load 0000 equal
-/ :loop truejump
+/ :draw call
+; draw()
+/ 0000 load F greater :loop truejump
+; if([0000] > F) goto loop
+
+/ 0 0000 store
+/ 0 0001 store
+:disp
+
+/ 0000 load 1 pls 0000 store
+
+/ 0000 load 10 rem 0 equal
+/ :next truejump
+/ :then jump
+:next
+/ 0001 load 1 pls 0001 store
+:then
+/ 0 0 FF FF 00 00 00 rect
+/ 1e 1e c3 1e ff ff ff rect
+/ 71 1e 1e c3 ff ff ff rect
+/ 0000 load FF rem
+/ 0001 load FF rem
+/ ff ff ff pixel
+/ redraw
+
+/ cls 39 chkkey
+/ :end truejump
+/ :disp jump
+:end

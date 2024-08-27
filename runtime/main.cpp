@@ -1,9 +1,11 @@
 #include "Windows.h"
 #include "DxLib.h"
+#include <fstream>
+#include <vector>
+#include <string>
 #include <cmath>
 
 #include "Initializer.h"
-//#include <string>
 #define STACK_LEN 256
 #define CALLSTACK_LEN 128
 #define MEMORY_LEN 0xFFFF
@@ -24,7 +26,7 @@ USHORT pop() {
 }
 
 UINT callstack[CALLSTACK_LEN];
-UINT callstack_used = 0;
+UINT callstack_used = 1;
 void call(UINT addr) {
     if (callstack_used >= CALLSTACK_LEN - 1) {
         throw "callstack overflow";
@@ -43,22 +45,37 @@ UINT toaddr(short up, short down) {
 }
 
 int WINAPI wWinMain(_In_ HINSTANCE hInstance,_In_opt_ HINSTANCE hPrevInstance,_In_ LPWSTR lpCmdLine, _In_ int nShowCmd) {
-    if (InitializeDx() == false) return -1;
-
+    if (!InitializeDx()) return -1;
+    FILE* file;
+    char* path = new char[512];
+    size_t* len = new size_t[1];
+    *len = 512;
+    wcstombs_s(len, path, 512, lpCmdLine, 512);
+    if (fopen_s(&file, path, "r")) {
+        MessageBox(0, "Please select file", "BGE Error", 0);
+        return -1;
+    }
+    std::vector<char> vd;
+    while (!feof(file)) vd.push_back(fgetc(file));
+    size_t size = vd.size();
+    char* program = vd.data();
+    USHORT memory[MEMORY_LEN];
     UINT pc = 0;
-    char program[] = { 0,0,255,0,0,0,17,0,0,0,16,0,0,1,5,0,0,0,17,2,0,0,0,0,0,0,0,255,255,0,255,255,0,0,0,16,0,0,0,0,0,0,21,19,0,0,0,16,0,0,0,14,0,0,0,0,0,7,11 };
     for (int i = 0; i < STACK_LEN; i++) stack[i] = 0;
     for (int i = 0; i < CALLSTACK_LEN; i++) callstack[i] = 0;
-    callstack[0] = UINT_MAX;
-    USHORT memory[MEMORY_LEN];
     for (int i = 0; i < MEMORY_LEN; i++) memory[i] = 0;
+    callstack[0] = UINT_MAX;
 
     USHORT addrdown, addrup, ptr, x, y, w, h, r, g, b, pushdata, val2;
-    while (pc < 59) {
+    while (pc < size) {
         switch (program[pc]) {
         case 0x00: //push
+            if (pc + 3 > size) {
+                MessageBox(0, "a", "BGE Error", 0);
+                return -1;
+            }
             pushdata = program[++pc] << 8;
-            pushdata += program[++pc];
+            pushdata += (UCHAR)program[++pc];
             push(pushdata);
             break;
         case 0x01: //pop
@@ -83,7 +100,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance,_In_opt_ HINSTANCE hPrevInstance,_I
             break;
         case 0x07: //rem
             val2 = pop();
-            push(pop() & val2);
+            push(pop() % val2);
             break;
         case 0x08: //nand
             push(~(pop() & pop()));
@@ -105,10 +122,10 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance,_In_opt_ HINSTANCE hPrevInstance,_I
             pc = toaddr(addrup, addrdown) - 1;
             break;
         case 0x0d: //call
+            call(pc);
             addrdown = pop();
             addrup = pop();
             pc = toaddr(addrup, addrdown) - 1;
-            call(toaddr(addrup, addrdown));
             break;
         case 0x0e: //equal
             push((pop() == pop()) ? (USHORT)1 : (USHORT)0);
@@ -135,8 +152,8 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance,_In_opt_ HINSTANCE hPrevInstance,_I
             }
             break;
         case 0x13: //redraw
-            if (ProcessMessage() == -1) return 0;
             ScreenFlip();
+            if (ProcessMessage() == -1) return 0;
             ClearDrawScreen();
             break;
         case 0x14: //pixel

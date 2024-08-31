@@ -1,25 +1,21 @@
-;�Q�[���t�@�C����4GB�܂Ł�
-/ :start jump
+import next.bge
 
-:draw
-/ 0 0 FF FF 0000 load 0000 load 0000 load rect redraw
-/ ret
 
-:start
 / FF 0000 store
 ; [0000] = FF
 :loop
 / cls 0000 load 1 sub 0000 store
 ; ptr[0]--
-/ :draw call
+/ \draw call
 ; draw()
 / 0000 load F greater :loop truejump
 ; if([0000] > F) goto loop
 
+
 / 0 0000 store
 / 0 0001 store
 :disp
-
+; T
 / 0000 load 1 pls 0000 store
 
 / 0000 load 10 rem 0 equal
@@ -31,12 +27,11 @@
 / 0 0 FF FF 00 00 00 rect
 / 1e 1e c3 1e ff ff ff rect
 / 71 1e 1e c3 ff ff ff rect
-/ 0000 load FF rem
-/ 0001 load FF rem
-/ ff ff ff pixel
+/ \drawBall call
 / redraw
 
-/ cls 39 chkkey
+/ cls 2a chkkey
 / :end truejump
 / :disp jump
 :end
+/ ret

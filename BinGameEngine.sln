@@ -5,6 +5,7 @@ VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ソリューション項目", "ソリューション項目", "{3354CA10-D759-4E49-8C7C-2F1E83F2A6AD}"
 	ProjectSection(SolutionItems) = preProject
+		next.bge = next.bge
 		sample.bge = sample.bge
 	EndProjectSection
 EndProject

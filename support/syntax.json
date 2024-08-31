@@ -11,19 +11,31 @@
              "patterns": [
                 {
                     "name": "keyword.control",
-                    "match": "\\b(push|pop|cls|pls|sub|mul|div|rem|nand|sin|sqrt|truejump|jump|call|equal|greater|load|store|ret|redraw|pixel|rect|chkkey)\\b"
+                    "match": "[\\s\\t]*\\b(push|pop|cls|pls|sub|mul|div|rem|nand|sin|sqrt|truejump|jump|call|equal|greater|load|store|ret|redraw|pixel|rect|chkkey)\\b"
                 },
                 {
                     "name": "entity.name.tag",
                     "match": ":[\\w]+"
                 },
                 {
+                    "name": "entity.name.tag",
+                    "match": "\\\\[\\w]+"
+                },
+                {
                     "name": "constant.numeric",
-                    "match": "([\\da-fA-F]){1,4}"
+                    "match": " ([\\da-fA-F]){1,4}"
                 },
                 {
                     "name": "comment.line",
-                    "match": "^;.*"
+                    "match": "^[\\s\\t]*;.*"
+                },
+                {
+                    "name": "keyword.control",
+                    "match": "^[\\s\\t]*import"
+                },
+                {
+                    "name": "keyword.control",
+                    "match": "^[\\s\\t]*export"
                 }
             ]
         }

@@ -4,45 +4,70 @@
 #include <vector>
 #include <string>
 #include <cmath>
+#include "stack.h"
 
 #include "Initializer.h"
-#define STACK_LEN 256
-#define CALLSTACK_LEN 128
-#define MEMORY_LEN 0xFFFF
-
-USHORT stack[STACK_LEN];
-UINT stack_used = 0;
-void push(USHORT value) {
-    if (stack_used >= STACK_LEN - 1) {
-        throw "stack overflow";
-    }
-    stack[stack_used++] = value;
-}
-USHORT pop() {
-    if (stack_used == 0) {
-        throw "stack underflow";
-    }
-    return stack[--stack_used];
-}
-
-UINT callstack[CALLSTACK_LEN];
-UINT callstack_used = 1;
-void call(UINT addr) {
-    if (callstack_used >= CALLSTACK_LEN - 1) {
-        throw "callstack overflow";
-    }
-    callstack[callstack_used++] = addr;
-}
-UINT ret() {
-    if (callstack_used == 0) {
-        throw "callstack underflow";
-    }
-    return callstack[--callstack_used];
-}
 
 UINT toaddr(short up, short down) {
     return (up << 16) | down;
 }
+
+const int Keymap[] = {
+    KEY_INPUT_0,     //00
+    KEY_INPUT_1,     //01
+    KEY_INPUT_2,     //02
+    KEY_INPUT_3,     //03
+    KEY_INPUT_4,     //04
+    KEY_INPUT_5,     //05
+    KEY_INPUT_6,     //06
+    KEY_INPUT_7,     //07
+    KEY_INPUT_8,     //08
+    KEY_INPUT_9,     //09
+    KEY_INPUT_SPACE, //0a
+    KEY_INPUT_A,     //0b
+    KEY_INPUT_B,     //0c
+    KEY_INPUT_C,     //0d
+    KEY_INPUT_D,     //0e
+    KEY_INPUT_E,     //0f
+    KEY_INPUT_F,     //10
+    KEY_INPUT_G,     //11
+    KEY_INPUT_H,     //12
+    KEY_INPUT_I,     //13
+    KEY_INPUT_J,     //14
+    KEY_INPUT_K,     //15
+    KEY_INPUT_L,     //16
+    KEY_INPUT_M,     //17
+    KEY_INPUT_N,     //18
+    KEY_INPUT_O,     //19
+    KEY_INPUT_P,     //1a
+    KEY_INPUT_Q,     //1b
+    KEY_INPUT_R,     //1c
+    KEY_INPUT_S,     //1d
+    KEY_INPUT_T,     //1e
+    KEY_INPUT_U,     //1f
+    KEY_INPUT_V,     //20
+    KEY_INPUT_W,     //21
+    KEY_INPUT_X,     //22
+    KEY_INPUT_Y,     //23
+    KEY_INPUT_Z,     //24
+    KEY_INPUT_LEFT,  //25
+    KEY_INPUT_RIGHT, //26
+    KEY_INPUT_UP,    //27
+    KEY_INPUT_DOWN,  //28
+    KEY_INPUT_RETURN,//29
+    KEY_INPUT_BACK,  //2a
+
+};
+
+int key(USHORT k) {
+    if (k < (USHORT)43) {
+        return Keymap[k];
+    }
+    else {
+        return 0;
+    }
+}
+USHORT memory[MEMORY_LEN];
 
 int WINAPI wWinMain(_In_ HINSTANCE hInstance,_In_opt_ HINSTANCE hPrevInstance,_In_ LPWSTR lpCmdLine, _In_ int nShowCmd) {
     if (!InitializeDx()) return -1;
@@ -55,16 +80,11 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance,_In_opt_ HINSTANCE hPrevInstance,_I
         MessageBox(0, "Please select file", "BGE Error", 0);
         return -1;
     }
-    std::vector<char> vd;
+    std::vector<UCHAR> vd;
     while (!feof(file)) vd.push_back(fgetc(file));
     size_t size = vd.size();
-    char* program = vd.data();
-    USHORT memory[MEMORY_LEN];
+    UCHAR* program = vd.data();
     UINT pc = 0;
-    for (int i = 0; i < STACK_LEN; i++) stack[i] = 0;
-    for (int i = 0; i < CALLSTACK_LEN; i++) callstack[i] = 0;
-    for (int i = 0; i < MEMORY_LEN; i++) memory[i] = 0;
-    callstack[0] = UINT_MAX;
 
     USHORT addrdown, addrup, ptr, x, y, w, h, r, g, b, pushdata, val2;
     while (pc < size) {
@@ -75,14 +95,14 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance,_In_opt_ HINSTANCE hPrevInstance,_I
                 return -1;
             }
             pushdata = program[++pc] << 8;
-            pushdata += (UCHAR)program[++pc];
+            pushdata += program[++pc];
             push(pushdata);
             break;
         case 0x01: //pop
             pop();
             break;
         case 0x02: //cls
-            for (int i = 0; i < STACK_LEN; i++) stack[i] = 0;
+            clear();
             break;
         case 0x03: //pls
             push(pop() + pop());
@@ -132,7 +152,6 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance,_In_opt_ HINSTANCE hPrevInstance,_I
             break;
         case 0x0f: //greater
             push(pop() < pop());
-            //大なりな！>な！　popの順序上の最適化だぞ！
             break;
         case 0x10: //load
             push(memory[pop()]);
@@ -175,9 +194,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance,_In_opt_ HINSTANCE hPrevInstance,_I
             DrawBox(x, y, x + w, y + h, GetColor(r, g, b), 1);
             break;
         case 0x16: //chkkey
-            push(CheckHitKey(pop()));
-            KEY_INPUT_LEFT;
-            KEY_INPUT_RIGHT;
+            push(CheckHitKey(key(pop())));
             break;
         }
         pc++;

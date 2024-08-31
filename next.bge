@@ -1,0 +1,7 @@
+export draw
+/ 0 0 FF FF 0000 load 0000 load 0000 load rect redraw
+/ ret
+export drawBall
+/ 0000 load FF rem
+/ 0001 load FF rem
+/ ff ff ff pixel

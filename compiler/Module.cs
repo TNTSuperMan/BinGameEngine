@@ -73,22 +73,22 @@ namespace compiler
         {
             switch (data)
             {
-                case '0': return 0x0;
-                case '1': return 0x1;
-                case '2': return 0x2;
-                case '3': return 0x3;
-                case '4': return 0x4;
-                case '5': return 0x5;
-                case '6': return 0x6;
-                case '7': return 0x7;
-                case '8': return 0x8;
-                case '9': return 0x9;
-                case 'a': case 'A': return 0xa;
-                case 'b': case 'B': return 0xb;
-                case 'c': case 'C': return 0xc;
-                case 'd': case 'D': return 0xd;
-                case 'e': case 'E': return 0xe;
-                case 'f': case 'F': return 0xf;
+                case '0': return 0x00;
+                case '1': return 0x01;
+                case '2': return 0x02;
+                case '3': return 0x03;
+                case '4': return 0x04;
+                case '5': return 0x05;
+                case '6': return 0x06;
+                case '7': return 0x07;
+                case '8': return 0x08;
+                case '9': return 0x09;
+                case 'a': case 'A': return 0x0a;
+                case 'b': case 'B': return 0x0b;
+                case 'c': case 'C': return 0x0c;
+                case 'd': case 'D': return 0x0d;
+                case 'e': case 'E': return 0x0e;
+                case 'f': case 'F': return 0x0f;
                 default: return 0;
             }
         }

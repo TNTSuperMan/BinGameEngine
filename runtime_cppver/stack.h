@@ -7,3 +7,4 @@ USHORT pop();
 void clear();
 void call(UINT);
 UINT ret();
+bool isReturn();

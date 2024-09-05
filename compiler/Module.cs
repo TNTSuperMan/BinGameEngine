@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+﻿using System.Text.RegularExpressions;
 
 namespace compiler
 {
@@ -15,26 +10,26 @@ namespace compiler
     public class Module
     {
         private List<string> jumpTagName;
-        private List<uint> jumpTagPoint;
+        private List<ushort> jumpTagPoint;
         public List<string> exportedTagName;
-        public List<uint> exportedTagPoint;
+        public List<ushort> exportedTagPoint;
 
         public List<string> importPath;
         private string source;
         public string fpath;
-        public uint length;
+        public ushort length;
         public Module(string path)
         {
             fpath = path;
             List<BGEData> bge = new List<BGEData>();
             jumpTagName = new List<string>();
-            jumpTagPoint = new List<uint>();
+            jumpTagPoint = new List<ushort>();
             exportedTagName = new List<string>();
-            exportedTagPoint = new List<uint>();
+            exportedTagPoint = new List<ushort>();
             importPath = new List<string>();
             if (!File.Exists(path)) throw new BGEException("ファイル'" + path + "'が存在しません");
             source = File.ReadAllText(path);
-            uint len = 0;
+            ushort len = 0;
             foreach (string l in source.Split('\n'))
             {
                 string line = l.Trim();
@@ -45,7 +40,7 @@ namespace compiler
                         foreach (BGEData d in compileLine(line.Substring(1)))
                         {
                             bge.Add(d);
-                            len += bge.Last().length;
+                            len += (ushort)bge.Last().length;
                         }
                         break;
                     case ':':
@@ -53,14 +48,14 @@ namespace compiler
                         jumpTagPoint.Add(len);
                         break;
                     case 'e':
-                        if(line.Length > 7)
+                        if(Regex.IsMatch(line,"^export"))
                         {
                             exportedTagName.Add(line.Substring(7));
                             exportedTagPoint.Add(len);
                         }
                         break;
                     case 'i':
-                        if (line.Length > 7)
+                        if (Regex.IsMatch(line,"^import"))
                         {
                             importPath.Add(line.Substring(7));
                         }
@@ -92,7 +87,7 @@ namespace compiler
                 default: return 0;
             }
         }
-        public void Shift(uint num)
+        public void Shift(ushort num)
         {
             for(int i = 0;i < jumpTagPoint.Count; i++)
             {
@@ -103,7 +98,7 @@ namespace compiler
                 exportedTagPoint[i] += num;
             }
         }
-        public byte[] Compile(List<string>? exportedTagName = null, List<uint>? exportedTagPoint = null)
+        public byte[] Compile(List<string>? exportedTagName = null, List<ushort>? exportedTagPoint = null)
         {
             List<BGEData> bge = new List<BGEData>();
             foreach (string l in source.Split('\n'))
@@ -116,7 +111,7 @@ namespace compiler
             foreach(BGEData b in bge) foreach (byte c in b.bin) data.Add(c);
             return data.ToArray();
         }
-        private List<BGEData> compileLine(string source, List<string>? exportedTagName = null, List<uint>? exportedTagPoint = null)
+        private List<BGEData> compileLine(string source, List<string>? exportedTagName = null, List<ushort>? exportedTagPoint = null)
         {
             List<BGEData> ret = new List<BGEData>();
             int line = 0;
@@ -137,7 +132,6 @@ namespace compiler
                     if (exportedTagName == null || exportedTagPoint == null)
                     {
                         ret.Add(new BGEData((ushort)0));
-                        ret.Add(new BGEData((ushort)0));
                     }
                     else
                     {
@@ -148,8 +142,7 @@ namespace compiler
                         }
                         else
                         {
-                            ret.Add(new BGEData((ushort)((jumpTagPoint[i] & 0xFFFF0000) >> 16)));
-                            ret.Add(new BGEData((ushort)(jumpTagPoint[i] & 0x0000FFFF)));
+                            ret.Add(new BGEData((jumpTagPoint[i])));
                         }
                     }
                 }
@@ -157,7 +150,6 @@ namespace compiler
                 {
                     if (exportedTagName == null || exportedTagPoint == null)
                     {
-                        ret.Add(new BGEData((ushort)0));
                         ret.Add(new BGEData((ushort)0));
                     }
                     else
@@ -169,8 +161,7 @@ namespace compiler
                         }
                         else
                         {
-                            ret.Add(new BGEData((ushort)((exportedTagPoint[i] & 0xFFFF0000) >> 16)));
-                            ret.Add(new BGEData((ushort)(exportedTagPoint[i] & 0x0000FFFF)));
+                            ret.Add(new BGEData(exportedTagPoint[i]));
                         }
                     }
                 }
@@ -271,8 +262,8 @@ namespace compiler
                 ret[0] = (byte)_operator;
                 if (_pushdata != null)
                 {
-                    ret[1] = (byte)((_pushdata & (ushort)0xFF00) >> 8);
-                    ret[2] = (byte)(_pushdata & (ushort)0x00FF);
+                    ret[1] = (byte)((_pushdata & 0xFF00) >> 8);
+                    ret[2] = (byte)(_pushdata & 0x00FF);
                 }
                 return ret;
             }

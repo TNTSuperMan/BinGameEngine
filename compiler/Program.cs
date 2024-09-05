@@ -24,16 +24,17 @@ internal class Program
                     string path = impstack.Last();
                     impstack.Remove(path);
                     if (imported.Contains(path)) continue;
-                    Console.WriteLine(path);
+                    Console.Write(path);
                     imported.Add(path);
                     modules.Add(new Module(path));
+                    Console.WriteLine(" - "+modules.Last().length + "b");
                     foreach (string i in modules.Last().importPath) impstack.Add(i);
                 }
 
                 List<string> expName = new List<string>();
-                List<uint> expAddr = new List<uint>();
+                List<ushort> expAddr = new List<ushort>();
 
-                uint shift = 0;
+                ushort shift = 0;
                 foreach (Module m in modules)
                 {
                     m.Shift(shift);

@@ -18,7 +18,7 @@ void clear() {
 }
 
 UINT callstack[CALLSTACK_LEN];
-UINT callstack_used = 1;
+UINT callstack_used = 0;
 void call(UINT addr) {
     if (callstack_used >= CALLSTACK_LEN - 1) {
         throw "callstack overflow";
@@ -30,4 +30,7 @@ UINT ret() {
         return UINT_MAX;
     }
     return callstack[--callstack_used];
+}
+bool isReturn() {
+    return callstack_used == 0;
 }

@@ -39,7 +39,6 @@
             memoryEditor = new NumericUpDown();
             memoryListBox = new ListBox();
             groupBox4 = new GroupBox();
-            PCEditor = new NumericUpDown();
             programListBox = new ListBox();
             label1 = new Label();
             stateText = new TextBox();
@@ -57,7 +56,6 @@
             groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)memoryEditor).BeginInit();
             groupBox4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)PCEditor).BeginInit();
             ((System.ComponentModel.ISupportInitialize)tickNum).BeginInit();
             SuspendLayout();
             // 
@@ -154,7 +152,6 @@
             // 
             // groupBox4
             // 
-            groupBox4.Controls.Add(PCEditor);
             groupBox4.Controls.Add(programListBox);
             groupBox4.Location = new Point(510, 12);
             groupBox4.Name = "groupBox4";
@@ -163,24 +160,14 @@
             groupBox4.TabStop = false;
             groupBox4.Text = "Program";
             // 
-            // PCEditor
-            // 
-            PCEditor.Location = new Point(6, 20);
-            PCEditor.Maximum = new decimal(new int[] { -1, 0, 0, 0 });
-            PCEditor.Name = "PCEditor";
-            PCEditor.Size = new Size(97, 23);
-            PCEditor.TabIndex = 8;
-            PCEditor.Value = new decimal(new int[] { -2, 0, 0, 0 });
-            PCEditor.ValueChanged += PCEditor_ValueChanged;
-            // 
             // programListBox
             // 
             programListBox.FormattingEnabled = true;
             programListBox.ItemHeight = 15;
             programListBox.Items.AddRange(new object[] { "　push 1fff", "＞cls", "　ret", "　chkkey" });
-            programListBox.Location = new Point(6, 52);
+            programListBox.Location = new Point(6, 22);
             programListBox.Name = "programListBox";
-            programListBox.Size = new Size(97, 349);
+            programListBox.Size = new Size(97, 379);
             programListBox.TabIndex = 0;
             // 
             // label1
@@ -305,7 +292,6 @@
             groupBox3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)memoryEditor).EndInit();
             groupBox4.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)PCEditor).EndInit();
             ((System.ComponentModel.ISupportInitialize)tickNum).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -324,7 +310,6 @@
         private ListBox programListBox;
         private NumericUpDown stackEditor;
         private NumericUpDown memoryEditor;
-        private NumericUpDown PCEditor;
         private Label label1;
         private TextBox stateText;
         private OpenFileDialog openFileDialog1;

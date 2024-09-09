@@ -299,7 +299,7 @@ namespace runtime
                     w = Pop();
                     y = Pop();
                     x = Pop();
-                    graphicsStack.Add(new BGEGraphic(x, y, w, h, b, g, r));
+                    graphicsStack.Add(new BGEGraphic(x, y, w, h, r, g, b));
                     break;
                 case 0x16:
                     Push(keymap[Pop()] ? 1 : 0);
@@ -311,6 +311,7 @@ namespace runtime
         private void Start(object sender, EventArgs e)
         {
             startBtn.Enabled = false;
+            debug = !fasterCheck.Checked;
             pc = 0;
             stack.Clear();
             callstack.Clear();
@@ -320,9 +321,8 @@ namespace runtime
             stateText.Text = "Running";
             runningCheck.Enabled = true;
             runningCheck.Checked = true;
-            nextBtn.Enabled = true;
             fasterCheck.Enabled = false;
-            debug = !fasterCheck.Checked;
+            if (debug) nextBtn.Enabled = true;
             for (int i = 0; i < keymap.Length; i++) keymap[i] = false;
             for (int i = 0; i < memory.Length; i++) memory[i] = 0;
             clock.Start();

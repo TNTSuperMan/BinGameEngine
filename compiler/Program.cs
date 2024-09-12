@@ -7,7 +7,7 @@
             Console.WriteLine("Using: compiler [EntryFile] [OutputFile] [AssemblyDir(Default:TempDir)]");
             return;
         }
-        new BMMCompiler.Token.Module("void func(){}");
+        new BMMCompiler.Parts.Module("void func(){}");
         //string asm = BMMCompiler.Compiler.Compile(args[0]);
     }
 }

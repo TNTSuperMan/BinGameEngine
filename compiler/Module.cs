@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Numerics;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 /**
  * 1.変数マップ
@@ -21,8 +22,8 @@ namespace BMMCompiler
             List<string> files = [];
             files.Add(path);
             List<string> completed = [];
-            List<Token.Module> modules = [];
-            while(files.Count > 0)
+            List<Parts.Module> modules = [];
+            while (files.Count > 0)
             {
                 string file = files.Last();
                 files.RemoveAt(files.Count - 1);
@@ -32,13 +33,13 @@ namespace BMMCompiler
                     {
                         throw new BMMCompilerException("Not Found File: " + file);
                     }
-                    modules.Add(new Token.Module(File.ReadAllText(file)));
+                    modules.Add(new Parts.Module(File.ReadAllText(file)));
                 }
             }
             return "";
         }
     }
-    namespace Token
+    namespace Parts
     {
         public class Variable
         {
@@ -137,12 +138,12 @@ namespace BMMCompiler
                             {
                                 if (src.Length > i + 1)
                                 {
-                                    if (src[i+1] == '/')
+                                    if (src[i + 1] == '/')
                                     {
                                         i++;
                                         isComment = true;
                                     }
-                                } 
+                                }
                             }
                             else if (src[i] == '{')
                             {
@@ -172,39 +173,225 @@ namespace BMMCompiler
         public class Function
         {
             public bool isVoid;
-            public string Name;
-            public List<string> Arguments;
-            public List<Variable> Variables;
+            public string name;
+            public List<string> arguments;
+            public List<Variable> variables;
+            public List<Statement> statements;
+            private enum FuncBuildMode
+            {
+                Type,
+                NameBeforeSpace, Name,
+                ArgumentBeforeSpace, Argument,
+                CodeBeforeSpace, Code
+            }
             public Function(string src)
             {
-                Arguments = [];
-                Variables = [];
-                //Name = "";
-                Name = src;
+                arguments = [];
+                variables = [];
+                statements = [];
+                name = "";
+                int i = 0;
+                FuncBuildMode mode = FuncBuildMode.Type;
+                string stack = "";
+                while (src.Length > i)
+                {
+                    switch (mode)
+                    {
+                        case FuncBuildMode.Type:
+                            switch (src[i])
+                            {
+                                case '\n':
+                                case '\r':
+                                case '\t':
+                                case ' ':
+                                    mode = FuncBuildMode.NameBeforeSpace;
+                                    switch (stack)
+                                    {
+                                        case "void":
+                                            isVoid = true;
+                                            break;
+                                        case "func":
+                                            isVoid = false;
+                                            break;
+                                        default:
+                                            throw new BMMCompilerException("Unknown function define: " + stack);
+                                    }
+                                    stack = "";
+                                    break;
+                                default:
+                                    stack += src[i];
+                                    break;
+                            }
+                            break;
+                        case FuncBuildMode.NameBeforeSpace:
+                            switch (src[i])
+                            {
+                                case '\n':
+                                case '\r':
+                                case '\t':
+                                case ' ':
+                                    break;
+                                default:
+                                    i--;
+                                    mode = FuncBuildMode.Name;
+                                    break;
+                            }
+                            break;
+                        case FuncBuildMode.Name:
+                            switch (src[i])
+                            {
+                                case '\n':
+                                case '\r':
+                                case '\t':
+                                case ' ':
+                                case '(':
+                                    name = stack;
+                                    mode = FuncBuildMode.ArgumentBeforeSpace;
+                                    stack = "";
+                                    if (src[i] == '(') i--;
+                                    break;
+                                default:
+                                    stack += src[i];
+                                    break;
+                            }
+                            break;
+                        case FuncBuildMode.ArgumentBeforeSpace:
+                            if (src[i] == '(')
+                            {
+                                mode = FuncBuildMode.Argument;
+                            }
+                            break;
+                        case FuncBuildMode.Argument:
+                            switch (src[i])
+                            {
+                                case ')':
+                                    if (stack != "")
+                                    {
+                                        arguments.Add(stack);
+                                        stack = "";
+                                    }
+                                    mode = FuncBuildMode.CodeBeforeSpace;
+                                    break;
+                                case ',':
+                                    arguments.Add(stack);
+                                    stack = "";
+                                    break;
+                                case '\t':
+                                case '\n':
+                                case '\r':
+                                case ' ':
+                                    break;
+                                default:
+                                    stack += src[i];
+                                    break;
+                            }
+                            break;
+                        case FuncBuildMode.CodeBeforeSpace:
+                            if (src[i] == '{')
+                            {
+                                mode = FuncBuildMode.Code;
+                            }
+                            break;
+                        case FuncBuildMode.Code:
+                            if (src[i] == ';')
+                            {
+                                stack = stack.Trim();
+                                if (Regex.IsMatch("^var\\s+\\w+", stack))
+                                {
+
+                                }
+                                else if(Regex.IsMatch("^\\w+\\s*=.+",stack))
+                                {
+                                    statements.Add(new Expressions.Substitution(stack));
+                                    stack = "";
+                                }
+                            }
+                            else
+                            {
+                                stack += src[i];
+                            }
+                            break;
+                    }
+                    i++;
+                }
             }
             public string Compile(List<Variable> exportedVariables, List<string> exportedFunctions)
             {
-                return "";
+                List<Variable> allVar = [];
+                foreach (Variable v in variables) allVar.Add(v);
+                foreach (Variable v in exportedVariables) allVar.Add(v);
+                string ret = name + ":\n";
+                foreach(Statement s in statements)
+                {
+                    ret += s.Compile(allVar, exportedFunctions);
+                }
+                return ret;
             }
         }
-        namespace Statements
+        public abstract class Statement
         {
-            public abstract class Statememnt
+            public abstract string Compile(List<Variable> variables, List<string> exportedFunctions);
+        }
+        namespace Expressions
+        {
+            public class Expression : Statement
             {
-                public static Statememnt FromString(string src)
+                public Expression expression;
+                public Expression(string src)
                 {
-                    string stack = string.Empty;
-                    int i = 0;
-                    while(src.Length > i)
-                    {
 
-                    }
                 }
-                public abstract string Compile(List<Variable> variables, List<Variable> exportedVariables, List<string> exportedFunctions);
+                public override string Compile(List<Variable> variables, List<string> exportedFunctions)
+                {
+                    return "";
+                }
             }
-            public class Substitute : Statements.Statememnt
+            public class Substitution : Statement
             {
-                public override string Compile(List<Variable> variables, List<Variable> exportedVariables, List<string> exportedFunctions)
+                public Expression content;
+                public string variable;
+                private enum SubMode
+                {
+                    Var,EqualBeforeSpace,Content
+                }
+                public Substitution(string src)
+                {
+                    string stack = "";
+                    int i = 0;
+                    variable = "";
+                    SubMode mode = SubMode.Var;
+                    while (i < src.Length)
+                    {
+                        switch (mode)
+                        {
+                            case SubMode.Var:
+                                switch (src[i]) 
+                                {
+                                    case '\t':
+                                    case '\r':
+                                    case '\n':
+                                    case ' ':
+                                        mode = SubMode.EqualBeforeSpace;
+                                        variable = stack;
+                                        stack = "";
+                                        break;
+                                    default:
+                                        stack += src[i];
+                                        break;
+                                }
+                                break;
+                            case SubMode.EqualBeforeSpace:
+                                if (src[i] == '=') mode = SubMode.Content;
+                                break;
+                            case SubMode.Content:
+                                stack += src[i];
+                                break;
+                        }
+                        i++;
+                    }
+                    content = new(stack);
+                }
+                public override string Compile(List<Variable> variables, List<string> exportedFunctions)
                 {
                     return "";
                 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Numerics;
 using System.Text;
@@ -7,81 +8,207 @@ using System.Threading.Tasks;
 /**
  * 1.変数マップ
  */
-namespace compiler
+namespace BMMCompiler
 {
-    internal class Variable
+    public class BMMCompilerException : Exception
     {
-        private string _name;
-        private ushort _addr;
-        public Variable(string name)
+        public BMMCompilerException(string message) : base(message) { }
+    }
+    public class Compiler
+    {
+        public static string Compile(string path)
         {
-            _name = name;
-            _addr = 0;
-        }
-        public void Shift(ushort v)
-        {
-            _addr += v;
+            List<string> files = [];
+            files.Add(path);
+            List<string> completed = [];
+            List<Token.Module> modules = [];
+            while(files.Count > 0)
+            {
+                string file = files.Last();
+                files.RemoveAt(files.Count - 1);
+                if (!completed.Contains(file))
+                {
+                    if (!File.Exists(file))
+                    {
+                        throw new BMMCompilerException("Not Found File: " + file);
+                    }
+                    modules.Add(new Token.Module(File.ReadAllText(file)));
+                }
+            }
+            return "";
         }
     }
-    internal class Module
+    namespace Token
     {
-        public List<string> Imports;
-        public List<Variable> ExportVariables;
-        public Module(string src)
+        public class Variable
         {
-
-        }
-        private string Minify(string src)
-        {
-            string result = string.Empty;
-            try
+            private readonly string _name;
+            private ushort _addr;
+            public Variable(string name)
             {
-                for (int i = 0; i < src.Length; i++)
+                _name = name;
+                _addr = 0;
+            }
+            public void Shift(ushort v)
+            {
+                _addr += v;
+            }
+        }
+        public class Module
+        {
+            private enum CompileMode
+            {
+                None,
+                Comment,
+                Function,
+                Include,
+                Define,
+                Export
+            }
+            public List<string> Imports;
+            public List<Variable> ExportVariables;
+            public List<Function> Functions;
+            public Module(string src)
+            {
+                Functions = [];
+                ExportVariables = [];
+                Imports = [];
+                string stack = string.Empty;
+                int i = 0;
+                int cblayer = 0;
+                bool isComment = false;
+                CompileMode mode = CompileMode.None;
+                while (src.Length > i)
                 {
-                    switch (src[i])
+                    switch (mode)
                     {
-                        case '\r':
-                        case '\n':
-                        case ' ':
-                            break;
-                        default:
-                            if (src[i] == '/' && src.Length > (i + 1))
+                        case CompileMode.None:
+                            switch (src[i])
                             {
-                                if (src[++i] == '/')
+                                case '\r':
+                                case '\n':
+                                case '\t':
+                                case ' ':
+                                    break;
+                                default:
+                                    stack += src[i];
+                                    break;
+                            }
+                            bool ________ = true;
+                            switch (stack)
+                            {
+                                case "//":
+                                    mode = CompileMode.Comment; break;
+                                case "#include":
+                                    i++;
+                                    mode = CompileMode.Include; break;
+                                case "#define":
+                                    i++;
+                                    mode = CompileMode.Define; break;
+                                case "export":
+                                    i++;
+                                    mode = CompileMode.Export; break;
+                                case "void":
+                                case "func":
+                                    i -= 4; cblayer = 0;
+                                    mode = CompileMode.Function; break;
+                                default: ________ = false; break;
+                            }
+                            if (________)
+                            {
+                                stack = "";
+                            }
+                            break;
+                        case CompileMode.Comment:
+                            if (src[i] == '\n')
+                            {
+                                mode = CompileMode.None;
+                            }
+                            break;
+                        case CompileMode.Function:
+                            if (isComment)
+                            {
+                                if (src[i] == '\n')
                                 {
-                                    while (src[++i] == '\n') ;
+                                    isComment = false;
                                 }
-                                else if (src[++i] == '*')
+                            }
+                            else if (src[i] == '/')
+                            {
+                                if (src.Length > i + 1)
                                 {
-                                    while (src[++i] == '*')
+                                    if (src[i+1] == '/')
                                     {
-                                        if (src[i + 1] == '/')
-                                        {
-                                            i++;
-                                            break;
-                                        }
+                                        i++;
+                                        isComment = true;
                                     }
+                                } 
+                            }
+                            else if (src[i] == '{')
+                            {
+                                stack += src[i];
+                                cblayer++;
+                            }
+                            else if (src[i] == '}')
+                            {
+                                stack += src[i];
+                                cblayer--;
+                                if (cblayer <= 0)
+                                {
+                                    mode = CompileMode.None;
+                                    Functions.Add(new Function(stack));
                                 }
                             }
                             else
                             {
-                                result += src[i];
+                                stack += src[i];
                             }
                             break;
                     }
+                    i++;
                 }
             }
-            catch (IndexOutOfRangeException)
-            {
-
-            }
-            return result;
         }
-    }
-    internal class Function
-    {
-        public bool isVoid;
-        public string Name;
-        public List<string> Arguments;
+        public class Function
+        {
+            public bool isVoid;
+            public string Name;
+            public List<string> Arguments;
+            public List<Variable> Variables;
+            public Function(string src)
+            {
+                Arguments = [];
+                Variables = [];
+                //Name = "";
+                Name = src;
+            }
+            public string Compile(List<Variable> exportedVariables, List<string> exportedFunctions)
+            {
+                return "";
+            }
+        }
+        namespace Statements
+        {
+            public abstract class Statememnt
+            {
+                public static Statememnt FromString(string src)
+                {
+                    string stack = string.Empty;
+                    int i = 0;
+                    while(src.Length > i)
+                    {
+
+                    }
+                }
+                public abstract string Compile(List<Variable> variables, List<Variable> exportedVariables, List<string> exportedFunctions);
+            }
+            public class Substitute : Statements.Statememnt
+            {
+                public override string Compile(List<Variable> variables, List<Variable> exportedVariables, List<string> exportedFunctions)
+                {
+                    return "";
+                }
+            }
+        }
     }
 }

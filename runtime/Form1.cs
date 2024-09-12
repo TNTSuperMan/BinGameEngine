@@ -382,12 +382,6 @@ namespace runtime
             }
         }
         private void NextBtnClicked(object sender, EventArgs e) => Next();
-
-        private void PCEditor_ValueChanged(object sender, EventArgs e)
-        {
-            programListBox.SelectedIndex = (int)PCEditor.Value;
-        }
-
         private void memoryEditor_ValueChanged(object sender, EventArgs e)
         {
             memoryListBox.SelectedIndex = (int)memoryEditor.Value;

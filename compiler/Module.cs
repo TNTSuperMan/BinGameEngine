@@ -54,6 +54,20 @@ namespace BMMCompiler
             {
                 _addr += v;
             }
+            public string Rad16
+            {
+                get
+                {
+                    return Convert.ToString(_addr, 16);
+                }
+            }
+            public string Name
+            {
+                get
+                {
+                    return _name;
+                }
+            }
         }
         public class Module
         {
@@ -315,7 +329,7 @@ namespace BMMCompiler
                     i++;
                 }
             }
-            public string Compile(List<Variable> exportedVariables, List<string> exportedFunctions)
+            public string Compile(List<Variable> exportedVariables, List<string> functions, List<string> exportedFunctions)
             {
                 List<Variable> allVar = [];
                 foreach (Variable v in variables) allVar.Add(v);
@@ -323,27 +337,80 @@ namespace BMMCompiler
                 string ret = name + ":\n";
                 foreach(Statement s in statements)
                 {
-                    ret += s.Compile(allVar, exportedFunctions);
+                    ret += s.Compile(allVar,functions , exportedFunctions);
                 }
                 return ret;
             }
         }
         public abstract class Statement
         {
-            public abstract string Compile(List<Variable> variables, List<string> exportedFunctions);
+            public abstract string Compile(List<Variable> variables, List<string> functions, List<string> exportedFunctions);
         }
         namespace Expressions
         {
             public class Expression : Statement
             {
-                public Expression expression;
+                public List<Expression> pushes;
+                public ExpressionMode mode;
+                public Operator @operator;
+                public string func;
+                public ushort num;
+                public enum ExpressionMode
+                {
+                    Operation, Number, ExportedFunc, Func, NativeFunc
+                }
+                public enum Operator
+                {
+                    Pls,Sub,Mul,Div,Rem,Nand,Equal,Greater
+                }
                 public Expression(string src)
                 {
-
+                    /**9/13メモ
+                     * ここ演算子を判定する
+                     * 優先順位は(*Mul/Div%Rem)(+Pls-Sub)(=Equal>Greater)(^Nand)
+                     * 関数だったらそこがさき
+                     */
                 }
-                public override string Compile(List<Variable> variables, List<string> exportedFunctions)
+                public override string Compile(List<Variable> variables, List<string> functions, List<string> exportedFunctions)
                 {
-                    return "";
+                    string ret = "";
+                    switch (mode)
+                    {
+                        case ExpressionMode.Operation:
+                            if(pushes.Count != 2)
+                            {
+                                throw new BMMCompilerException("Argument is Not 2");
+                            }
+                            ret += pushes[0].Compile(variables, functions, exportedFunctions);
+                            ret += pushes[1].Compile(variables, functions, exportedFunctions);
+                            ret += "/ ";
+                            switch (@operator)
+                            {
+                                case Operator.Pls: ret += "pls"; break;
+                                case Operator.Sub: ret += "sub"; break;
+                                case Operator.Mul: ret += "mul"; break;
+                                case Operator.Div: ret += "div"; break;
+                                case Operator.Rem: ret += "rem"; break;
+                                case Operator.Nand: ret += "nand"; break;
+                                case Operator.Equal: ret += "equal"; break;
+                                case Operator.Greater: ret += "greater"; break;
+                            }
+                            break;
+                        case ExpressionMode.Number:
+                            ret += "/ " + Convert.ToString(num, 16);
+                            break;
+                        case ExpressionMode.ExportedFunc:
+                            ret += "/ \\" + func + " call";
+                            break;
+                        case ExpressionMode.Func:
+                            ret += "/ :" + func + " call";
+                            break;
+                        case ExpressionMode.NativeFunc:
+                            ret += "/ " + func;
+                            break;
+                    }
+                    ret += "\n";
+                    return ret;
                 }
             }
             public class Substitution : Statement
@@ -391,9 +458,17 @@ namespace BMMCompiler
                     }
                     content = new(stack);
                 }
-                public override string Compile(List<Variable> variables, List<string> exportedFunctions)
+                public override string Compile(List<Variable> variables, List<string> functions, List<string> exportedFunctions)
                 {
-                    return "";
+                    string ret = "";
+                    ret += content.Compile(variables, functions, exportedFunctions);
+                    Variable? v = variables.Find(v => v.Name == variable);
+                    if(v == null)
+                    {
+                        throw new BMMCompilerException("Not Found Variable: " + variable);
+                    }
+                    ret += "/ " + v.Rad16 + " store\n";
+                    return ret;
                 }
             }
         }

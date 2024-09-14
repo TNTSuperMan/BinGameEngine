@@ -357,11 +357,15 @@ namespace BMMCompiler
                 public ushort num;
                 public enum ExpressionMode
                 {
-                    Operation, Number, ExportedFunc, Func, NativeFunc
+                    Operation, Variable, Number, ExportedFunc, Func, NativeFunc
                 }
                 public enum Operator
                 {
                     Pls,Sub,Mul,Div,Rem,Nand,Equal,Greater
+                }
+                private enum ExpFncCompileMode
+                {
+                    Name,ArgBeforeSpace,Arg
                 }
                 public Expression(string src)
                 {
@@ -370,6 +374,81 @@ namespace BMMCompiler
                      * 優先順位は(*Mul/Div%Rem)(+Pls-Sub)(=Equal>Greater)(^Nand)
                      * 関数だったらそこがさき
                      */
+                    src = src.Trim();
+                    func = "";
+                    pushes = [];
+                    if (Regex.IsMatch("^\\w+$", src)) // variable
+                    {
+                        mode = ExpressionMode.Variable;
+                        func = src;
+                    }else if(Regex.IsMatch("^\\w+\\(.*\\)$", src)) //func
+                    {
+                        mode = ExpressionMode.Variable;
+                        ExpFncCompileMode fncmode = ExpFncCompileMode.Name;
+                        int i = 0;
+                        string stack = "";
+                        int KakkoLayer = 0;
+                        while(i < src.Length)
+                        {
+                            switch (fncmode)
+                            {
+                                case ExpFncCompileMode.Name:
+                                    switch (src[i])
+                                    {
+                                        case '\t':
+                                        case '\r':
+                                        case '\n':
+                                        case ' ':
+                                        case '(':
+                                            if (src[i] == '(') i--;
+                                            func = stack;
+                                            fncmode = ExpFncCompileMode.ArgBeforeSpace;
+                                            break;
+                                        default:
+                                            stack += src[i];
+                                            break;
+                                    }
+                                    break;
+                                case ExpFncCompileMode.ArgBeforeSpace:
+                                    if (src[i] == '(')
+                                    {
+                                        fncmode = ExpFncCompileMode.Arg;
+                                    }
+                                    break;
+                                case ExpFncCompileMode.Arg:
+                                    if (src[i] == '(') 
+                                    { 
+                                        KakkoLayer++;
+                                        stack += src[i];
+                                    }else if (src[i] == ')')
+                                    {
+                                        KakkoLayer--;
+                                        if (KakkoLayer < 0)
+                                        {
+                                            pushes.Add(new Expression(stack));
+                                            return;
+                                        }
+                                        stack += src[i];
+                                    }
+                                    else if (src[i] == ',' && KakkoLayer == 0)
+                                    {
+                                        pushes.Add(new Expression(stack));
+                                        stack = "";
+                                    }
+                                    else stack += src[i];
+                                    break;
+                            }
+                            i++;
+                        }
+                    }
+                    else if(Regex.IsMatch("^\\d{1,5}$", src)) //number
+                    {
+                        mode = ExpressionMode.Number;
+                        if (!ushort.TryParse(src,out num))
+                        {
+                            throw new BMMCompilerException("Number Max is 65535 but input is: " + src);
+                        }
+                    }
                 }
                 public override string Compile(List<Variable> variables, List<string> functions, List<string> exportedFunctions)
                 {
@@ -395,6 +474,15 @@ namespace BMMCompiler
                                 case Operator.Equal: ret += "equal"; break;
                                 case Operator.Greater: ret += "greater"; break;
                             }
+                            break;
+                        case ExpressionMode.Variable:
+                            Variable? v = variables.Find(v => v.Name == func);
+                            if (v == null)
+                            {
+                                throw new BMMCompilerException("Not Found Variable: " + func);
+                            }
+                            ret += "/ " + v.Name;
+                            ret += " load";
                             break;
                         case ExpressionMode.Number:
                             ret += "/ " + Convert.ToString(num, 16);

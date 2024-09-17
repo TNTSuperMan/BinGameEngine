@@ -10,18 +10,7 @@
 / 10 0000 store
 / :main jump
 
-:Fdraw
-  / 0 0 ff ff 0 0 0 rect
-  ; background
-
-  / 0000 load 0001 load 5 5 ff ff ff rect
-  ; ball
-
-  / 0002 load f0 20 5 ff ff ff rect
-  ; player
-  / redraw ret
-
-:Fball
+export Fball
   / 0000 load 00 equal :pxbind truejump
   / :nopxbind jump
   :pxbind
@@ -68,12 +57,5 @@
 
 :main
 / cls
-/ 0002 load 0 equal :right truejump
-/ 0002 load cb chkkey sub 0002 store
-:right
-/ 0002 load e0 equal :d truejump
-/ 0002 load cd chkkey pls 0002 store
-:d
-/ :Fball call
-/ :Fdraw call
+/ \Fball call
 / :main jump

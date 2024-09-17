@@ -1,4 +1,5 @@
 using BMMCompiler.Parts;
+using System.Text.RegularExpressions;
 namespace compileTester
 {
     [TestClass]
@@ -24,11 +25,20 @@ namespace compileTester
         [TestMethod]
         public void Statements()
         {
-            BMMCompiler.Parts.Expressions.Expression exp = new("Broke(aaa,123)");
+            BMMCompiler.Parts.Expressions.Expression exp = new("Broke(aaa,123,gen())");
             Assert.AreEqual("Broke", exp.func, "関数名不一致");
-            Assert.AreEqual(2, exp.pushes.Count, "引数長不一致");
+            Assert.AreEqual(3, exp.pushes.Count, "引数長不一致");
             Assert.AreEqual("aaa", exp.pushes[0].func, "引数[0]不一致");
             Assert.AreEqual(123, exp.pushes[1].num, "引数[1]不一致");
+            Assert.AreEqual("gen", exp.pushes[2].func, "引数[1]不一致");
+        }
+        [TestMethod]
+        public void Include()
+        {
+            Module m = new("#include \"File.bmm\"\n#include \"libstd.bmm\"");
+            Assert.AreEqual(2, m.Imports.Count, "読込ファイル数不一致");
+            Assert.AreEqual("File.bmm", m.Imports[0], "読込ファイル名[0]不一致");
+            Assert.AreEqual("libstd.bmm", m.Imports[1], "読込ファイル名[1]不一致");
         }
     }
 }

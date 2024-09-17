@@ -1,3 +1,3 @@
 @echo off
-..\compiler\bin\Debug\net8.0\compiler.exe game.bge game.bin
-..\x64\Debug\runtime.exe game.bin
+..\assembler\bin\Debug\net8.0\assembler.exe game.bge game.bin
+..\runtime\bin\Debug\net8.0-windows\runtime.exe game.bin

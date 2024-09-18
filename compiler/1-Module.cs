@@ -1,6 +1,4 @@
-﻿/**
- * 1.変数マップ
- */
+﻿// 製作段階：あとコンパイラ
 namespace BMMCompiler.Parts
 {
     public class Module
@@ -53,7 +51,7 @@ namespace BMMCompiler.Parts
                                 mode = CompileMode.Include; break;
                             case "extern":
                                 i++;
-                                cblayer = 0;
+                                cblayer = 0;stack = "";
                                 mode = CompileMode.Extern; break;
                             case "void":
                             case "func":
@@ -129,11 +127,39 @@ namespace BMMCompiler.Parts
                         }
                         break;
                     case CompileMode.Extern:
-
+                        switch (src[i])
+                        {
+                            case '\n':
+                            case '\t':
+                            case '\r':
+                            case ' ':
+                            case ';':
+                                if(cblayer == 1)
+                                {
+                                    ExportVariables.Add(new(stack));
+                                    stack = "";
+                                    mode = CompileMode.None;
+                                    break;
+                                }
+                                break;
+                            default:
+                                cblayer = 1;
+                                stack += src[i];
+                                break;
+                        }
                         break;
                 }
                 i++;
             }
+        }
+        public string Compile(List<Variable> exportedVariables)
+        {
+            string ret = "";
+            foreach (Function f in Functions)
+            {
+                ret += f.Compile(exportedVariables);
+            }
+            return ret;
         }
     }
 }

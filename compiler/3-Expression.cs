@@ -111,7 +111,7 @@ namespace BMMCompiler.Parts.Expressions
 
             }
         }
-        public override string Compile(List<Variable> variables, List<string> functions, List<string> exportedFunctions)
+        public override string Compile(List<Variable> variables)
         {
             string ret = "";
             switch (mode)
@@ -121,8 +121,8 @@ namespace BMMCompiler.Parts.Expressions
                     {
                         Errors.Infos.Add(new("Argument is Not 2"));
                     }
-                    ret += pushes[0].Compile(variables, functions, exportedFunctions);
-                    ret += pushes[1].Compile(variables, functions, exportedFunctions);
+                    ret += pushes[0].Compile(variables);
+                    ret += pushes[1].Compile(variables);
                     ret += "/ ";
                     switch (@operator)
                     {
@@ -167,7 +167,7 @@ namespace BMMCompiler.Parts.Expressions
                             }
                             foreach (Expression p in pushes)
                             {
-                                ret += p.Compile(variables, functions, exportedFunctions);
+                                ret += p.Compile(variables);
                             }
                             ret += "/ " + func;
                             break;
@@ -179,7 +179,7 @@ namespace BMMCompiler.Parts.Expressions
                             }
                             foreach (Expression p in pushes)
                             {
-                                ret += p.Compile(variables, functions, exportedFunctions);
+                                ret += p.Compile(variables);
                             }
                             ret += "/ " + func;
                             break;
@@ -191,7 +191,7 @@ namespace BMMCompiler.Parts.Expressions
                             }
                             foreach (Expression p in pushes)
                             {
-                                ret += p.Compile(variables, functions, exportedFunctions);
+                                ret += p.Compile(variables);
                             }
                             ret += "/ " + func;
                             break;
@@ -203,7 +203,7 @@ namespace BMMCompiler.Parts.Expressions
                             }
                             foreach (Expression p in pushes)
                             {
-                                ret += p.Compile(variables, functions, exportedFunctions);
+                                ret += p.Compile(variables);
                             }
                             ret += "/ " + func;
                             break;

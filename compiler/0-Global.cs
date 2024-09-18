@@ -36,12 +36,15 @@
     }
     public class Compiler
     {
-        public static string? Compile(string path)
+        public static string? Compile(string path, string memmapPath)
         {
             List<string> files = [];
             files.Add(path);
             List<string> completed = [];
             List<Parts.Module> modules = [];
+            string TempPath = Path.GetTempPath() + "BMMCompiler_" + DateTime.Now.ToString() + Path.DirectorySeparatorChar;
+
+            Console.WriteLine("Tokenizing...");
             while (files.Count > 0)
             {
                 string file = files.Last();
@@ -51,10 +54,30 @@
                     ErrorInfo.FileName = file;
                     if (!File.Exists(file))
                     {
-                        Console.WriteLine("Not Found File: " + file);
+                        Console.WriteLine("Error: Not Found File: " + file);
                         return null;
                     }
+                    Console.WriteLine(file);
                     modules.Add(new Parts.Module(File.ReadAllText(file)));
+                    completed.Add(file);
+                }
+            }
+            Console.WriteLine("\nGenerating Memorymap...");
+            ushort i = 0;
+            string map = "Addr,Name,At\n";
+            foreach(Parts.Module m in modules)
+            {
+                foreach(Variable v in m.ExportVariables)
+                {
+                    v.Shift(i++);
+                    map += v.Rad16 + "," + v.Name + "," + completed[modules.IndexOf(m)] + "\n";
+                }
+            }
+            foreach(Parts.Module m in modules)
+            {
+                foreach(Parts.Function f in m.Functions)
+                {
+
                 }
             }
             return "";
@@ -67,7 +90,7 @@
         public Variable(string name)
         {
             Name = name;
-            _addr = 0;
+            _addr = 0xA000;
         }
         public void Shift(ushort v)
         {
@@ -77,7 +100,7 @@
         {
             get
             {
-                return Convert.ToString(_addr, 16);
+                return _addr.ToString("X4");
             }
         }
     }
@@ -85,7 +108,7 @@
     {
         public abstract class Statement
         {
-            public abstract string Compile(List<Variable> variables, List<string> functions, List<string> exportedFunctions);
+            public abstract string Compile(List<Variable> variables);
         }
     }
 }

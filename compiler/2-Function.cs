@@ -4,11 +4,11 @@ namespace BMMCompiler.Parts
 {
     public class Function
     {
-        public bool isVoid;
-        public string name;
-        public List<string> arguments;
-        public List<Variable> variables;
-        public List<Statement> statements;
+        public readonly bool IsVoid;
+        public readonly string Name;
+        public readonly List<string> Arguments;
+        public readonly List<Variable> Variables;
+        public readonly List<Statement> Statements;
         private enum FuncBuildMode
         {
             Type,
@@ -18,10 +18,10 @@ namespace BMMCompiler.Parts
         }
         public Function(string src)
         {
-            arguments = [];
-            variables = [];
-            statements = [];
-            name = "";
+            Arguments = [];
+            Variables = [];
+            Statements = [];
+            Name = "";
             int i = 0;
             FuncBuildMode mode = FuncBuildMode.Type;
             string stack = "";
@@ -40,10 +40,10 @@ namespace BMMCompiler.Parts
                                 switch (stack)
                                 {
                                     case "void":
-                                        isVoid = true;
+                                        IsVoid = true;
                                         break;
                                     case "func":
-                                        isVoid = false;
+                                        IsVoid = false;
                                         break;
                                     default:
                                         Errors.Infos.Add(new("Unknown function define: " + stack));
@@ -78,7 +78,7 @@ namespace BMMCompiler.Parts
                             case '\t':
                             case ' ':
                             case '(':
-                                name = stack;
+                                Name = stack;
                                 mode = FuncBuildMode.ArgumentBeforeSpace;
                                 stack = "";
                                 if (src[i] == '(') i--;
@@ -100,13 +100,13 @@ namespace BMMCompiler.Parts
                             case ')':
                                 if (stack != "")
                                 {
-                                    arguments.Add(stack);
+                                    Arguments.Add(stack);
                                     stack = "";
                                 }
                                 mode = FuncBuildMode.CodeBeforeSpace;
                                 break;
                             case ',':
-                                arguments.Add(stack);
+                                Arguments.Add(stack);
                                 stack = "";
                                 break;
                             case '\t':
@@ -135,7 +135,7 @@ namespace BMMCompiler.Parts
                             }
                             else if (Regex.IsMatch(stack, "^\\w+\\s*=.+"))
                             {
-                                statements.Add(new Expressions.Substitution(stack));
+                                Statements.Add(new Expressions.Substitution(stack));
                                 stack = "";
                             }
                         }
@@ -148,15 +148,15 @@ namespace BMMCompiler.Parts
                 i++;
             }
         }
-        public string Compile(List<Variable> exportedVariables, List<string> functions, List<string> exportedFunctions)
+        public string Compile(List<Variable> exportedVariables)
         {
             List<Variable> allVar = [];
-            foreach (Variable v in variables) allVar.Add(v);
+            foreach (Variable v in Variables) allVar.Add(v);
             foreach (Variable v in exportedVariables) allVar.Add(v);
-            string ret = "export " + name + "\n";
-            foreach (Statement s in statements)
+            string ret = "export " + Name + "\n";
+            foreach (Statement s in Statements)
             {
-                ret += s.Compile(allVar, functions, exportedFunctions);
+                ret += s.Compile(allVar);
             }
             return ret;
         }

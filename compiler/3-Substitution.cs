@@ -45,10 +45,10 @@
             }
             content = new(stack);
         }
-        public override string Compile(List<Variable> variables, List<string> functions, List<string> exportedFunctions)
+        public override string Compile(List<Variable> variables)
         {
             string ret = "";
-            ret += content.Compile(variables, functions, exportedFunctions);
+            ret += content.Compile(variables);
             Variable? v = variables.Find(v => v.Name == variable);
             if (v == null)
             {

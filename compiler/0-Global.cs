@@ -77,10 +77,14 @@
             {
                 foreach(Parts.Function f in m.Functions)
                 {
-
+                    foreach(Variable v in f.Variables)
+                    {
+                        v.Shift(i++);
+                        map += v.Rad16 + "," + v.Name + "," + f.Name + " in " + completed[modules.IndexOf(m)] + "\n";
+                    }
                 }
             }
-            return "";
+            return modules[0].Compile([]);
         }
     }
     public class Variable

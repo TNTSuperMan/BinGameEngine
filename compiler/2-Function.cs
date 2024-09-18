@@ -4,14 +4,12 @@ namespace BMMCompiler.Parts
 {
     public class Function
     {
-        public readonly bool IsVoid;
         public readonly string Name;
         public readonly List<string> Arguments;
         public readonly List<Variable> Variables;
         public readonly List<Statement> Statements;
         private enum FuncBuildMode
         {
-            Type,
             NameBeforeSpace, Name,
             ArgumentBeforeSpace, Argument,
             CodeBeforeSpace, Code
@@ -22,40 +20,13 @@ namespace BMMCompiler.Parts
             Variables = [];
             Statements = [];
             Name = "";
-            int i = 0;
-            FuncBuildMode mode = FuncBuildMode.Type;
+            int i = 4;
+            FuncBuildMode mode = FuncBuildMode.NameBeforeSpace;
             string stack = "";
             while (src.Length > i)
             {
                 switch (mode)
                 {
-                    case FuncBuildMode.Type:
-                        switch (src[i])
-                        {
-                            case '\n':
-                            case '\r':
-                            case '\t':
-                            case ' ':
-                                mode = FuncBuildMode.NameBeforeSpace;
-                                switch (stack)
-                                {
-                                    case "void":
-                                        IsVoid = true;
-                                        break;
-                                    case "func":
-                                        IsVoid = false;
-                                        break;
-                                    default:
-                                        Errors.Infos.Add(new("Unknown function define: " + stack));
-                                        break;
-                                }
-                                stack = "";
-                                break;
-                            default:
-                                stack += src[i];
-                                break;
-                        }
-                        break;
                     case FuncBuildMode.NameBeforeSpace:
                         switch (src[i])
                         {
@@ -131,34 +102,48 @@ namespace BMMCompiler.Parts
                             stack = stack.Trim();
                             if (Regex.IsMatch(stack, "^var\\s+\\w+"))
                             {
-
+                                int j = 4;
+                                string varstack = "";
+                                while (j < stack.Length)
+                                {
+                                    if (!Regex.IsMatch(stack[j].ToString(), "[\\s]"))
+                                    {
+                                        varstack += stack[j];
+                                    }
+                                    j++;
+                                }
+                                Variables.Add(new(varstack));
                             }
                             else if (Regex.IsMatch(stack, "^\\w+\\s*=.+"))
                             {
                                 Statements.Add(new Expressions.Substitution(stack));
-                                stack = "";
                             }
+                            else
+                            {
+                                Statements.Add(new Expressions.Expression(stack));
+                            }
+                            stack = "";
                         }
                         else
                         {
                             stack += src[i];
                         }
-                        break;
-                }
-                i++;
+                break;
             }
-        }
-        public string Compile(List<Variable> exportedVariables)
-        {
-            List<Variable> allVar = [];
-            foreach (Variable v in Variables) allVar.Add(v);
-            foreach (Variable v in exportedVariables) allVar.Add(v);
-            string ret = "export " + Name + "\n";
-            foreach (Statement s in Statements)
-            {
-                ret += s.Compile(allVar);
-            }
-            return ret;
+            i++;
         }
     }
+    public string Compile(List<Variable> exportedVariables)
+    {
+        List<Variable> allVar = [];
+        foreach (Variable v in Variables) allVar.Add(v);
+        foreach (Variable v in exportedVariables) allVar.Add(v);
+        string ret = "export " + Name + "\n";
+        foreach (Statement s in Statements)
+        {
+            ret += s.Compile(allVar);
+        }
+        return ret;
+    }
+}
 }

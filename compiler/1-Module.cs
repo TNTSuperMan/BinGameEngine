@@ -51,9 +51,8 @@ namespace BMMCompiler.Parts
                                 mode = CompileMode.Include; break;
                             case "extern":
                                 i++;
-                                cblayer = 0;stack = "";
+                                cblayer = 0;
                                 mode = CompileMode.Extern; break;
-                            case "void":
                             case "func":
                                 i -= 4; cblayer = 0;
                                 mode = CompileMode.Function; break;

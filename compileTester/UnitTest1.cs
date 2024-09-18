@@ -1,3 +1,4 @@
+using BMMCompiler;
 using BMMCompiler.Parts;
 using System.Text.RegularExpressions;
 namespace compileTester
@@ -11,7 +12,6 @@ namespace compileTester
             Module m = new("func BrokeGoogle(){}");
             Assert.AreEqual(1,m.Functions.Count,"ŠÖ”‚ª‚È‚¢");
             Assert.AreEqual("BrokeGoogle", m.Functions[0].Name, "ŠÖ”–¼•sˆê’v");
-            Assert.AreEqual(false, m.Functions[0].IsVoid, "–ß‚è’l•sˆê’v");
         }
         [TestMethod]
         public void Argument()
@@ -48,6 +48,14 @@ namespace compileTester
             Assert.AreEqual("Tent", m.ExportVariables[0].Name, "•Ï”[0]•sˆê’v");
             Assert.AreEqual("Ne", m.ExportVariables[1].Name, "•Ï”[1]•sˆê’v");
             Assert.AreEqual("Temp", m.ExportVariables[2].Name, "•Ï”[2]•sˆê’v");
+        }
+        [TestMethod]
+        public void Variable()
+        {
+            var f = new Function("func Temp(){var Win;\n    var EEE;}");
+            Assert.AreEqual(2, f.Variables.Count, "•Ï””•sˆê’v");
+            Assert.AreEqual("Win", f.Variables[0].Name, "•Ï”–¼‘O[0]•sˆê’v");
+            Assert.AreEqual("EEE", f.Variables[1].Name, "•Ï”–¼‘O[1]•sˆê’v");
         }
     }
 }

@@ -118,6 +118,11 @@ namespace BMMCompiler.Parts
                             {
                                 Statements.Add(new Expressions.Substitution(stack));
                             }
+                            else if (Regex.IsMatch(stack, @"^__bge__\(.+\)$"))
+                            {
+                                Console.WriteLine("aaa");
+                                Statements.Add(new Expressions.Native(stack));
+                            }
                             else
                             {
                                 Statements.Add(new Expressions.Expression(stack));

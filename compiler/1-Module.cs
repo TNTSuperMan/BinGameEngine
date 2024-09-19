@@ -77,17 +77,6 @@ namespace BMMCompiler.Parts
                                 isComment = false;
                             }
                         }
-                        else if (src[i] == '/')
-                        {
-                            if (src.Length > i + 1)
-                            {
-                                if (src[i + 1] == '/')
-                                {
-                                    i++;
-                                    isComment = true;
-                                }
-                            }
-                        }
                         else if (src[i] == '{')
                         {
                             stack += src[i];
@@ -105,7 +94,20 @@ namespace BMMCompiler.Parts
                         }
                         else
                         {
+                            if (src[i] == '/')
+                            {
+                                if (src.Length > i + 1)
+                                {
+                                    if (src[i + 1] == '/')
+                                    {
+                                        i++;
+                                        isComment = true;
+                                        goto commentEnded;
+                                    }
+                                }
+                            }
                             stack += src[i];
+                        commentEnded:;
                         }
                         break;
                     case CompileMode.Include:

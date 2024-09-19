@@ -143,7 +143,7 @@ namespace BMMCompiler.Parts.Expressions
                         Errors.Infos.Add(new("Not Found Variable: " + func));
                         return "\n";
                     }
-                    ret += "/ " + v.Name;
+                    ret += "/ " + v.Rad16;
                     ret += " load";
                     break;
                 case ExpressionMode.Number:
@@ -206,6 +206,13 @@ namespace BMMCompiler.Parts.Expressions
                                 ret += p.Compile(variables);
                             }
                             ret += "/ " + func;
+                            break;
+                        case "return": //Any
+                            foreach (Expression p in pushes)
+                            {
+                                ret += p.Compile(variables);
+                            }
+                            ret += "/ ret";
                             break;
                         #endregion
                         default:

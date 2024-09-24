@@ -21,6 +21,7 @@ namespace BMMCompiler.Parts
             Statements = [];
             Name = "";
             int i = 4;
+            int layer = 0;
             FuncBuildMode mode = FuncBuildMode.NameBeforeSpace;
             string stack = "";
             while (src.Length > i)
@@ -97,10 +98,9 @@ namespace BMMCompiler.Parts
                         }
                         break;
                     case FuncBuildMode.Code:
-                        if (src[i] == ';')
+                        if (src[i] == ';' && layer == 0)
                         {
-                            stack = stack.Trim();
-                            if (Regex.IsMatch(stack, "^var\\s+\\w+"))
+                            if (Regex.IsMatch(stack.Trim(), "^var\\s+\\w+"))
                             {
                                 int j = 4;
                                 string varstack = "";
@@ -114,24 +114,22 @@ namespace BMMCompiler.Parts
                                 }
                                 Variables.Add(new(varstack));
                             }
-                            else if (Regex.IsMatch(stack, "^\\w+\\s*=.+"))
-                            {
-                                Statements.Add(new Expressions.Substitution(stack));
-                            }
-                            else if (Regex.IsMatch(stack, @"^__bge__\(.+\)$"))
-                            {
-                                Console.WriteLine("aaa");
-                                Statements.Add(new Expressions.Native(stack));
-                            }
                             else
                             {
-                                Statements.Add(new Expressions.Expression(stack));
+                                Statements.Add(Statement.fromString(stack));
                             }
                             stack = "";
                         }
                         else
                         {
                             stack += src[i];
+                            if(src[i] == '{')
+                            {
+                                layer++;
+                            }else if (src[i] == '}')
+                            {
+                                layer--;
+                            }
                         }
                 break;
             }

@@ -108,11 +108,4 @@
             }
         }
     }
-    namespace Parts
-    {
-        public abstract class Statement
-        {
-            public abstract string Compile(List<Variable> variables);
-        }
-    }
 }

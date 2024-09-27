@@ -2,6 +2,9 @@
 
 namespace BMMCompiler.Parts.Expressions
 {
+    /// <summary>
+    /// 演算子、値とか
+    /// </summary>
     public class Expression : Statement
     {
         public List<Expression> pushes;
@@ -39,7 +42,7 @@ namespace BMMCompiler.Parts.Expressions
                     Errors.Infos.Add(new("Number Max is 65535 but input is: " + src));
                 }
             }
-            else if (Regex.IsMatch(src, "^[a-zA-Z_]+\\w+$")) // variable
+            else if (Regex.IsMatch(src, "^\\w+$")) // variable
             {
                 mode = ExpressionMode.Variable;
                 func = src;
@@ -90,7 +93,7 @@ namespace BMMCompiler.Parts.Expressions
                                 KakkoLayer--;
                                 if (KakkoLayer < 0)
                                 {
-                                    pushes.Add(new Expression(stack));
+                                    if(stack.Length != 0)pushes.Add(new Expression(stack));
                                     return;
                                 }
                                 stack += src[i];
@@ -100,7 +103,7 @@ namespace BMMCompiler.Parts.Expressions
                                 pushes.Add(new Expression(stack));
                                 stack = "";
                             }
-                            else stack += src[i];
+                            else if (!Regex.IsMatch(stack,@"\s")) stack += src[i];
                             break;
                     }
                     i++;
@@ -120,6 +123,7 @@ namespace BMMCompiler.Parts.Expressions
                     if (pushes.Count != 2)
                     {
                         Errors.Infos.Add(new("Argument is Not 2"));
+                        return "";
                     }
                     ret += pushes[0].Compile(variables);
                     ret += pushes[1].Compile(variables);

@@ -10,11 +10,11 @@ internal class Program
             return;
         }*/
         BMMCompiler.Parts.Module m = new BMMCompiler.Parts.Module(
-            "func Load(){\n" +
+            "func Load(dea,r){\n" +
             "    var TTT;\n" +
             "    TTT = 0;\n" +
-            "    rect(10,10,10,10,255,255,TTT);\n" +
-            "    __bge__(/redraw);\n" +
+            "    rect(10,10,10,10,r,dea,TTT);\n" +
+            "    redraw();\n" +
             "    return(12);\n" +
             "}");
         Console.WriteLine(m.Compile([]));

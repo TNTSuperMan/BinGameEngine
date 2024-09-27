@@ -2,6 +2,9 @@
 
 namespace BMMCompiler.Parts
 {
+    /// <summary>
+    /// 命令
+    /// </summary>
     public abstract class Statement
     {
         public abstract string Compile(List<Variable> variables);
@@ -19,11 +22,11 @@ namespace BMMCompiler.Parts
             else if (Regex.IsMatch(stack, @"^\w+\(.*\)"))
             {
                 return new Expressions.Expression(stack);
-            }/*
+            }
             else if (Regex.IsMatch(stack, @"if\s*\(.+\)\s*{.*}"))
             {
-
-            }
+                return new Expressions.If(stack);
+            }/*
             else if (Regex.IsMatch(stack, @"while\s*\(.+\)\s*{.*}"))
             {
 

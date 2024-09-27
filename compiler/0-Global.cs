@@ -15,18 +15,32 @@
             message += "." + Point.ToString();
         }
     }
+    public class TagToken
+    {
+        private static int idx = 0;
+        public static string Make()
+        {
+            string Token = "";
+            foreach (char c in idx.ToString())
+            {
+                Token += c + (char)17;
+            }
+            idx++;
+            return Token;
+        }
+    }
     public class Errors
     {
         public static List<ErrorInfo> Infos = [];
         public static bool Show()
         {
-            if(Infos.Count == 0)
+            if (Infos.Count == 0)
             {
                 return false;
             }
             else
             {
-                foreach(ErrorInfo e in Infos)
+                foreach (ErrorInfo e in Infos)
                 {
                     Console.WriteLine(e.message);
                 }
@@ -65,26 +79,28 @@
             Console.WriteLine("\nGenerating Memorymap...");
             ushort i = 0;
             string map = "Addr,Name,At\n";
-            foreach(Parts.Module m in modules)
+            List<Variable> exported = [];
+            foreach (Parts.Module m in modules)
             {
-                foreach(Variable v in m.ExportVariables)
+                foreach (Variable v in m.ExportVariables)
                 {
+                    exported.Add(v);
                     v.Shift(i++);
                     map += v.Rad16 + "," + v.Name + "," + completed[modules.IndexOf(m)] + "\n";
                 }
             }
-            foreach(Parts.Module m in modules)
+            foreach (Parts.Module m in modules)
             {
-                foreach(Parts.Function f in m.Functions)
+                foreach (Parts.Function f in m.Functions)
                 {
-                    foreach(Variable v in f.Variables)
+                    foreach (Variable v in f.Variables)
                     {
                         v.Shift(i++);
                         map += v.Rad16 + "," + v.Name + "," + f.Name + " in " + completed[modules.IndexOf(m)] + "\n";
                     }
                 }
             }
-            return modules[0].Compile([]);
+            return modules[0].Compile(exported);
         }
     }
     public class Variable

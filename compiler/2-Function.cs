@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.ComponentModel;
+using System.Text.RegularExpressions;
 
 namespace BMMCompiler.Parts
 {
@@ -76,6 +77,10 @@ namespace BMMCompiler.Parts
                                     stack = "";
                                 }
                                 mode = FuncBuildMode.CodeBeforeSpace;
+                                foreach(string  arg in Arguments)
+                                {
+                                    Variables.Add(new(arg));
+                                }
                                 break;
                             case ',':
                                 Arguments.Add(stack);
@@ -103,12 +108,13 @@ namespace BMMCompiler.Parts
                             if (Regex.IsMatch(stack.Trim(), "^var\\s+\\w+"))
                             {
                                 int j = 4;
+                                string trimed = stack.Trim();
                                 string varstack = "";
-                                while (j < stack.Length)
+                                while (j < trimed.Length)
                                 {
-                                    if (!Regex.IsMatch(stack[j].ToString(), "[\\s]"))
+                                    if (!Regex.IsMatch(trimed[j].ToString(), "\\s"))
                                     {
-                                        varstack += stack[j];
+                                        varstack += trimed[j];
                                     }
                                     j++;
                                 }
@@ -123,30 +129,44 @@ namespace BMMCompiler.Parts
                         else
                         {
                             stack += src[i];
-                            if(src[i] == '{')
+                            if (src[i] == '{')
                             {
                                 layer++;
-                            }else if (src[i] == '}')
+                            }
+                            else if (src[i] == '}')
                             {
                                 layer--;
                             }
                         }
-                break;
+                        break;
+                }
+                i++;
             }
-            i++;
         }
-    }
-    public string Compile(List<Variable> exportedVariables)
-    {
-        List<Variable> allVar = [];
-        foreach (Variable v in Variables) allVar.Add(v);
-        foreach (Variable v in exportedVariables) allVar.Add(v);
-        string ret = "export " + Name + "\n";
-        foreach (Statement s in Statements)
+        public string Compile(List<Variable> exportedVariables)
         {
-            ret += s.Compile(allVar);
+            List<Variable> allVar = [];
+            foreach (Variable v in Variables) allVar.Add(v);
+            foreach (Variable v in exportedVariables) allVar.Add(v);
+            string ret = "export " + Name + "\n";
+
+            List<string> reversedArg = Arguments.FindAll(v => true);
+            reversedArg.Reverse();
+            foreach(string arg in reversedArg)
+            {
+                Variable? argvar = Variables.Find(v=>v.Name == arg);
+                if(argvar != null)
+                {
+                    ret += "/ " + argvar.Rad16 + " load\n";
+                }
+            }
+
+            foreach (Statement s in Statements)
+            {
+                ret += s.Compile(allVar);
+            }
+            return ret;
+
         }
-        return ret;
     }
-}
 }

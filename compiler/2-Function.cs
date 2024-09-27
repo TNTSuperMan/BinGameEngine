@@ -166,7 +166,6 @@ namespace BMMCompiler.Parts
                 ret += s.Compile(allVar);
             }
             return ret;
-
         }
     }
 }

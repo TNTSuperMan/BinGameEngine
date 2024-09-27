@@ -1,4 +1,7 @@
-﻿namespace BMMCompiler
+﻿using BMMCompiler.Parts;
+using System.Xml.Serialization;
+
+namespace BMMCompiler
 {
     public class ErrorInfo
     {
@@ -122,6 +125,21 @@
             {
                 return _addr.ToString("X4");
             }
+        }
+    }
+    public class Statements
+    {
+        public static List<Statement> Tokenize(string src)
+        {
+            List<Statement> ret = [];
+            string stack = "";
+            int i = 0;
+            int lid = 0;
+            while(src.Length > i)
+            {
+
+            }
+            return ret;
         }
     }
 }

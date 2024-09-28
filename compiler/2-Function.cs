@@ -8,7 +8,7 @@ namespace BMMCompiler.Parts
         public readonly string Name;
         public readonly List<string> Arguments;
         public readonly List<Variable> Variables;
-        public readonly List<Statement> Statements;
+        public readonly List<Statement> Codes;
         private enum FuncBuildMode
         {
             NameBeforeSpace, Name,
@@ -19,10 +19,9 @@ namespace BMMCompiler.Parts
         {
             Arguments = [];
             Variables = [];
-            Statements = [];
+            Codes = [];
             Name = "";
             int i = 4;
-            int layer = 0;
             FuncBuildMode mode = FuncBuildMode.NameBeforeSpace;
             string stack = "";
             while (src.Length > i)
@@ -103,45 +102,14 @@ namespace BMMCompiler.Parts
                         }
                         break;
                     case FuncBuildMode.Code:
-                        if (src[i] == ';' && layer == 0)
-                        {
-                            if (Regex.IsMatch(stack.Trim(), "^var\\s+\\w+"))
-                            {
-                                int j = 4;
-                                string trimed = stack.Trim();
-                                string varstack = "";
-                                while (j < trimed.Length)
-                                {
-                                    if (!Regex.IsMatch(trimed[j].ToString(), "\\s"))
-                                    {
-                                        varstack += trimed[j];
-                                    }
-                                    j++;
-                                }
-                                Variables.Add(new(varstack));
-                            }
-                            else
-                            {
-                                Statements.Add(Statement.fromString(stack));
-                            }
-                            stack = "";
-                        }
-                        else
-                        {
-                            stack += src[i];
-                            if (src[i] == '{')
-                            {
-                                layer++;
-                            }
-                            else if (src[i] == '}')
-                            {
-                                layer--;
-                            }
-                        }
+                        stack += src[i];
                         break;
                 }
                 i++;
             }
+            Codes = Statement.fromString(
+                stack.Substring(0, stack.Length - 1), 
+                v=>Variables.Add(new(v)));
         }
         public string Compile(List<Variable> exportedVariables)
         {
@@ -161,7 +129,7 @@ namespace BMMCompiler.Parts
                 }
             }
 
-            foreach (Statement s in Statements)
+            foreach (Statement s in Codes)
             {
                 ret += s.Compile(allVar);
             }

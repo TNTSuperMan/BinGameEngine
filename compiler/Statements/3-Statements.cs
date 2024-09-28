@@ -8,7 +8,7 @@ namespace BMMCompiler.Parts
     public abstract class Statement
     {
         public abstract string Compile(List<Variable> variables);
-        public static Statement fromString(string stack)
+        public static Statement Tokenize(string stack)
         {
             stack = stack.Trim();
             if (Regex.IsMatch(stack, @"^\w+\s*=.+"))
@@ -35,6 +35,53 @@ namespace BMMCompiler.Parts
             {
                 throw new Exception("");
             }
+        }
+        public static List<Statement> fromString(string src, Action<string> act)
+        {
+            List<Statement> ret = [];
+            string stack = "";
+            int i = 0;
+            int layer = 0;
+            while (src.Length > i)
+            {
+                if (src[i] == ';' && layer == 0)
+                {
+                    if (Regex.IsMatch(stack.Trim(), "^var\\s+\\w+"))
+                    {
+                        int j = 4;
+                        string trimed = stack.Trim();
+                        string varstack = "";
+                        while (j < trimed.Length)
+                        {
+                            if (!Regex.IsMatch(trimed[j].ToString(), "\\s"))
+                            {
+                                varstack += trimed[j];
+                            }
+                            j++;
+                        }
+                        act(varstack);
+                    }
+                    else
+                    {
+                        ret.Add(Tokenize(stack));
+                    }
+                    stack = "";
+                }
+                else
+                {
+                    stack += src[i];
+                    if (src[i] == '{')
+                    {
+                        layer++;
+                    }
+                    else if (src[i] == '}')
+                    {
+                        layer--;
+                    }
+                }
+                i++;
+            }
+            return ret;
         }
     }
 }

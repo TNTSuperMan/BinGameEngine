@@ -4,7 +4,7 @@ namespace compiler
 {
     public class BGEException : Exception
     {
-        public BGEException(string message) : base(message){ }
+        public BGEException(string message) : base(message) { }
         public BGEException(string message, string file, int line) : base(file + " " + line + "行目:" + message) { }
     }
     public class Module
@@ -21,7 +21,7 @@ namespace compiler
         public Module(string path)
         {
             fpath = path;
-            List<BGEData> bge = new List<BGEData>();
+            List<BGEData> bge = new();
             jumpTagName = new List<string>();
             jumpTagPoint = new List<ushort>();
             exportedTagName = new List<string>();
@@ -48,14 +48,14 @@ namespace compiler
                         jumpTagPoint.Add(len);
                         break;
                     case 'e':
-                        if(Regex.IsMatch(line,"^export"))
+                        if (Regex.IsMatch(line, "^export"))
                         {
                             exportedTagName.Add(line.Substring(7));
                             exportedTagPoint.Add(len);
                         }
                         break;
                     case 'i':
-                        if (Regex.IsMatch(line,"^import"))
+                        if (Regex.IsMatch(line, "^import"))
                         {
                             importPath.Add(line.Substring(7));
                         }
@@ -89,7 +89,7 @@ namespace compiler
         }
         public void Shift(ushort num)
         {
-            for(int i = 0;i < jumpTagPoint.Count; i++)
+            for (int i = 0; i < jumpTagPoint.Count; i++)
             {
                 jumpTagPoint[i] += num;
             }
@@ -100,20 +100,20 @@ namespace compiler
         }
         public byte[] Compile(List<string>? exportedTagName = null, List<ushort>? exportedTagPoint = null)
         {
-            List<BGEData> bge = new List<BGEData>();
+            List<BGEData> bge = new();
             foreach (string l in source.Split('\n'))
             {
                 string line = l.Trim();
                 if (line.Length == 0) continue;
                 if (line[0] == '/') foreach (BGEData d in compileLine(line.Substring(1), exportedTagName, exportedTagPoint)) bge.Add(d);
             }
-            List<byte> data = new List<byte>();
-            foreach(BGEData b in bge) foreach (byte c in b.bin) data.Add(c);
+            List<byte> data = new();
+            foreach (BGEData b in bge) foreach (byte c in b.bin) data.Add(c);
             return data.ToArray();
         }
         private List<BGEData> compileLine(string source, List<string>? exportedTagName = null, List<ushort>? exportedTagPoint = null)
         {
-            List<BGEData> ret = new List<BGEData>();
+            List<BGEData> ret = new();
             int line = 0;
             foreach (string text in source.Split(' '))
             {
@@ -138,7 +138,7 @@ namespace compiler
                         int i = jumpTagName.IndexOf(text.Substring(1));
                         if (i == -1)
                         {
-                            throw new BGEException("ラベル'"+text.Substring(1)+"'が見つかりません",fpath,line);
+                            throw new BGEException("ラベル'" + text.Substring(1) + "'が見つかりません", fpath, line);
                         }
                         else
                         {
@@ -146,7 +146,7 @@ namespace compiler
                         }
                     }
                 }
-                else if(Regex.IsMatch(text, "^\\\\.+"))
+                else if (Regex.IsMatch(text, "^\\\\.+"))
                 {
                     if (exportedTagName == null || exportedTagPoint == null)
                     {
@@ -169,31 +169,29 @@ namespace compiler
                 {
                     switch (text.ToLower())
                     {
-                        case "push": ret.Add(new BGEData(BGEOperator.push)); break;
-                        case "pop": ret.Add(new BGEData(BGEOperator.pop)); break;
-                        case "cls": ret.Add(new BGEData(BGEOperator.cls)); break;
-                        case "pls": ret.Add(new BGEData(BGEOperator.pls)); break;
-                        case "sub": ret.Add(new BGEData(BGEOperator.sub)); break;
-                        case "mul": ret.Add(new BGEData(BGEOperator.mul)); break;
-                        case "div": ret.Add(new BGEData(BGEOperator.div)); break;
-                        case "rem": ret.Add(new BGEData(BGEOperator.rem)); break;
-                        case "nand": ret.Add(new BGEData(BGEOperator.nand)); break;
-                        case "sin": ret.Add(new BGEData(BGEOperator.sin)); break;
-                        case "sqrt": ret.Add(new BGEData(BGEOperator.sqrt)); break;
-                        case "truejump": ret.Add(new BGEData(BGEOperator.truejump)); break;
-                        case "jump": ret.Add(new BGEData(BGEOperator.jump)); break;
-                        case "call": ret.Add(new BGEData(BGEOperator.call)); break;
-                        case "equal": ret.Add(new BGEData(BGEOperator.equal)); break;
-                        case "greater": ret.Add(new BGEData(BGEOperator.greater)); break;
-                        case "load": ret.Add(new BGEData(BGEOperator.load)); break;
-                        case "store": ret.Add(new BGEData(BGEOperator.store)); break;
-                        case "ret": ret.Add(new BGEData(BGEOperator.ret)); break;
-                        case "redraw": ret.Add(new BGEData(BGEOperator.redraw)); break;
-                        case "pixel": ret.Add(new BGEData(BGEOperator.pixel)); break;
-                        case "rect": ret.Add(new BGEData(BGEOperator.rect)); break;
-                        case "chkkey": ret.Add(new BGEData(BGEOperator.chkkey)); break;
+                        case "push":    ret.Add(new(BGEOperator.push)); break;
+                        case "pop":     ret.Add(new(BGEOperator.pop)); break;
+                        case "cls":     ret.Add(new(BGEOperator.cls)); break;
+                        case "pls":     ret.Add(new(BGEOperator.pls)); break;
+                        case "sub":     ret.Add(new(BGEOperator.sub)); break;
+                        case "mul":     ret.Add(new(BGEOperator.mul)); break;
+                        case "div":     ret.Add(new(BGEOperator.div)); break;
+                        case "rem":     ret.Add(new(BGEOperator.rem)); break;
+                        case "nand":    ret.Add(new(BGEOperator.nand)); break;
+                        case "truejump":ret.Add(new(BGEOperator.truejump)); break;
+                        case "jump":    ret.Add(new(BGEOperator.jump)); break;
+                        case "call":    ret.Add(new(BGEOperator.call)); break;
+                        case "equal":   ret.Add(new(BGEOperator.equal)); break;
+                        case "greater": ret.Add(new(BGEOperator.greater)); break;
+                        case "load":    ret.Add(new(BGEOperator.load)); break;
+                        case "store":   ret.Add(new(BGEOperator.store)); break;
+                        case "ret":     ret.Add(new(BGEOperator.ret)); break;
+                        case "redraw":  ret.Add(new(BGEOperator.redraw)); break;
+                        case "rect":    ret.Add(new(BGEOperator.rect)); break;
+                        case "chkkey":  ret.Add(new(BGEOperator.chkkey)); break;
+                        case "sound":   ret.Add(new(BGEOperator.sound)); break;
                         default:
-                            throw new BGEException(text.ToLower() + "という演算子はありません",fpath,line);
+                            throw new BGEException(text.ToLower() + "という演算子はありません", fpath, line);
                     }
                 }
                 line++;
@@ -212,8 +210,6 @@ namespace compiler
         div,
         rem,
         nand,
-        sin,
-        sqrt,
         truejump,
         jump,
         call,
@@ -223,9 +219,11 @@ namespace compiler
         store,
         ret,
         redraw,
-        pixel,
         rect,
-        chkkey
+        chkkey,
+        sound,
+        loadgraph,
+        graph
     }
 
     public class BGEData

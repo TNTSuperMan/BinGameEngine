@@ -24,13 +24,28 @@
     </div>
     <h2>仕様</h2>
 <pre>
-メモリはUCHAR[0xffff]なかんじ
+メモリは1b x [0xffff]なかんじ
 0xffff - 64KiB 65536b
 0x1000 -  4KiB 4096b
 ROMとRAMとSRAMほしい
 
-0xa000(ROM) - 40KiB 40960b
-0x6000(RAM) - 24KiB 24576b
+0x0000 ~ 0x9fff(ROM) - 10
+0xa000 ~ 0xdfff(RAM) - 4
+0xe000 ~ 0xefff(GRAM)- 1
+0xf000 ~ 0xffff(SRAM)- 1
+
+GRAM - 画像
+バイト連続
+00000000
+↑↑↑↑
+↑↑↑B
+↑↑G
+↑R
+Flag
+00:描画
+01:透過
+10:改行
+11:終了
 </pre>
 </body>
 </html>

@@ -156,6 +156,10 @@ namespace BMMCompiler.Parts
         public string Compile(List<Variable> exportedVariables)
         {
             string ret = "";
+            foreach(string p in Imports)
+            {
+                ret += "import" + p + ".bge\n";
+            }
             foreach (Function f in Functions)
             {
                 ret += f.Compile(exportedVariables);

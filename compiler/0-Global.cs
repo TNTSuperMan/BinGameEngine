@@ -36,7 +36,12 @@ namespace BMMCompiler
     }
     public class Errors
     {
-        public static List<ErrorInfo> Infos = [];
+        private static List<ErrorInfo> _info = [];
+        public static List<ErrorInfo> Infos
+        {
+            get { return _info; }
+            set {  _info = value; }
+        }
         public static bool Show()
         {
             if (Infos.Count == 0)
@@ -55,7 +60,7 @@ namespace BMMCompiler
     }
     public class Compiler
     {
-        public static string? Compile(string path, string memmapPath)
+        public static void Compile(string path, string memmapPath)
         {
             List<string> files = [];
             files.Add(path);
@@ -74,11 +79,11 @@ namespace BMMCompiler
                     if (!File.Exists(file))
                     {
                         Console.WriteLine("Error: Not Found File: " + file);
-                        return null;
+                        return;
                     }
                     Console.WriteLine(file);
                     modules.Add(new Parts.Module(File.ReadAllText(file)));
-                    completed.Add(file);
+                    completed.Add(Path.GetFullPath(path));
                 }
             }
             Console.WriteLine("\nGenerating Memorymap...");
@@ -105,7 +110,12 @@ namespace BMMCompiler
                     }
                 }
             }
-            return modules[0].Compile(exported);
+            File.WriteAllText(memmapPath, map);
+            for(int j = 0;j < modules.Count; j++)
+            {
+                File.WriteAllText(completed[j]+".bge", modules[j].Compile(exported));
+            }
+            return;
         }
     }
     public class Variable

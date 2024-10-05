@@ -14,7 +14,7 @@ internal class Program
         {
             try
             {
-                Console.WriteLine("--- Resolve Tags");
+                Console.WriteLine("--- Resolve Tags and Tokenize");
                 List<string> impstack = new List<string>();
                 List<string> imported = new List<string>();
                 List<Module> modules = new List<Module>();

@@ -2,7 +2,7 @@
 {
     internal class If : Statement
     {
-        public readonly Expression Condition;
+        public readonly Expression? Condition;
         public readonly List<Statement> TrueThen;
         private enum Mode
         {
@@ -39,6 +39,7 @@
                             {
                                 Condition = new(stack);
                                 stack = "";
+                                mode = Mode.BeforeTrue;
                             }
                             else
                             {
@@ -67,6 +68,11 @@
         }
         public override string Compile(List<Variable> variables)
         {
+            if(Condition == null)
+            {
+                Errors.Infos.Add(new("Can't Tokenize Condition"));
+                return "";
+            }
             string Token = TagToken.Make();
             string ret = "";
             ret += Condition.Compile(variables);

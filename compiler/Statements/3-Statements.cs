@@ -11,7 +11,11 @@ namespace BMMCompiler.Parts
         public static Statement Tokenize(string stack)
         {
             stack = stack.Trim();
-            if (Regex.IsMatch(stack, @"^\w+\s*=.+"))
+            if (Regex.IsMatch(stack, @"^if\s*\(.+\)\s*\{.*\}$"))
+            {
+                return new Expressions.If(stack);
+            }
+            else if (Regex.IsMatch(stack, @"^\w+\s*="))
             {
                 return new Expressions.Substitution(stack);
             }
@@ -19,21 +23,18 @@ namespace BMMCompiler.Parts
             {
                 return new Expressions.Native(stack);
             }
-            else if (Regex.IsMatch(stack, @"^\w+\(.*\)"))
+            else if (Regex.IsMatch(stack, @"^\w+\(.*\)$"))
             {
                 return new Expressions.Expression(stack);
             }
-            else if (Regex.IsMatch(stack, @"if\s*\(.+\)\s*{.*}"))
-            {
-                return new Expressions.If(stack);
-            }/*
+            /*
             else if (Regex.IsMatch(stack, @"while\s*\(.+\)\s*{.*}"))
             {
 
             }*/
             else
             {
-                throw new Exception("");
+                throw new Exception("Unknown statement: \"" + stack + "\"");
             }
         }
         public static List<Statement> fromString(string src, Action<string> act)

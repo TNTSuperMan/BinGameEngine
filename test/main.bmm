@@ -1,0 +1,8 @@
+func entry(){
+    var i;
+    i = 64;
+    if ( chkkey(10) ) {
+        i = 0;
+    };
+    rect(0,0,255,255,0,0,i);
+}

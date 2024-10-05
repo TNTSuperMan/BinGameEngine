@@ -1,3 +1,0 @@
-export draw
-/ 0 0 FF FF 0000 load 0000 load 0000 load rect redraw
-/ ret

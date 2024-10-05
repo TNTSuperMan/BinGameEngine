@@ -111,7 +111,7 @@ namespace BMMCompiler.Parts.Expressions
             }
             else
             {
-
+                Errors.Infos.Add(new("Unknown expression: " + src));
             }
         }
         public override string Compile(List<Variable> variables)
@@ -158,12 +158,8 @@ namespace BMMCompiler.Parts.Expressions
                     {
                         #region NativeFuncs
                         case "redraw"://0
-                        case "rand":  //0
-                            if (pushes.Count != 0) Errors.Infos.Add(new("Not Equal Argument Length(0): " + pushes.Count.ToString()));
-                            ret = "/ " + func;
+                            ret += "/ " + func;
                             break;
-                        case "sin":   //1
-                        case "sqrt":  //1
                         case "chkkey"://1
                             if (pushes.Count != 1) {
                                 Errors.Infos.Add(new("Not Equal Argument Length(1): " + pushes.Count.ToString()));
@@ -187,22 +183,10 @@ namespace BMMCompiler.Parts.Expressions
                             }
                             ret += "/ " + func;
                             break;
-                        case "pixel": //5
+                        case "rect":  //7
                             if (pushes.Count != 5)
                             {
                                 Errors.Infos.Add(new("Not Equal Argument Length(5): " + pushes.Count.ToString()));
-                                break;
-                            }
-                            foreach (Expression p in pushes)
-                            {
-                                ret += p.Compile(variables);
-                            }
-                            ret += "/ " + func;
-                            break;
-                        case "rect":  //7
-                            if (pushes.Count != 7)
-                            {
-                                Errors.Infos.Add(new("Not Equal Argument Length(7): " + pushes.Count.ToString()));
                                 break;
                             }
                             foreach (Expression p in pushes)
@@ -220,6 +204,10 @@ namespace BMMCompiler.Parts.Expressions
                             break;
                         #endregion
                         default:
+                            foreach (Expression p in pushes)
+                            {
+                                ret += p.Compile(variables);
+                            }
                             ret = "/ \\" + func + " call";
                             break;
                     }

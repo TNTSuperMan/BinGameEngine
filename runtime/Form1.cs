@@ -6,9 +6,9 @@ namespace runtime
         ushort pc = 0;
         ushort pcbefore = 0;
         byte[] bin = [];
-        List<ushort> stack = new List<ushort>();
+        List<char> stack = new List<char>();
         List<ushort> callstack = new List<ushort>();
-        ushort[] memory = new ushort[0x5000];
+        char[] memory = new char[0x4000];
         List<string> programTexts = new List<string>();
         List<BGEGraphic> graphicsStack = new List<BGEGraphic>();
         bool[] keymap = new bool[0x2b];
@@ -157,28 +157,28 @@ namespace runtime
                 default: return int.MaxValue;
             }
         }
-        private ushort Pop()
+        private char Pop()
         {
             if (stack.Count == 0)
             {
                 End();
                 stateText.Text = "Stack underflow";
-                return 0;
+                return '\0';
             }
-            ushort d = stack.Last();
+            char d = stack.Last();
             stack.RemoveAt(stack.Count - 1);
             if (debug) stackListBox.Items.RemoveAt(stackListBox.Items.Count - 1);
             return d;
         }
+        private void Push(char d)
+        {
+            stack.Add(d);
+            if (debug) stackListBox.Items.Add((int)d);
+        }
         private void Push(int d)
         {
-            stack.Add((ushort)d);
-            if (debug) stackListBox.Items.Add((ushort)d);
-        }
-        private void Push(double d)
-        {
-            stack.Add((ushort)d);
-            if (debug) stackListBox.Items.Add((ushort)d);
+            stack.Add((char)d);
+            if (debug) stackListBox.Items.Add(d);
         }
         private bool Next()
         {
@@ -229,34 +229,28 @@ namespace runtime
                 case 0x08: //nand
                     Push(~(Pop() & Pop()));
                     break;
-                case 0x09: //sin
-                    Push(Math.Sin(Math.PI / 180 * Pop()));
-                    break;
-                case 0x0a: //sqrt
-                    Push(Math.Sqrt(Pop()));
-                    break;
-                case 0x0b: //truejump
+                case 0x09: //truejump
                     ptr = (ushort)(Pop() - 1);
                     if (Pop() != 0) pc = ptr;
                     break;
-                case 0x0c: //jump
+                case 0x0a: //jump
                     pc = (ushort)(Pop() - 1);
                     break;
-                case 0x0d: //call
+                case 0x0b: //call
                     callstack.Add(pc);
                     pc = (ushort)(Pop() - 1);
                     if (debug) callStackListBox.Items.Add(pc);
                     break;
-                case 0x0e: //equal
+                case 0x0c: //equal
                     Push((Pop() == Pop()) ? 1 : 0);
                     break;
-                case 0x0f: //greater
+                case 0x0d: //greater
                     Push((Pop() < Pop() ? 1 : 0));
                     break;
-                case 0x10: //load
+                case 0x0e: //load
                     Push(memory[Pop()]);
                     break;
-                case 0x11: //store
+                case 0x0f: //store
                     ptr = Pop();
                     memory[ptr] = Pop();
                     if (debug)
@@ -265,7 +259,7 @@ namespace runtime
                         memoryListBox.Items[ptr] = memory[ptr];
                     }
                     break;
-                case 0x12: //ret
+                case 0x10: //ret
                     if (callstack.Count == 0)
                     {
                         End();
@@ -279,19 +273,11 @@ namespace runtime
                         if (debug) callStackListBox.Items.RemoveAt(callStackListBox.Items.Count - 1);
                     }
                     break;
-                case 0x13: //redraw
+                case 0x11: //redraw
                     panel1.Invalidate();
                     pc++;
-                    return false;
-                case 0x14:
-                    b = Pop();
-                    g = Pop();
-                    r = Pop();
-                    y = Pop();
-                    x = Pop();
-                    graphicsStack.Add(new BGEGraphic(x, y, r, g, b));
-                    break;
-                case 0x15:
+                    return false;;
+                case 0x12: //rect
                     b = Pop();
                     g = Pop();
                     r = Pop();
@@ -301,7 +287,7 @@ namespace runtime
                     x = Pop();
                     graphicsStack.Add(new BGEGraphic(x, y, w, h, r, g, b));
                     break;
-                case 0x16:
+                case 0x13: //chkkey
                     Push(keymap[Pop()] ? 1 : 0);
                     break;
             }
@@ -324,7 +310,7 @@ namespace runtime
             fasterCheck.Enabled = false;
             if (debug) nextBtn.Enabled = true;
             for (int i = 0; i < keymap.Length; i++) keymap[i] = false;
-            for (int i = 0; i < memory.Length; i++) memory[i] = 0;
+            for (int i = 0; i < memory.Length; i++) memory[i] = '\0';
             clock.Start();
         }
         private void End()

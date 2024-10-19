@@ -41,6 +41,7 @@ internal class Program
                     shift += m.length;
                     for (int i = 0;i < m.exportedTagName.Count; i++)
                     {
+                        Console.WriteLine(m.exportedTagName[i]+": "+m.exportedTagPoint);
                         expName.Add(m.exportedTagName[i]);
                         expAddr.Add(m.exportedTagPoint[i]);
                     }

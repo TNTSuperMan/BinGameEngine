@@ -1,0 +1,14 @@
+
+func a(b){
+  //aa
+  if(b){
+    load(12);
+  }
+  while(b){
+    load(13);
+  }
+  var s;
+  load(13);
+  b = 2;
+}
+extern a;

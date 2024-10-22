@@ -1,5 +1,0 @@
-
-func a(b,c,d){
-  Draw(1 + 5, a(1));
-}
-extern a;

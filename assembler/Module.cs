@@ -172,7 +172,7 @@ namespace compiler
                         case "push":    ret.Add(new(BGEOperator.push)); break;
                         case "pop":     ret.Add(new(BGEOperator.pop)); break;
                         case "cls":     ret.Add(new(BGEOperator.cls)); break;
-                        case "pls":     ret.Add(new(BGEOperator.pls)); break;
+                        case "add":     ret.Add(new(BGEOperator.add)); break;
                         case "sub":     ret.Add(new(BGEOperator.sub)); break;
                         case "mul":     ret.Add(new(BGEOperator.mul)); break;
                         case "div":     ret.Add(new(BGEOperator.div)); break;
@@ -204,7 +204,7 @@ namespace compiler
         push,
         pop,
         cls,
-        pls,
+        add,
         sub,
         mul,
         div,

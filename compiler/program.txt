@@ -1,14 +1,5 @@
 
-func a(b){
-  //aa
-  if(b){
-    load(12);
-  }
-  while(b){
-    load(13);
-  }
-  var s;
-  load(13);
-  b = 2;
+func a(b,c,d){
+  Draw(1 + 5, a(1));
 }
 extern a;

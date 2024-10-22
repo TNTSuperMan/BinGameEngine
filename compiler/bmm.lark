@@ -2,14 +2,13 @@
 
 ?root: extern
       | function
-?statement: var ";"
-      | call ";"
+?statement: call ";"
       | subs ";"
       | if
       | while
-?expr: "(" expr ")"
+?expr: call
+      | "(" expr ")"
       | opr
-      | call
       | SIGNED_NUMBER
       | WORD
 ?opr: mul
@@ -18,19 +17,19 @@
       | add
       | sub
 
-funcarg: [WORD ("," WORD)*]
-code: [(statement)*]
-
 extern: "extern" WORD ";"
 
 function: "func" WORD "(" funcarg ")" "{" code "}"
+funcarg: [WORD ("," WORD)*]
+code: [(statement|var)*]
+var: "var" WORD ";"
 
 if:       "if" "(" expr ")" "{" code "}"
 while: "while" "(" expr ")" "{" code "}"
 
-var: "var" WORD
 subs: WORD "=" expr
-call: WORD "(" [expr ("," expr)*] ")"
+call: WORD "(" args ")"
+args: [expr ("," expr)*]
 
 add: expr "+" expr
 sub: expr "-" expr

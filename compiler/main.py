@@ -1,6 +1,7 @@
 import re
 from lark import Lark
 from sys import argv as arg
+import tokens
 
 rule = open('bmm.lark').read()
 parser = Lark(rule, start='module', parser='lalr')
@@ -23,9 +24,13 @@ def compile(path):
     tree = parser.parse(cleancode)
     
     print("Tokenizing...")
-    root = tree.children
-    for item in root:
-        print(item)
+    module = tokens.Module(tree)
 
+    print((module))
+    
+    #print("Compiling...")
+    #print(module.compile([]))
+
+    
 if __name__ == '__main__':
     compile(arg[1])

@@ -1,29 +1,37 @@
-﻿using BMMCompiler;
-
-internal class Program
+﻿using Antlr4.Runtime;
+using System.Text;
+    // Template generated code from Antlr4Templates v6.0
+namespace compiler
 {
-    private static void Main(string[] args)
+
+    public class Program
     {
-        if(args.Length < 2)
+        static void Main(string[] args)
         {
-            Console.WriteLine("Using: compiler [EntryFile] [MemmapFile]");
-            return;
+            Try("1 + 2 + 3");
+            Try("1 2 + 3");
+            Try("1 + +");
         }
-        else
+
+        static void Try(string input)
         {
-            Compiler.Compile(args[0], args[1]);
+            var str = new AntlrInputStream(input);
+            System.Console.WriteLine(input);
+            var lexer = new BMMLexer(str);
+            var tokens = new CommonTokenStream(lexer);
+            var parser = new BMMParser(tokens);
+            var listener_lexer = new ErrorListener<int>();
+            var listener_parser = new ErrorListener<IToken>();
+            lexer.RemoveErrorListeners();
+            parser.RemoveErrorListeners();
+            lexer.AddErrorListener(listener_lexer);
+            parser.AddErrorListener(listener_parser);
+            var tree = parser.BMM();
+            if (listener_lexer.had_error || listener_parser.had_error)
+                System.Console.WriteLine("error in parse.");
+            else
+                System.Console.WriteLine("parse completed.");
+            System.Console.WriteLine(tree.ToStringTree(parser));
         }
-        return;
-        BMMCompiler.Parts.Module m = new BMMCompiler.Parts.Module(
-            "func Load(dea,r){\n" +
-            "    var TTT;\n" +
-            "    TTT = 0;\n" +
-            "    rect(10,10,10,10,r,dea,TTT);\n" +
-            "    redraw();\n" +
-            "    return(12);\n" +
-            "    if(1){Load(1,2);};" +
-            "}");
-        Console.WriteLine(m.Compile([]));
-        Errors.Show();
     }
 }

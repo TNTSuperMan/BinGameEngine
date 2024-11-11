@@ -1,2 +1,0 @@
-Addr,Name,At
-A000,i,entry in C:\Users\broke\Program(github)\BinGameEngine\test\main.bmm

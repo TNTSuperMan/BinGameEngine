@@ -19,8 +19,7 @@
     "redraw":[],
     "rect":["x","y","w","h","色"],
     "chkkey":["キー番号"],
-    "sound":["種類","波長"],
-    "loadgraph":[],
-    "graph":["x","y"],
-    "xcom":[]
+    "io": ["種類"],
+    "sound":["ID"],
+    "graph":["ID","x","y"]
 }

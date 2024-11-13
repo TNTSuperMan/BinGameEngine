@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color</title>
+    <script src="../vue.js"></script>
+    <script src="script.js"></script>
+    <style>
+        .color{
+            width:30px;
+            height:30px;
+            display:inline-block;
+            margin:0;
+            padding:0;
+        }
+    </style>
+</head>
+<body>
+    <div id="p">
+        R:<input type="range" max="3" min="0" v-model="r"><br>
+        G:<input type="range" max="3" min="0" v-model="g"><br>
+        B:<input type="range" max="3" min="0" v-model="b"><br>
+        <div class="color" :style="style"></div>
+        <h2>List</h2>
+        <template v-for="(a,i) in cs">
+            <br v-if="i % 16 == 0">
+            <div class="color" :style="a[0]" :title="a[1]"></div>
+        </template>
+    </div>
+</body>
+</html>

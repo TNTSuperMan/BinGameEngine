@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Runtime.ConstrainedExecution;
+using System.Text.RegularExpressions;
 
 namespace compiler
 {
@@ -58,6 +59,15 @@ namespace compiler
                         if (Regex.IsMatch(line, "^import"))
                         {
                             importPath.Add(line.Substring(7));
+                        }
+                        break;
+                    case '!':
+                        string name = line.Substring(1);
+                        int idx = jumpTagName.FindIndex(e=>e==name);
+                        if(idx == -1){
+                            Console.WriteLine("[Tag]Err: not found var: "+name);
+                        }else{
+                            Console.WriteLine("[Tag]'"+name+"' at "+jumpTagPoint[idx]);
                         }
                         break;
                 }

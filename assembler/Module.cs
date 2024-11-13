@@ -178,18 +178,20 @@ namespace compiler
                         case "div":     ret.Add(new(BGEOperator.div)); break;
                         case "rem":     ret.Add(new(BGEOperator.rem)); break;
                         case "nand":    ret.Add(new(BGEOperator.nand)); break;
+                        case "equal":   ret.Add(new(BGEOperator.equal)); break;
+                        case "greater": ret.Add(new(BGEOperator.greater)); break;
                         case "truejump":ret.Add(new(BGEOperator.truejump)); break;
                         case "jump":    ret.Add(new(BGEOperator.jump)); break;
                         case "call":    ret.Add(new(BGEOperator.call)); break;
-                        case "equal":   ret.Add(new(BGEOperator.equal)); break;
-                        case "greater": ret.Add(new(BGEOperator.greater)); break;
+                        case "ret":     ret.Add(new(BGEOperator.ret)); break;
                         case "load":    ret.Add(new(BGEOperator.load)); break;
                         case "store":   ret.Add(new(BGEOperator.store)); break;
-                        case "ret":     ret.Add(new(BGEOperator.ret)); break;
+                        case "dumpkey":  ret.Add(new(BGEOperator.dumpkey)); break;
                         case "redraw":  ret.Add(new(BGEOperator.redraw)); break;
                         case "rect":    ret.Add(new(BGEOperator.rect)); break;
-                        case "chkkey":  ret.Add(new(BGEOperator.chkkey)); break;
+                        case "graph":   ret.Add(new(BGEOperator.graph)); break;
                         case "sound":   ret.Add(new(BGEOperator.sound)); break;
+                        case "io":      ret.Add(new(BGEOperator.io)); break;
                         default:
                             throw new BGEException(text.ToLower() + "という演算子はありません", fpath, line);
                     }
@@ -210,20 +212,20 @@ namespace compiler
         div,
         rem,
         nand,
+        equal,
+        greater,
         truejump,
         jump,
         call,
-        equal,
-        greater,
+        ret,
         load,
         store,
-        ret,
+        dumpkey,
         redraw,
         rect,
-        chkkey,
+        graph,
         sound,
-        loadgraph,
-        graph
+        io
     }
 
     public class BGEData

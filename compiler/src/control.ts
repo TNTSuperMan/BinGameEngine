@@ -1,7 +1,7 @@
 import genid from "genid.ts";
 import { not } from "./bool.ts";
 import { Expr } from "./native.ts";
-type Exprs = string[]
+export type Exprs = string[]
 export const If = (condition:Expr, trueCode: Exprs, falseCode: Exprs = []):Expr => {
     let ret = condition + "\n";
     const trueTag = ":"+genid();

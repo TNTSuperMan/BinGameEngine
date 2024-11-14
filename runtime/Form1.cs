@@ -88,7 +88,7 @@ namespace runtime
                 programListBox.Items.Clear();
                 foreach (string a in programTexts)
                 {
-                    programListBox.Items.Add("�@" + a);
+                    programListBox.Items.Add("< " + a);
                 }
             }
             catch (FileNotFoundException)
@@ -182,8 +182,8 @@ namespace runtime
         }
         private ushort PopAddr()
         {
-            char upside = Pop();
             char bottom = Pop();
+            char upside = Pop();
             return (ushort)((upside << 8) | bottom);
         }
         private bool Next()
@@ -195,8 +195,8 @@ namespace runtime
             }
             if (debug)
             {
-                if (pc > 0) programListBox.Items[pcbefore] = "> " + programTexts[pcbefore];
-                programListBox.Items[PC2Line()] = ">>" + programTexts[PC2Line()];
+                if (pc > 0) programListBox.Items[pcbefore] = "< " + programTexts[pcbefore];
+                programListBox.Items[PC2Line()] = "> " + programTexts[PC2Line()];
                 programListBox.TopIndex = PC2Line() - 2;
                 pcbefore = (ushort)PC2Line();
             }
@@ -239,7 +239,7 @@ namespace runtime
                     Push((Pop() == Pop()) ? 1 : 0);
                     break;
                 case 0x0a: //greater
-                    Push((Pop() < Pop() ? 1 : 0));
+                    Push(Pop() < Pop() ? 1 : 0);
                     break;
                 case 0x0b: //truejump
                     ptr = (ushort)(PopAddr() - 1);

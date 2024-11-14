@@ -41,7 +41,7 @@ namespace compiler
                         foreach (BGEData d in compileLine(line.Substring(1)))
                         {
                             bge.Add(d);
-                            len += (ushort)bge.Last().length;
+                            len += (ushort)d.length;
                         }
                         break;
                     case ':':
@@ -135,13 +135,13 @@ namespace compiler
                         num = (char)(num << 4);
                         num += (char)toInt(t);
                     }
-                    ret.Add(new BGEData(num));
+                    ret.Add(new(num));
                 }
                 else if (Regex.IsMatch(text, "^:.+"))
                 {
                     if (exportedTagName == null || exportedTagPoint == null)
                     {
-                        ret.Add(new BGEData((ushort)0));
+                        ret.Add(new((char)0));
                     }
                     else
                     {
@@ -152,8 +152,8 @@ namespace compiler
                         }
                         else
                         {
-                            ret.Add(new BGEData((char)(jumpTagPoint[i] >> 8)));
-                            ret.Add(new BGEData((char)(jumpTagPoint[i] & 0x00ff)));
+                            ret.Add(new((char)(jumpTagPoint[i] >> 8)));
+                            ret.Add(new((char)(jumpTagPoint[i] & 0x00ff)));
                         }
                     }
                 }
@@ -161,7 +161,7 @@ namespace compiler
                 {
                     if (exportedTagName == null || exportedTagPoint == null)
                     {
-                        ret.Add(new BGEData((ushort)0));
+                        ret.Add(new((char)0));
                     }
                     else
                     {
@@ -172,8 +172,8 @@ namespace compiler
                         }
                         else
                         {
-                            ret.Add(new BGEData((char)(exportedTagPoint[i] >> 8)));
-                            ret.Add(new BGEData((char)(exportedTagPoint[i] & 0x00ff)));
+                            ret.Add(new((char)(exportedTagPoint[i] >> 8)));
+                            ret.Add(new((char)(exportedTagPoint[i] & 0x00ff)));
                         }
                     }
                 }
@@ -248,7 +248,7 @@ namespace compiler
         {
             get
             {
-                return 1 + (uint)(_pushdata == null ? 0 : 2);
+                return (uint)(_operator == BGEOperator.push ? 2 : 1);
             }
         }
         public BGEData()
@@ -269,12 +269,12 @@ namespace compiler
         {
             get
             {
-                byte[] ret = new byte[_pushdata == null ? 1 : 2];
+                byte[] ret = new byte[_operator == BGEOperator.push ? 2 : 1];
 
                 ret[0] = (byte)_operator;
                 if (_pushdata != null)
                 {
-                    ret[1] = (byte)(_pushdata);
+                    ret[1] = (byte)_pushdata;
                 }
                 return ret;
             }

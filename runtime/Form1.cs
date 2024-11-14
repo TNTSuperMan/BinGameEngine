@@ -39,7 +39,7 @@ namespace runtime
                     }
                     else
                     {
-                        MessageBox.Show("ƒtƒ@ƒCƒ‹‚ğ‘I‚ñ‚Å‚­‚¾‚³‚¢");
+                        MessageBox.Show("ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½Å‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
                         Application.Exit();
                     }
                 }
@@ -88,12 +88,12 @@ namespace runtime
                 programListBox.Items.Clear();
                 foreach (string a in programTexts)
                 {
-                    programListBox.Items.Add("@" + a);
+                    programListBox.Items.Add("ï¿½@" + a);
                 }
             }
             catch (FileNotFoundException)
             {
-                MessageBox.Show("ƒtƒ@ƒCƒ‹'" + args[0] + "'‚Í‘¶İ‚µ‚Ü‚¹‚ñ");
+                MessageBox.Show("ï¿½tï¿½@ï¿½Cï¿½ï¿½'" + args[0] + "'ï¿½Í‘ï¿½ï¿½İ‚ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½");
                 Application.Exit();
             }
         }
@@ -180,6 +180,12 @@ namespace runtime
             stack.Add((char)d);
             if (debug) stackListBox.Items.Add(d);
         }
+        private ushort PopAddr()
+        {
+            char upside = Pop();
+            char bottom = Pop();
+            return (ushort)((upside << 8) | bottom);
+        }
         private bool Next()
         {
             if (pc >= bin.Length || programTexts.Count <= PC2Line())
@@ -189,8 +195,8 @@ namespace runtime
             }
             if (debug)
             {
-                if (pc > 0) programListBox.Items[pcbefore] = "@" + programTexts[pcbefore];
-                programListBox.Items[PC2Line()] = "„" + programTexts[PC2Line()];
+                if (pc > 0) programListBox.Items[pcbefore] = "ï¿½@" + programTexts[pcbefore];
+                programListBox.Items[PC2Line()] = "ï¿½ï¿½" + programTexts[PC2Line()];
                 programListBox.TopIndex = PC2Line() - 2;
                 pcbefore = (ushort)PC2Line();
             }
@@ -236,15 +242,15 @@ namespace runtime
                     Push((Pop() < Pop() ? 1 : 0));
                     break;
                 case 0x0b: //truejump
-                    ptr = (ushort)(Pop() - 1);
+                    ptr = (ushort)(PopAddr() - 1);
                     if (Pop() != 0) pc = ptr;
                     break;
                 case 0x0c: //jump
-                    pc = (ushort)(Pop() - 1);
+                    pc = (ushort)(PopAddr() - 1);
                     break;
                 case 0x0d: //call
                     callstack.Add(pc);
-                    pc = (ushort)(Pop() - 1);
+                    pc = (ushort)(PopAddr() - 1);
                     if (debug) callStackListBox.Items.Add(pc);
                     break;
                 case 0x0e: //ret
@@ -262,10 +268,10 @@ namespace runtime
                     }
                     break;
                 case 0x0f: //load
-                    Push(memory[Pop()]);
+                    Push(memory[PopAddr()]);
                     break;
                 case 0x10: //store
-                    ptr = Pop();
+                    ptr = PopAddr();
                     memory[ptr] = Pop();
                     if (debug)
                     {

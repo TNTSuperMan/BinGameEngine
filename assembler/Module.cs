@@ -127,13 +127,13 @@ namespace compiler
             int line = 0;
             foreach (string text in source.Split(' '))
             {
-                if (Regex.IsMatch(text, "^[\\da-fA-F]{1,4}$"))
+                if (Regex.IsMatch(text, "^[\\da-fA-F]{1,2}$"))
                 {
-                    ushort num = 0;
+                    char num = (char)0;
                     foreach (char t in text)
                     {
-                        num = (ushort)(num << 4);
-                        num += toInt(t);
+                        num = (char)(num << 4);
+                        num += (char)toInt(t);
                     }
                     ret.Add(new BGEData(num));
                 }
@@ -152,7 +152,8 @@ namespace compiler
                         }
                         else
                         {
-                            ret.Add(new BGEData((jumpTagPoint[i])));
+                            ret.Add(new BGEData((char)(jumpTagPoint[i] >> 8)));
+                            ret.Add(new BGEData((char)(jumpTagPoint[i] & 0x00ff)));
                         }
                     }
                 }
@@ -171,7 +172,8 @@ namespace compiler
                         }
                         else
                         {
-                            ret.Add(new BGEData(exportedTagPoint[i]));
+                            ret.Add(new BGEData((char)(exportedTagPoint[i] >> 8)));
+                            ret.Add(new BGEData((char)(exportedTagPoint[i] & 0x00ff)));
                         }
                     }
                 }
@@ -241,7 +243,7 @@ namespace compiler
     public class BGEData
     {
         public BGEOperator _operator;
-        public ushort? _pushdata;
+        public char? _pushdata;
         public uint length
         {
             get
@@ -258,7 +260,7 @@ namespace compiler
         {
             _operator = @operator;
         }
-        public BGEData(ushort pushdata)
+        public BGEData(char pushdata)
         {
             _operator = BGEOperator.push;
             _pushdata = pushdata;
@@ -267,13 +269,12 @@ namespace compiler
         {
             get
             {
-                byte[] ret = new byte[_pushdata == null ? 1 : 3];
+                byte[] ret = new byte[_pushdata == null ? 1 : 2];
 
                 ret[0] = (byte)_operator;
                 if (_pushdata != null)
                 {
-                    ret[1] = (byte)((_pushdata & 0xFF00) >> 8);
-                    ret[2] = (byte)(_pushdata & 0x00FF);
+                    ret[1] = (byte)(_pushdata);
                 }
                 return ret;
             }

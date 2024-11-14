@@ -1,4 +1,4 @@
-import { Variable } from "./var.ts";
+import { varaddr, Variable } from "./var.ts";
 
 export type Expr = string;
 
@@ -18,5 +18,5 @@ export const rem=    (a:Expr,b:Expr):Expr=>a+b+"/ rem\n";
 export const nand=   (a:Expr,b:Expr):Expr=>a+b+"/ nand\n";
 export const equal=  (a:Expr,b:Expr):Expr=>a+b+"/ equal\n";
 export const greater=(a:Expr,b:Expr):Expr=>a+b+"/ greater\n";
-export const set=(a:Variable,b:Expr):Expr=>n2h(a)+b+"/ store\n";
+export const set=(a:Variable,b:Expr):Expr=>b+varaddr(a)+"/ store\n";
 export const ret=(...a:Expr[]):Expr=>a.join("\n")+"/ ret\n";

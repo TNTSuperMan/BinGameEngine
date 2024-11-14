@@ -4,6 +4,6 @@ export default {
     input: "./src/index.ts",
     plugins: [typescript(), terser()],
     output: {
-        file: "./dist/compiler.min.js"
+        file: "./dist/compiler.js"
     }
 }

@@ -1,5 +1,5 @@
-import { not } from "./bool";
-import { Expr } from "./native";
+import { not } from "./bool.ts";
+import { Expr } from "./native.ts";
 type Exprs = string[]
 export const If = (condition:Expr, trueCode: Exprs, falseCode: Exprs = []):Expr => {
     let ret = condition + "\n";

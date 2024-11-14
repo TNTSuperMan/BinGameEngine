@@ -1,4 +1,4 @@
-import { Expr } from "./native";
+import { Expr } from "./native.ts";
 
 export const boolify = (a:Expr):Expr => a+"/ 2 rem\n";
 export const not = (a:Expr):Expr => a+"/ 0 nand 2 rem\n";

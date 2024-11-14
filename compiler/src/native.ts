@@ -1,5 +1,4 @@
-import { defn } from "./fn";
-import { Variable } from "./var";
+import { Variable } from "./var.ts";
 
 export type Expr = string;
 

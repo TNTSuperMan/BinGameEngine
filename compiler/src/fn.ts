@@ -1,5 +1,5 @@
-import { defvar, Variable } from "./var";
-import { Expr } from "./native";
+import { defvar, Variable } from "./var.ts";
+import { Expr } from "./native.ts";
 let fndefines = "";
 
 export const defn = <T extends string[]>(name:string, fn:(...vars:number[])=>void):(...args:T)=>Expr => {

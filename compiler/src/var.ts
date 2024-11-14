@@ -1,4 +1,6 @@
+export const vr =(a:Variable)=>"/ "+a.toString(16)+" load\n";
 let i:Variable = 0;
+
 export type Variable = number;
 export const defvar = ():Variable => {
     if(i >= (5 * 4096)-1){

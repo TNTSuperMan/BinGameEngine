@@ -6,4 +6,4 @@ export * from "./control.ts"
 export * from "./fn.ts"
 export * from "./native.ts"
 export * from "./var.ts"
-export const Bundle = (entry: Expr) => fndefines + entry;
+export const Bundle = (entry: Expr) => entry + fndefines;

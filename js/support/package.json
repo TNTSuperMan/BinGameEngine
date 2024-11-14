@@ -8,9 +8,7 @@
         "vscode": "^1.92.2"
     },
     "main": "./extension.js",
-    "activationEvents": [
-        "*"
-    ],
+    "activationEvents": [],
     "contributes": {
         "languages": [{
             "id": "bge",
@@ -23,5 +21,8 @@
                 "path": "./syntax.json"
             }
         ]
+    },
+    "scripts": {
+        "build": "vsce package"
     }
 }

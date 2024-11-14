@@ -39,7 +39,7 @@ namespace runtime
                     }
                     else
                     {
-                        MessageBox.Show("�t�@�C����I��ł�������");
+                        MessageBox.Show("please select file");
                         Application.Exit();
                     }
                 }
@@ -93,7 +93,7 @@ namespace runtime
             }
             catch (FileNotFoundException)
             {
-                MessageBox.Show("�t�@�C��'" + args[0] + "'�͑��݂��܂���");
+                MessageBox.Show("not found file: '" + args[0] + "'");
                 Application.Exit();
             }
         }
@@ -195,8 +195,8 @@ namespace runtime
             }
             if (debug)
             {
-                if (pc > 0) programListBox.Items[pcbefore] = "�@" + programTexts[pcbefore];
-                programListBox.Items[PC2Line()] = "��" + programTexts[PC2Line()];
+                if (pc > 0) programListBox.Items[pcbefore] = "> " + programTexts[pcbefore];
+                programListBox.Items[PC2Line()] = ">>" + programTexts[PC2Line()];
                 programListBox.TopIndex = PC2Line() - 2;
                 pcbefore = (ushort)PC2Line();
             }

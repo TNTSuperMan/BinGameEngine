@@ -1,10 +1,11 @@
+import genid from "genid.ts";
 import { not } from "./bool.ts";
 import { Expr } from "./native.ts";
 type Exprs = string[]
 export const If = (condition:Expr, trueCode: Exprs, falseCode: Exprs = []):Expr => {
     let ret = condition + "\n";
-    const trueTag = ":"+crypto.randomUUID();
-    const endTag = ":"+crypto.randomUUID();
+    const trueTag = ":"+genid();
+    const endTag = ":"+genid();
 
     ret += `/ ${trueTag} truejump\n`
     ret += falseCode.join("\n");
@@ -18,8 +19,8 @@ export const If = (condition:Expr, trueCode: Exprs, falseCode: Exprs = []):Expr 
 }
 export const While = (condition: Expr, code: Exprs):Expr => {
     let ret = "";
-    const loopTag = ":" + crypto.randomUUID();
-    const endTag = ":" + crypto.randomUUID();
+    const loopTag = ":" + genid();
+    const endTag = ":" + genid();
     ret += loopTag + "\n";
     ret += not(condition) + "/ "+endTag+" truejump\n";
     

@@ -11,7 +11,7 @@
              "patterns": [
                 {
                     "name": "keyword.control",
-                    "match": "[\\s\\t]*\\b(push|pop|cls|pls|sub|mul|div|rem|nand|sin|sqrt|truejump|jump|call|equal|greater|load|store|ret|redraw|pixel|rect|chkkey)\\b"
+                    "match": "[\\s\\t]*\\b(push|pop|cls|add|sub|mul|div|rem|nand|equal|greater|truejump|jump|call|ret|load|store|dumpkey|redraw|rect|graph|sound|io)\\b"
                 },
                 {
                     "name": "entity.name.tag",

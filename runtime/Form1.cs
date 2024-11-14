@@ -61,26 +61,26 @@ namespace runtime
                         {
                             case 0x01: t = "pop"; break;
                             case 0x02: t = "cls"; break;
-                            case 0x03: t = "pls"; break;
+                            case 0x03: t = "add"; break;
                             case 0x04: t = "sub"; break;
                             case 0x05: t = "mul"; break;
                             case 0x06: t = "div"; break;
                             case 0x07: t = "rem"; break;
                             case 0x08: t = "nand"; break;
-                            case 0x09: t = "sin"; break;
-                            case 0x0a: t = "sqrt"; break;
+                            case 0x09: t = "equal"; break;
+                            case 0x0a: t = "greater"; break;
                             case 0x0b: t = "truejump"; break;
                             case 0x0c: t = "jump"; break;
                             case 0x0d: t = "call"; break;
-                            case 0x0e: t = "equal"; break;
-                            case 0x0f: t = "greater"; break;
-                            case 0x10: t = "load"; break;
-                            case 0x11: t = "store"; break;
-                            case 0x12: t = "ret"; break;
-                            case 0x13: t = "redraw"; break;
-                            case 0x14: t = "pixel"; break;
-                            case 0x15: t = "rect"; break;
-                            case 0x16: t = "chkkey"; break;
+                            case 0x0e: t = "ret"; break;
+                            case 0x0f: t = "load"; break;
+                            case 0x10: t = "store"; break;
+                            case 0x11: t = "dumpkey"; break;
+                            case 0x12: t = "redraw"; break;
+                            case 0x13: t = "rect"; break;
+                            case 0x14: t = "graph"; break;
+                            case 0x15: t = "sound"; break;
+                            case 0x16: t = "io"; break;
                         }
                     }
                     programTexts.Add(t);
@@ -208,7 +208,7 @@ namespace runtime
                 case 0x02: //cls
                     stack.Clear();
                     break;
-                case 0x03: //pls
+                case 0x03: //add
                     Push(Pop() + Pop());
                     break;
                 case 0x04: //sub
@@ -229,37 +229,25 @@ namespace runtime
                 case 0x08: //nand
                     Push(~(Pop() & Pop()));
                     break;
-                case 0x09: //truejump
+                case 0x09: //equal
+                    Push((Pop() == Pop()) ? 1 : 0);
+                    break;
+                case 0x0a: //greater
+                    Push((Pop() < Pop() ? 1 : 0));
+                    break;
+                case 0x0b: //truejump
                     ptr = (ushort)(Pop() - 1);
                     if (Pop() != 0) pc = ptr;
                     break;
-                case 0x0a: //jump
+                case 0x0c: //jump
                     pc = (ushort)(Pop() - 1);
                     break;
-                case 0x0b: //call
+                case 0x0d: //call
                     callstack.Add(pc);
                     pc = (ushort)(Pop() - 1);
                     if (debug) callStackListBox.Items.Add(pc);
                     break;
-                case 0x0c: //equal
-                    Push((Pop() == Pop()) ? 1 : 0);
-                    break;
-                case 0x0d: //greater
-                    Push((Pop() < Pop() ? 1 : 0));
-                    break;
-                case 0x0e: //load
-                    Push(memory[Pop()]);
-                    break;
-                case 0x0f: //store
-                    ptr = Pop();
-                    memory[ptr] = Pop();
-                    if (debug)
-                    {
-                        for (int i = 0; i <= (ptr - memoryListBox.Items.Count); i++) memoryListBox.Items.Add(0);
-                        memoryListBox.Items[ptr] = memory[ptr];
-                    }
-                    break;
-                case 0x10: //ret
+                case 0x0e: //ret
                     if (callstack.Count == 0)
                     {
                         End();
@@ -273,11 +261,26 @@ namespace runtime
                         if (debug) callStackListBox.Items.RemoveAt(callStackListBox.Items.Count - 1);
                     }
                     break;
-                case 0x11: //redraw
+                case 0x0f: //load
+                    Push(memory[Pop()]);
+                    break;
+                case 0x10: //store
+                    ptr = Pop();
+                    memory[ptr] = Pop();
+                    if (debug)
+                    {
+                        for (int i = 0; i <= (ptr - memoryListBox.Items.Count); i++) memoryListBox.Items.Add(0);
+                        memoryListBox.Items[ptr] = memory[ptr];
+                    }
+                    break;
+                case 0x11: //dumpkey
+                    Push(keymap[Pop()] ? 1 : 0);
+                    break;
+                case 0x12: //redraw
                     panel1.Invalidate();
                     pc++;
                     return false;;
-                case 0x12: //rect
+                case 0x13: //rect
                     b = Pop();
                     g = Pop();
                     r = Pop();
@@ -286,9 +289,6 @@ namespace runtime
                     y = Pop();
                     x = Pop();
                     graphicsStack.Add(new BGEGraphic(x, y, w, h, r, g, b));
-                    break;
-                case 0x13: //chkkey
-                    Push(keymap[Pop()] ? 1 : 0);
                     break;
             }
             pc++;

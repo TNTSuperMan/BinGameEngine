@@ -2,7 +2,7 @@ import { defvar, Variable } from "./var.ts";
 import { Expr } from "./native.ts";
 import { Exprs } from "./control.ts"
 import genid from "genid.ts";
-let fndefines = "";
+export let fndefines = "";
 
 export const defn = <T extends string[]>(name:string, fn:(...vars:number[])=>Exprs):(...args:T)=>Expr => {
     let vars:Variable[] = [];

@@ -4,8 +4,9 @@ import { Expr } from "./native.ts";
 export type Exprs = string[]
 export const If = (condition:Expr, trueCode: Exprs, falseCode: Exprs = []):Expr => {
     let ret = condition + "\n";
-    const trueTag = ":"+genid();
-    const endTag = ":"+genid();
+    const id = genid();
+    const trueTag = ":if_true"+id;
+    const endTag = ":if_end"+id;
 
     ret += `/ ${trueTag} truejump\n`
     ret += falseCode.join("\n");
@@ -19,8 +20,9 @@ export const If = (condition:Expr, trueCode: Exprs, falseCode: Exprs = []):Expr 
 }
 export const While = (condition: Expr, code: Exprs):Expr => {
     let ret = "";
-    const loopTag = ":" + genid();
-    const endTag = ":" + genid();
+    const id = genid();
+    const loopTag = ":while_loop" + id;
+    const endTag = ":while_end" + id;
     ret += loopTag + "\n";
     ret += not(condition) + "/ "+endTag+" truejump\n";
     

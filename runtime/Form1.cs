@@ -53,7 +53,7 @@ namespace runtime
                     if (bin[i] == 0)
                     {
                         t = "push ";
-                        t += (bin[++i] << 8 | bin[++i]).ToString("x4");
+                        t += bin[++i].ToString("x2");
                     }
                     else
                     {
@@ -206,7 +206,7 @@ namespace runtime
             switch (bin[pc])
             {
                 case 0x00: //push
-                    Push(bin[++pc] << 8 | bin[++pc]);
+                    Push(bin[++pc]);
                     break;
                 case 0x01: //pop
                     stack.RemoveAt(stack.Count - 1);

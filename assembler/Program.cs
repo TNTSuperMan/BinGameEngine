@@ -8,7 +8,7 @@ internal class Program
     {
         if(args.Length != 2)
         {
-            Console.WriteLine("Usage: compiler.exe [Source] [Output]");
+            Console.WriteLine("Usage: assembler.exe [Source] [Output]");
         }
         else
         {

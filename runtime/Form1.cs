@@ -242,15 +242,15 @@ namespace runtime
                     Push(Pop() < Pop() ? 1 : 0);
                     break;
                 case 0x0b: //truejump
-                    ptr = (ushort)(PopAddr() - 1);
+                    ptr = (ushort)(PopAddr());
                     if (Pop() != 0) pc = ptr;
                     break;
                 case 0x0c: //jump
-                    pc = (ushort)(PopAddr() - 1);
+                    pc = (ushort)(PopAddr());
                     break;
                 case 0x0d: //call
                     callstack.Add(pc);
-                    pc = (ushort)(PopAddr() - 1);
+                    pc = (ushort)(PopAddr());
                     if (debug) callStackListBox.Items.Add(pc);
                     break;
                 case 0x0e: //ret
@@ -285,7 +285,7 @@ namespace runtime
                 case 0x12: //redraw
                     panel1.Invalidate();
                     pc++;
-                    return false;;
+                    return false;
                 case 0x13: //rect
                     b = Pop();
                     g = Pop();

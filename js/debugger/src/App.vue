@@ -19,7 +19,7 @@ function load(e){
     filedata.bin = arr
     for(let i = 0;i < arr.length;i++){
       if(arr[i] == 0){
-        filedata.content.push([arr[++i],arr[++i]])
+        filedata.content.push([arr[++i]])
       }else{
         filedata.content.push(arr[i])
       }
@@ -57,7 +57,7 @@ function operator(e){
 function oid2bid(e){
   let bid = 0;
   for(let i = 0;i < e;i++){
-    bid += (Array.isArray(filedata.content[i]) ? 3 : 1)
+    bid += (Array.isArray(filedata.content[i]) ? 2 : 1)
   }
   return bid
 }
@@ -68,7 +68,7 @@ function oid2bid(e){
   <button @click="file.click()">load</button><span>{{ filedata.name }}</span><br>
   16rad:<input type="checkbox" v-model="is16rad">
   <table>
-    <tr><th>idx</th><th>bin1</th><th>bin2</th><th>bin3</th><th>|</th><th>operator</th><th>push</th></tr>
+    <tr><th>idx</th><th>bin1</th><th>bin2</th><th>|</th><th>operator</th><th>push</th></tr>
     <tr v-for="(d,i) in filedata.content">
       <td>{{ 
         oid2bid(i) + 
@@ -81,17 +81,14 @@ function oid2bid(e){
       <td>{{
         !Array.isArray(d) ? "" : d[0] + (is16rad ? "(0x" + d[0].toString(16) + ")" : "")
       }}</td>
-      <td>{{
-        !Array.isArray(d) ? "" : d[1] + (is16rad ? "(0x" + d[1].toString(16) + ")" : "")
-      }}</td>
 
       <td class="empty"></td>
 
       <td>{{ operator(Array.isArray(d) ? 0 : d) }}</td>
 
       <td v-if="Array.isArray(d)">{{
-        d[0] * 256 + d[1] +
-        (is16rad ? "(0x" + (d[0] * 256 + d[1]).toString(16) + ")" : "")
+        d[0] +
+        (is16rad ? "(0x" + d[0].toString(16) + ")" : "")
       }}</td>
     </tr>
   </table>

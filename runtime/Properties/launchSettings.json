@@ -1,8 +1,7 @@
 {
   "profiles": {
     "runtime": {
-      "commandName": "Project",
-      "commandLineArgs": "C:\\Users\\broke\\Program(github)\\BinGameEngine\\debug\\game.bin"
+      "commandName": "Project"
     }
   }
 }

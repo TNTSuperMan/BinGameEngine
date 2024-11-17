@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ソリューション項目", "ソリューション項目", "{3354CA10-D759-4E49-8C7C-2F1E83F2A6AD}"
-	ProjectSection(SolutionItems) = preProject
-		next.bge = next.bge
-		sample.bge = sample.bge
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "runtime", "runtime\runtime.csproj", "{9E84EBEA-BD9B-446C-A986-EDAFCB357058}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "assembler", "assembler\assembler.csproj", "{3D32D330-549F-44EB-8553-6AA833E88965}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ソリューション項目", "ソリューション項目", "{89AA0288-6307-4239-8557-7273E1D346C2}"
+	ProjectSection(SolutionItems) = preProject
+		debug\asm.bge = debug\asm.bge
+		debug\asm.bin = debug\asm.bin
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

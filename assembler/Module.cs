@@ -198,7 +198,7 @@ namespace compiler
                         case "ret":     ret.Add(new(BGEOperator.ret)); break;
                         case "load":    ret.Add(new(BGEOperator.load)); break;
                         case "store":   ret.Add(new(BGEOperator.store)); break;
-                        case "dumpkey":  ret.Add(new(BGEOperator.dumpkey)); break;
+                        case "dumpkey": ret.Add(new(BGEOperator.dumpkey)); break;
                         case "redraw":  ret.Add(new(BGEOperator.redraw)); break;
                         case "rect":    ret.Add(new(BGEOperator.rect)); break;
                         case "graph":   ret.Add(new(BGEOperator.graph)); break;
@@ -248,7 +248,7 @@ namespace compiler
         {
             get
             {
-                return (uint)(_operator == BGEOperator.push ? 2 : 1);
+                return (uint)((_operator == BGEOperator.push) ? 2 : 1);
             }
         }
         public BGEData()
@@ -269,7 +269,7 @@ namespace compiler
         {
             get
             {
-                byte[] ret = new byte[_operator == BGEOperator.push ? 2 : 1];
+                byte[] ret = new byte[length];
 
                 ret[0] = (byte)_operator;
                 if (_pushdata != null)

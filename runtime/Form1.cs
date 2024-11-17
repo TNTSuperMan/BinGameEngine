@@ -196,7 +196,7 @@ namespace runtime
             if (debug)
             {
                 if (pc > 0) programListBox.Items[pcbefore] = "< " + programTexts[pcbefore];
-                programListBox.Items[PC2Line()] = "> " + programTexts[PC2Line()];
+                programListBox.Items[PC2Line()] = "@ " + programTexts[PC2Line()];
                 programListBox.TopIndex = PC2Line() - 2;
                 pcbefore = (ushort)PC2Line();
             }

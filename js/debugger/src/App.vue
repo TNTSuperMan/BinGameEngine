@@ -32,26 +32,31 @@ function operator(e){
     case 0x00: return "push";
     case 0x01: return "pop";
     case 0x02: return "cls";
-    case 0x03: return "pls";
+
+    case 0x03: return "add";
     case 0x04: return "sub";
     case 0x05: return "mul";
     case 0x06: return "div";
     case 0x07: return "rem";
     case 0x08: return "nand";
-    case 0x09: return "sin";
-    case 0x0a: return "sqrt";
+    case 0x09: return "equal";
+    case 0x0a: return "greater";
+
     case 0x0b: return "truejump";
     case 0x0c: return "jump";
     case 0x0d: return "call";
-    case 0x0e: return "equal";
-    case 0x0f: return "greater";
-    case 0x10: return "load";
-    case 0x11: return "store";
-    case 0x12: return "ret";
-    case 0x13: return "redraw";
-    case 0x14: return "pixel";
-    case 0x15: return "rect";
-    case 0x16: return "chkkey";
+    case 0x0e: return "ret";
+
+    case 0x0f: return "load";
+    case 0x10: return "store";
+
+    case 0x11: return "dumpkey";
+
+    case 0x12: return "redraw";
+    case 0x13: return "rect";
+    case 0x14: return "graph";
+    case 0x15: return "sound";
+    case 0x16: return "io";
   }
 }
 function oid2bid(e){

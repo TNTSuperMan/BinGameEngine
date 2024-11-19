@@ -8,13 +8,13 @@ internal class Program
     {
         if(args.Length != 2)
         {
-            Console.WriteLine("Usage: assembler.exe [Source] [Output]");
+            Console.WriteLine("使用法: assembler.exe [ソース] [出力]");
         }
         else
         {
             try
             {
-                Console.WriteLine("--- Resolve Tags and Tokenize");
+                Console.WriteLine("--- タグ・構文の解析");
                 List<string> impstack = new List<string>();
                 List<string> imported = new List<string>();
                 List<Module> modules = new List<Module>();
@@ -47,7 +47,7 @@ internal class Program
                     }
                 }
 
-                Console.WriteLine("--- Compile");
+                Console.WriteLine("--- コンパイル");
                 List<byte> ret = new List<byte>();
                 foreach(Module m in modules)
                 {
@@ -56,6 +56,7 @@ internal class Program
                     foreach (byte b in d) ret.Add(b);
                 }
                 File.WriteAllBytes(args[1], ret.ToArray());
+                Console.WriteLine("\n正常に\"" + args[1] + "\"に出力されました。");
                 return;
             }
             catch (BGEException ex)

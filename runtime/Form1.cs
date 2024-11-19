@@ -81,6 +81,7 @@ namespace runtime
                             case 0x14: t = "graph"; break;
                             case 0x15: t = "sound"; break;
                             case 0x16: t = "io"; break;
+                            default: t = "Undefined"; break;
                         }
                     }
                     programTexts.Add(t);
@@ -275,7 +276,7 @@ namespace runtime
                     memory[ptr] = Pop();
                     if (debug)
                     {
-                        for (int i = 0; i <= (ptr - memoryListBox.Items.Count); i++) memoryListBox.Items.Add(0);
+                        for (int i = 0; i <= (ptr+1 - memoryListBox.Items.Count); i++) memoryListBox.Items.Add(0);
                         memoryListBox.Items[ptr] = memory[ptr];
                     }
                     break;

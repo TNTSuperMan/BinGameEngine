@@ -1,5 +1,4 @@
-﻿using System.Runtime.ConstrainedExecution;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace compiler
 {
@@ -63,11 +62,14 @@ namespace compiler
                         break;
                     case '!':
                         string name = line.Substring(1);
-                        int idx = jumpTagName.FindIndex(e=>e==name);
-                        if(idx == -1){
-                            Console.WriteLine("[Tag]Err: not found var: "+name);
-                        }else{
-                            Console.WriteLine("[Tag]'"+name+"' at "+jumpTagPoint[idx]);
+                        int idx = jumpTagName.FindIndex(e => e == name);
+                        if (idx == -1)
+                        {
+                            Console.WriteLine("[Tag]Err: not found var: " + name);
+                        }
+                        else
+                        {
+                            Console.WriteLine("[Tag]'" + name + "' at " + jumpTagPoint[idx]);
                         }
                         break;
                 }
@@ -142,6 +144,7 @@ namespace compiler
                     if (exportedTagName == null || exportedTagPoint == null)
                     {
                         ret.Add(new((char)0));
+                        ret.Add(new((char)0));
                     }
                     else
                     {
@@ -157,10 +160,11 @@ namespace compiler
                         }
                     }
                 }
-                else if (Regex.IsMatch(text, "^\\\\.+"))
+                else if (Regex.IsMatch(text, @"^\\.+"))
                 {
                     if (exportedTagName == null || exportedTagPoint == null)
                     {
+                        ret.Add(new((char)0));
                         ret.Add(new((char)0));
                     }
                     else

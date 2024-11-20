@@ -104,7 +104,7 @@ namespace runtime
             for (uint i = 0; i < pc; i++)
             {
                 res++;
-                if (bin[i] == 0) i += 2;
+                if (bin[i] == 0) i += 1;
             }
             return res;
         }
@@ -243,15 +243,15 @@ namespace runtime
                     Push(Pop() < Pop() ? 1 : 0);
                     break;
                 case 0x0b: //truejump
-                    ptr = (ushort)(PopAddr());
+                    ptr = (ushort)(PopAddr()-1);
                     if (Pop() != 0) pc = ptr;
                     break;
                 case 0x0c: //jump
-                    pc = (ushort)(PopAddr());
+                    pc = (ushort)(PopAddr()-1);
                     break;
                 case 0x0d: //call
                     callstack.Add(pc);
-                    pc = (ushort)(PopAddr());
+                    pc = (ushort)(PopAddr()-1);
                     if (debug) callStackListBox.Items.Add(pc);
                     break;
                 case 0x0e: //ret

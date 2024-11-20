@@ -11,11 +11,11 @@ export const varaddr = (a:Variable):Expr=>{
     return t + "\n";
 }
 export const vr =(a:Variable)=>varaddr(a)+"/ load\n";
-let i:Variable = 0;
+let i:Variable = 0xa000;
 
 export type Variable = number;
 export const defvar = ():Variable => {
-    if(i >= (5 * 4096)-1){
+    if(i >= 0xffff){
         throw new RangeError("Too many vars")
     }else{
         return i++;

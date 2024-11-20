@@ -201,9 +201,9 @@ namespace runtime
                 programListBox.TopIndex = PC2Line() - 2;
                 pcbefore = (ushort)PC2Line();
             }
-            ushort m1;
+            char m1;
             ushort ptr;
-            ushort x, y, w, h, r, g, b;
+            char x, y, w, h, r, g, b;
             switch (bin[pc])
             {
                 case 0x00: //push

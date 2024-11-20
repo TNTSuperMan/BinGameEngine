@@ -277,7 +277,7 @@ namespace runtime
                     if (debug)
                     {
                         for (int i = 0; i <= (ptr+1 - memoryListBox.Items.Count); i++) memoryListBox.Items.Add(0);
-                        memoryListBox.Items[ptr] = memory[ptr];
+                        memoryListBox.Items[ptr] = (int)memory[ptr];
                     }
                     break;
                 case 0x11: //dumpkey

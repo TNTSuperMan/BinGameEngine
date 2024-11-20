@@ -8,7 +8,7 @@ namespace runtime
         byte[] bin = [];
         List<char> stack = new List<char>();
         List<ushort> callstack = new List<ushort>();
-        char[] memory = new char[0x4000];
+        char[] memory = new char[0x6000];
         List<string> programTexts = new List<string>();
         List<BGEGraphic> graphicsStack = new List<BGEGraphic>();
         bool[] keymap = new bool[0x2b];

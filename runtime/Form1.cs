@@ -11,6 +11,7 @@ namespace runtime
         byte[] memory = new byte[0x6000];
         List<string> programTexts = new List<string>();
         List<BGEGraphic> graphicsStack = new List<BGEGraphic>();
+
         bool[] keymap = new bool[0x2b];
         bool debug = true;
         private void DoubleBuffer(Control c)
@@ -221,7 +222,7 @@ namespace runtime
             }
             byte m1;
             ushort ptr;
-            byte x, y, w, h, r, g, b;
+            byte x, y, w, h, c;
             switch (LoadMem(pc))
             {
                 case 0x00: //push
@@ -307,14 +308,12 @@ namespace runtime
                     pc++;
                     return false;
                 case 0x13: //rect
-                    b = Pop();
-                    g = Pop();
-                    r = Pop();
+                    c = Pop();
                     h = Pop();
                     w = Pop();
                     y = Pop();
                     x = Pop();
-                    graphicsStack.Add(new BGEGraphic(x, y, w, h, r, g, b));
+                    graphicsStack.Add(new BGEGraphic(x, y, w, h, c));
                     break;
             }
             pc++;
@@ -408,29 +407,19 @@ namespace runtime
         public ushort r;
         public ushort g;
         public ushort b;
-        public BGEGraphic(ushort x, ushort y, ushort r, ushort g, ushort b)
+        public BGEGraphic(ushort x, ushort y, ushort w, ushort h, ushort c)
         {
             this.x = x;
             this.y = y;
-            this.r = r;
-            this.g = g;
-            this.b = b;
-            width = 1;
-            height = 1;
-        }
-        public BGEGraphic(ushort x, ushort y, ushort w, ushort h, ushort r, ushort g, ushort b)
-        {
-            this.x = x;
-            this.y = y;
-            this.r = r;
-            this.g = g;
-            this.b = b;
+            r = (ushort)(((c & 0b00110000) >> 4) * 64);
+            g = (ushort)(((c & 0b00001100) >> 2) * 64);
+            b = (ushort)(((c & 0b00000011) >> 0) * 64);
             width = w;
             height = h;
         }
-        public void Draw(Graphics g)
+        public void Draw(Graphics graph)
         {
-            g.FillRectangle(new SolidBrush(Color.FromArgb(r, this.g, b)), x, y, width, height);
+            graph.FillRectangle(new SolidBrush(Color.FromArgb(r, g, b)), x, y, width, height);
         }
     }
 }

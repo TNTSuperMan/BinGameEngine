@@ -6,9 +6,9 @@ namespace runtime
         ushort pc = 0;
         ushort pcbefore = 0;
         byte[] bin = [];
-        List<char> stack = new List<char>();
+        List<byte> stack = new List<byte>();
         List<ushort> callstack = new List<ushort>();
-        char[] memory = new char[0x6000];
+        byte[] memory = new byte[0x6000];
         List<string> programTexts = new List<string>();
         List<BGEGraphic> graphicsStack = new List<BGEGraphic>();
         bool[] keymap = new bool[0x2b];
@@ -158,33 +158,33 @@ namespace runtime
                 default: return int.MaxValue;
             }
         }
-        private char Pop()
+        private byte Pop()
         {
             if (stack.Count == 0)
             {
                 End();
                 stateText.Text = "Stack underflow";
-                return '\0';
+                return 0;
             }
-            char d = stack.Last();
+            byte d = stack.Last();
             stack.RemoveAt(stack.Count - 1);
             if (debug) stackListBox.Items.RemoveAt(stackListBox.Items.Count - 1);
             return d;
         }
-        private void Push(char d)
+        private void Push(byte d)
         {
             stack.Add(d);
             if (debug) stackListBox.Items.Add((int)d);
         }
         private void Push(int d)
         {
-            stack.Add((char)d);
+            stack.Add((byte)d);
             if (debug) stackListBox.Items.Add(d);
         }
         private ushort PopAddr()
         {
-            char bottom = Pop();
-            char upside = Pop();
+            byte bottom = Pop();
+            byte upside = Pop();
             return (ushort)((upside << 8) | bottom);
         }
         private bool Next()
@@ -201,9 +201,9 @@ namespace runtime
                 programListBox.TopIndex = PC2Line() - 2;
                 pcbefore = (ushort)PC2Line();
             }
-            char m1;
+            byte m1;
             ushort ptr;
-            char x, y, w, h, r, g, b;
+            byte x, y, w, h, r, g, b;
             switch (bin[pc])
             {
                 case 0x00: //push
@@ -317,7 +317,7 @@ namespace runtime
             fasterCheck.Enabled = false;
             if (debug) nextBtn.Enabled = true;
             for (int i = 0; i < keymap.Length; i++) keymap[i] = false;
-            for (int i = 0; i < memory.Length; i++) memory[i] = '\0';
+            for (int i = 0; i < memory.Length; i++) memory[i] = 0;
             clock.Start();
         }
         private void End()

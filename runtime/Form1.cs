@@ -292,8 +292,9 @@ namespace runtime
                 case 0x10: //store
                     ptr = PopAddr();
                     StoreMem(ptr, Pop());
-                    if (debug)
+                    if (debug && ptr >= 0xa000)
                     {
+                        ptr -= 0xa000;
                         for (int i = 0; i <= (ptr+1 - memoryListBox.Items.Count); i++) memoryListBox.Items.Add(0);
                         memoryListBox.Items[ptr] = (int)memory[ptr];
                     }

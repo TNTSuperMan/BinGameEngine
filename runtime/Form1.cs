@@ -187,6 +187,24 @@ namespace runtime
             byte upside = Pop();
             return (ushort)((upside << 8) | bottom);
         }
+        private byte Load(ushort addr)
+        {
+            if(addr < 0xa000)
+            {
+                return bin[addr];
+            }
+            else
+            {
+                return memory[addr - 0xa000];
+            }
+        }
+        private void Store(ushort addr, byte value)
+        {
+            if(addr >= 0xa000)
+            {
+                memory[addr - 0xa000] = value;
+            }
+        }
         private bool Next()
         {
             if (pc >= bin.Length || programTexts.Count <= PC2Line())
@@ -204,7 +222,7 @@ namespace runtime
             byte m1;
             ushort ptr;
             byte x, y, w, h, r, g, b;
-            switch (bin[pc])
+            switch (Load(pc))
             {
                 case 0x00: //push
                     Push(bin[++pc]);
@@ -269,11 +287,11 @@ namespace runtime
                     }
                     break;
                 case 0x0f: //load
-                    Push(memory[PopAddr()]);
+                    Push(Load(PopAddr()));
                     break;
                 case 0x10: //store
                     ptr = PopAddr();
-                    memory[ptr] = Pop();
+                    Store(ptr, Pop());
                     if (debug)
                     {
                         for (int i = 0; i <= (ptr+1 - memoryListBox.Items.Count); i++) memoryListBox.Items.Add(0);

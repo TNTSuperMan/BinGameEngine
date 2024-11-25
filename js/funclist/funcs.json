@@ -26,5 +26,6 @@
     "rect":["x","y","w","h","色"],
     "graph":["ID","x","y"],
     "sound":["ID"],
+    "stopsound":[],
     "io": ["種類"]
 }

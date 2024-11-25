@@ -3,7 +3,7 @@
     public partial class Runtime
     {
         delegate int Operate(byte b, byte a);
-        enum Commands: byte
+        enum Command: byte
         {
             push,pop,cls,
             add,sub,mul,div,rem,nand,equal,greater,
@@ -16,7 +16,7 @@
         }
         public void EmulateFrame()
         {
-            while (Memory[pc] != (byte)Commands.redraw)
+            while (Memory[pc] != (byte)Command.redraw)
                 EmulateNext();
         }
         public void EmulateNext()
@@ -24,56 +24,56 @@
             var StackOperate = (Operate op) =>
                 stack.push((byte)(op(stack.pop(), stack.pop())));
             ushort addr;
-            switch ((Commands)Memory[pc])
+            switch ((Command)Memory[pc])
             {
-                case Commands.push:
+                case Command.push:
                     stack.push(Memory[++pc]);
                     break;
-                case Commands.pop:
+                case Command.pop:
                     stack.pop();
                     break;
-                case Commands.cls:
+                case Command.cls:
                     stack.clear();
                     break;
-                case Commands.add:
+                case Command.add:
                     StackOperate((b, a) => a + b);
                     break;
-                case Commands.sub:
+                case Command.sub:
                     StackOperate((b, a) => a - b);
                     break;
-                case Commands.mul:
+                case Command.mul:
                     StackOperate((b, a) => a * b);
                     break;
-                case Commands.div:
+                case Command.div:
                     StackOperate((b, a) => a / b);
                     break;
-                case Commands.rem:
+                case Command.rem:
                     StackOperate((b, a) => a & b);
                     break;
-                case Commands.nand:
+                case Command.nand:
                     StackOperate((b, a) => ~(a&b));
                     break;
-                case Commands.greater:
+                case Command.greater:
                     StackOperate((b, a) => a>b ? 1:0);
                     break;
-                case Commands.equal:
+                case Command.equal:
                     StackOperate((b, a) => a == b ? 1:0);
                     break;
-                case Commands.truejump:
+                case Command.truejump:
                     addr = stack.popAddr();
                     if (stack.pop() != 0)
                     {
                         pc = addr;
                     }
                     break;
-                case Commands.jump:
+                case Command.jump:
                     pc = stack.popAddr();
                     break;
-                case Commands.call:
+                case Command.call:
                     callstack.Add(pc);
                     pc = stack.popAddr();
                     break;
-                case Commands.ret:
+                case Command.ret:
                     if(callstack.Count == 0)
                     {
                         onEnd();
@@ -85,20 +85,31 @@
                         pc = addr;
                     }
                     break;
-                case Commands.load:
+                case Command.load:
                     stack.push(Memory[stack.popAddr()]);
                     break;
-                case Commands.store:
+                case Command.store:
                     Memory[stack.popAddr()] = stack.pop();
                     break;
-                case Commands.dumpkey:
+                case Command.dumpkey:
                     stack.push(getKeyState());
                     break;
-                case Commands.redraw:
+                case Command.redraw:
                     onRedraw(graphicsStack.ToArray());
                     graphicsStack.Clear();
                     break;
-                case Commands.rect:
+                case Command.rect:
+                    break;
+            }
+            //PC
+            switch ((Command)Memory[pc])
+            {
+                case Command.truejump:
+                case Command.jump:
+                case Command.call:
+                    break;
+                default:
+                    pc++;
                     break;
             }
         }

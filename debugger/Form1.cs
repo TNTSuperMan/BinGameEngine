@@ -17,7 +17,7 @@ namespace debugger
             c.GetType().InvokeMember("DoubleBuffered",
                 BindingFlags.NonPublic |
                 BindingFlags.Instance |
-                BindingFlags.SetProperty, null, c, new object[] { true });
+                BindingFlags.SetProperty, null, c, [true]);
         }
         public Form1(string[] args)
         {
@@ -80,7 +80,8 @@ namespace debugger
                             case 0x13: t = "rect"; break;
                             case 0x14: t = "graph"; break;
                             case 0x15: t = "sound"; break;
-                            case 0x16: t = "io"; break;
+                            case 0x16: t = "stopsound"; break;
+                            case 0x17: t = "io"; break;
                             default: t = "Undefined"; break;
                         }
                     }
@@ -177,10 +178,8 @@ namespace debugger
         private void Draw(object sender, PaintEventArgs e)
         {
             foreach (var d in graphicsStack)
-            {
                 if(d.isDraw)
                     e.Graphics.FillRectangle(new SolidBrush(d.color), d.X, d.Y, d.Width, d.Height);
-            }
             graphicsStack = [];
             return;
         }
@@ -199,30 +198,6 @@ namespace debugger
         private void memoryEditor_ValueChanged(object sender, EventArgs e)
         {
             memoryListBox.SelectedIndex = (int)memoryEditor.Value;
-        }
-    }
-    public class BGEGraphic
-    {
-        public ushort width;
-        public ushort height;
-        public ushort x;
-        public ushort y;
-        public ushort r;
-        public ushort g;
-        public ushort b;
-        public BGEGraphic(ushort x, ushort y, ushort w, ushort h, ushort c)
-        {
-            this.x = x;
-            this.y = y;
-            r = (ushort)(((c & 0b00110000) >> 4) * 64);
-            g = (ushort)(((c & 0b00001100) >> 2) * 64);
-            b = (ushort)(((c & 0b00000011) >> 0) * 64);
-            width = w;
-            height = h;
-        }
-        public void Draw(Graphics graph)
-        {
-            graph.FillRectangle(new SolidBrush(Color.FromArgb(r, g, b)), x, y, width, height);
         }
     }
 }

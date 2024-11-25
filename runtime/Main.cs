@@ -15,6 +15,7 @@
         }
 
         private ushort pc = 0;
+        public ushort ProgramCounter => pc;
 
         public Runtime(byte[] rom)
         {

@@ -2,20 +2,23 @@
 {
     internal class Stack
     {
-        private List<byte> stack = new();
+        public List<byte> StackList
+        {
+            get; private set;
+        } = new();
         public byte pop()
         {
-            byte ret = stack.Last();
-            stack.RemoveAt(stack.Count - 1);
+            byte ret = StackList.Last();
+            StackList.RemoveAt(StackList.Count - 1);
             return ret;
         }
-        public void push(byte data) => stack.Add(data);
+        public void push(byte data) => StackList.Add(data);
         public ushort popAddr()
         {
             byte bottom = pop();
             byte top = pop();
             return (ushort)((top << 8) | bottom);
         }
-        public void clear() => stack.Clear();
+        public void clear() => StackList.Clear();
     }
 }

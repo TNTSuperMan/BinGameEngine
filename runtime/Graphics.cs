@@ -35,6 +35,6 @@ namespace runtime
     }
     public partial class Runtime
     {
-        private List<Graphic> graphicsStack;
+        private List<Graphic> graphicsStack = new();
     }
 }

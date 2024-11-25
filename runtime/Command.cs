@@ -85,6 +85,12 @@
                         pc = addr;
                     }
                     break;
+                case Commands.load:
+                    stack.push(memory[stack.popAddr()]);
+                    break;
+                case Commands.store:
+                    memory[stack.popAddr()] = stack.pop();
+                    break;
             }
         }
     }

@@ -2,10 +2,13 @@
 {
     public partial class Runtime
     {
-        private List<ushort> callstack = new();
+        public List<ushort> callstack
+        {
+            get; private set;
+        } = new();
         private Stack stack = new();
         private Memory _memory;
-        private byte[] memory
+        public byte[] Memory
         {
             get { return _memory.Value; }
             set { _memory.Value = value; }
@@ -17,5 +20,6 @@
         {
             _memory = new Memory(rom);
         }
+        public List<byte> DebugStack => stack.StackList;
     }
 }

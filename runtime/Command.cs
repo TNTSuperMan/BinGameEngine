@@ -16,7 +16,7 @@
         }
         public void EmulateFrame()
         {
-            while (memory[pc] != (byte)Commands.redraw)
+            while (Memory[pc] != (byte)Commands.redraw)
                 EmulateNext();
         }
         public void EmulateNext()
@@ -24,10 +24,10 @@
             var StackOperate = (Operate op) =>
                 stack.push((byte)(op(stack.pop(), stack.pop())));
             ushort addr;
-            switch ((Commands)memory[pc])
+            switch ((Commands)Memory[pc])
             {
                 case Commands.push:
-                    stack.push(memory[++pc]);
+                    stack.push(Memory[++pc]);
                     break;
                 case Commands.pop:
                     stack.pop();
@@ -86,10 +86,10 @@
                     }
                     break;
                 case Commands.load:
-                    stack.push(memory[stack.popAddr()]);
+                    stack.push(Memory[stack.popAddr()]);
                     break;
                 case Commands.store:
-                    memory[stack.popAddr()] = stack.pop();
+                    Memory[stack.popAddr()] = stack.pop();
                     break;
                 case Commands.dumpkey:
                     stack.push(getKeyState());

@@ -10,7 +10,7 @@
             return ret;
         }
         public void push(byte data) => stack.Add(data);
-        public ushort PopAddr()
+        public ushort popAddr()
         {
             byte bottom = pop();
             byte top = pop();

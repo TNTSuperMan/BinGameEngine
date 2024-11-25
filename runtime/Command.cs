@@ -22,7 +22,12 @@ namespace runtime
         }
         public void EmulateNext()
         {
-
+            switch ((Commands)memory[pc])
+            {
+                case Commands.push:
+                    stack.push(memory[++pc]);
+                    break;
+            }
         }
     }
 }

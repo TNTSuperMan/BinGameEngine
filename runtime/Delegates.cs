@@ -1,6 +1,6 @@
 ﻿namespace runtime
 {
-    public delegate void Redraw();
+    public delegate void Redraw(Graphic[] g);
     public delegate byte GetKeyState();
     public delegate void Save(byte[] data);
     public delegate byte[] Load();
@@ -10,7 +10,7 @@
 
     public partial class Runtime
     {
-        public Redraw      onRedraw    = ()=>{};
+        public Redraw      onRedraw    = (Graphic[] g)=>{};
         public GetKeyState getKeyState = ()=>0;
         public Save        onSave      = (byte[] data)=>{};
         public Load        onLoad      = ()=>new byte[0x1000];

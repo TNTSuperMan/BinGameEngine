@@ -95,7 +95,8 @@
                     stack.push(getKeyState());
                     break;
                 case Commands.redraw:
-                    onRedraw();
+                    onRedraw(graphicsStack.ToArray());
+                    graphicsStack.Clear();
                     break;
                 case Commands.rect:
                     break;

@@ -33,4 +33,8 @@ namespace runtime
             Y = y;
         }
     }
+    public partial class Runtime
+    {
+        private List<Graphic> graphicsStack;
+    }
 }

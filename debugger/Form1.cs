@@ -136,7 +136,7 @@ namespace debugger
             
             pc = vm.ProgramCounter;
             memoryListBox.Items.Clear();
-            for (int i = (int)memoryPos.Value; i < 10 && i < vm.Memory.Length; i++)
+            for (int i = (int)memoryPos.Value; i < (int)memoryPos.Value+23 && i < vm.Memory.Length; i++)
                 memoryListBox.Items.Add(vm.Memory[i]);
             return;
         }

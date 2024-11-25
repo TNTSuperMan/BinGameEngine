@@ -132,7 +132,7 @@
             // 
             memoryListBox.FormattingEnabled = true;
             memoryListBox.ItemHeight = 15;
-            memoryListBox.Items.AddRange(new object[] { "65535", "65535", "0", "0", "0" });
+            memoryListBox.Items.AddRange(new object[] { "65535", "65535", "0", "0", "0", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" });
             memoryListBox.Location = new Point(6, 52);
             memoryListBox.Name = "memoryListBox";
             memoryListBox.Size = new Size(55, 349);

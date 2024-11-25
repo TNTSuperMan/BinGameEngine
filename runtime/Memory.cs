@@ -1,6 +1,6 @@
 ﻿namespace bgeruntime
 {
-    public class Memory
+    internal class Memory
     {
         private readonly byte[] rom = new byte[0xa000];
         private byte[] ram = new byte[0x6000];

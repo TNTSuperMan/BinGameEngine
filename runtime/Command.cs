@@ -65,6 +65,10 @@
                     {
                         pc = addr;
                     }
+                    else
+                    {
+                        pc++;
+                    }
                     return;
                 case Command.jump:
                     pc = stack.popAddr();

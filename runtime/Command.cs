@@ -91,6 +91,14 @@
                 case Commands.store:
                     memory[stack.popAddr()] = stack.pop();
                     break;
+                case Commands.dumpkey:
+                    stack.push(getKeyState());
+                    break;
+                case Commands.redraw:
+                    onRedraw();
+                    break;
+                case Commands.rect:
+                    break;
             }
         }
     }

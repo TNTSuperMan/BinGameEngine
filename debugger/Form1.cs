@@ -134,10 +134,13 @@ namespace debugger
                 stateText.Text = e.Message;
             }
             
-            pc = vm.ProgramCounter;
+            pc = vm.debug.PC;
+            stackListBox.Items.Clear();
+            foreach (var stack in vm.debug.StackList)
+                stackListBox.Items.Add(stack);
             memoryListBox.Items.Clear();
-            for (int i = (int)memoryPos.Value; i < (int)memoryPos.Value+23 && i < vm.Memory.Length; i++)
-                memoryListBox.Items.Add(vm.Memory[i]);
+            for (int i = (int)memoryPos.Value; i < (int)memoryPos.Value+23 && i < ushort.MaxValue; i++)
+                memoryListBox.Items.Add(vm.debug.Load((ushort)i));
             return;
         }
         private void Start(object sender, EventArgs e)

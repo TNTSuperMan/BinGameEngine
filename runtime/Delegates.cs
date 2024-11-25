@@ -15,11 +15,11 @@ namespace runtime
 
     public partial class Runtime
     {
-        public Redraw onRedraw;
-        public GetKeyState onKeyState;
-        public Save onSave;
-        public Load onLoad;
-        public Sound onSound;
-        public StopSound onStopSound;
+        public Redraw      onRedraw    = ()=>{};
+        public GetKeyState getKeyState = ()=>0;
+        public Save        onSave      = (byte[] data)=>{};
+        public Load        onLoad      = ()=>new byte[0x1000];
+        public Sound       onSound     = (byte hz, byte len)=>{};
+        public StopSound   onStopSound = ()=>{};
     }
 }

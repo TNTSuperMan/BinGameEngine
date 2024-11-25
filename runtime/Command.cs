@@ -65,14 +65,14 @@
                     {
                         pc = addr;
                     }
-                    break;
+                    return;
                 case Command.jump:
                     pc = stack.popAddr();
-                    break;
+                    return;
                 case Command.call:
                     callstack.Add(pc);
                     pc = stack.popAddr();
-                    break;
+                    return;
                 case Command.ret:
                     if(callstack.Count == 0)
                     {
@@ -101,17 +101,7 @@
                 case Command.rect:
                     break;
             }
-            //PC
-            switch ((Command)Memory[pc])
-            {
-                case Command.truejump:
-                case Command.jump:
-                case Command.call:
-                    break;
-                default:
-                    pc++;
-                    break;
-            }
+            pc++;
         }
     }
 }

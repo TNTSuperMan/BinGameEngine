@@ -2,7 +2,7 @@
 {
     public partial class Runtime
     {
-        delegate int operate(byte b, byte a);
+        delegate int Operate(byte b, byte a);
         enum Commands: byte
         {
             push,pop,cls,
@@ -21,7 +21,7 @@
         }
         public void EmulateNext()
         {
-            var StackOperate = (operate op) =>
+            var StackOperate = (Operate op) =>
                 stack.push((byte)(op(stack.pop(), stack.pop())));
             ushort addr;
             switch ((Commands)memory[pc])

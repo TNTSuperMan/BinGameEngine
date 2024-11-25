@@ -1,4 +1,4 @@
-﻿namespace runtime
+﻿namespace debugger
 {
     partial class Form1
     {

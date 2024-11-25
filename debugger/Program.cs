@@ -1,4 +1,4 @@
-namespace runtime
+namespace debugger
 {
     internal static class Program
     {

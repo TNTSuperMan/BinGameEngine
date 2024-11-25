@@ -1,5 +1,5 @@
 using System.Reflection;
-namespace runtime
+namespace debugger
 {
     public partial class Form1 : Form
     {

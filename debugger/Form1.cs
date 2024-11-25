@@ -211,9 +211,5 @@ namespace debugger
             }
         }
         private void NextBtnClicked(object sender, EventArgs e) => Next();
-        private void memoryEditor_ValueChanged(object sender, EventArgs e)
-        {
-            memoryListBox.SelectedIndex = (int)memoryPos.Value;
-        }
     }
 }

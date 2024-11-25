@@ -126,7 +126,6 @@
             memoryPos.Size = new Size(55, 23);
             memoryPos.TabIndex = 7;
             memoryPos.Value = new decimal(new int[] { 40960, 0, 0, 0 });
-            memoryPos.ValueChanged += memoryEditor_ValueChanged;
             // 
             // memoryListBox
             // 

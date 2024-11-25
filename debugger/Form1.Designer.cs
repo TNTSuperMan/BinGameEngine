@@ -284,8 +284,6 @@
             MinimumSize = new Size(647, 477);
             Name = "Form1";
             Text = "BGERuntime";
-            KeyDown += KeyDownEvent;
-            KeyUp += KeyUpEvent;
             groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)stackEditor).EndInit();
             groupBox2.ResumeLayout(false);

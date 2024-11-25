@@ -32,11 +32,10 @@
             panel1 = new Panel();
             stackListBox = new ListBox();
             groupBox1 = new GroupBox();
-            stackEditor = new NumericUpDown();
             groupBox2 = new GroupBox();
             callStackListBox = new ListBox();
             groupBox3 = new GroupBox();
-            memoryEditor = new NumericUpDown();
+            memoryPos = new NumericUpDown();
             memoryListBox = new ListBox();
             groupBox4 = new GroupBox();
             programListBox = new ListBox();
@@ -51,10 +50,9 @@
             nextBtn = new Button();
             fasterCheck = new CheckBox();
             groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)stackEditor).BeginInit();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)memoryEditor).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)memoryPos).BeginInit();
             groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)tickNum).BeginInit();
             SuspendLayout();
@@ -74,14 +72,13 @@
             stackListBox.FormattingEnabled = true;
             stackListBox.ItemHeight = 15;
             stackListBox.Items.AddRange(new object[] { "65535", "65535", "0", "0", "0" });
-            stackListBox.Location = new Point(6, 52);
+            stackListBox.Location = new Point(6, 22);
             stackListBox.Name = "stackListBox";
-            stackListBox.Size = new Size(55, 349);
+            stackListBox.Size = new Size(55, 379);
             stackListBox.TabIndex = 1;
             // 
             // groupBox1
             // 
-            groupBox1.Controls.Add(stackEditor);
             groupBox1.Controls.Add(stackListBox);
             groupBox1.Location = new Point(274, 12);
             groupBox1.Name = "groupBox1";
@@ -89,15 +86,6 @@
             groupBox1.TabIndex = 2;
             groupBox1.TabStop = false;
             groupBox1.Text = "Stack";
-            // 
-            // stackEditor
-            // 
-            stackEditor.Location = new Point(6, 20);
-            stackEditor.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
-            stackEditor.Name = "stackEditor";
-            stackEditor.Size = new Size(55, 23);
-            stackEditor.TabIndex = 6;
-            stackEditor.Value = new decimal(new int[] { 65535, 0, 0, 0 });
             // 
             // groupBox2
             // 
@@ -121,7 +109,7 @@
             // 
             // groupBox3
             // 
-            groupBox3.Controls.Add(memoryEditor);
+            groupBox3.Controls.Add(memoryPos);
             groupBox3.Controls.Add(memoryListBox);
             groupBox3.Location = new Point(437, 12);
             groupBox3.Name = "groupBox3";
@@ -130,15 +118,15 @@
             groupBox3.TabStop = false;
             groupBox3.Text = "Memory";
             // 
-            // memoryEditor
+            // memoryPos
             // 
-            memoryEditor.Location = new Point(6, 22);
-            memoryEditor.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
-            memoryEditor.Name = "memoryEditor";
-            memoryEditor.Size = new Size(55, 23);
-            memoryEditor.TabIndex = 7;
-            memoryEditor.Value = new decimal(new int[] { 65535, 0, 0, 0 });
-            memoryEditor.ValueChanged += memoryEditor_ValueChanged;
+            memoryPos.Location = new Point(6, 22);
+            memoryPos.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
+            memoryPos.Name = "memoryPos";
+            memoryPos.Size = new Size(55, 23);
+            memoryPos.TabIndex = 7;
+            memoryPos.Value = new decimal(new int[] { 40960, 0, 0, 0 });
+            memoryPos.ValueChanged += memoryEditor_ValueChanged;
             // 
             // memoryListBox
             // 
@@ -285,10 +273,9 @@
             Name = "Form1";
             Text = "BGERuntime";
             groupBox1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)stackEditor).EndInit();
             groupBox2.ResumeLayout(false);
             groupBox3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)memoryEditor).EndInit();
+            ((System.ComponentModel.ISupportInitialize)memoryPos).EndInit();
             groupBox4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)tickNum).EndInit();
             ResumeLayout(false);
@@ -306,8 +293,7 @@
         private ListBox memoryListBox;
         private GroupBox groupBox4;
         private ListBox programListBox;
-        private NumericUpDown stackEditor;
-        private NumericUpDown memoryEditor;
+        private NumericUpDown memoryPos;
         private Label label1;
         private TextBox stateText;
         private OpenFileDialog openFileDialog1;

@@ -124,7 +124,20 @@ namespace debugger
                 programListBox.TopIndex = PC2Line() - 2;
                 pcbefore = (ushort)PC2Line();
             }
-
+            try
+            {
+                vm.EmulateNext();
+            }
+            catch (StackOutOfRangeException e)
+            {
+                End();
+                stateText.Text = e.Message;
+            }
+            
+            pc = vm.ProgramCounter;
+            memoryListBox.Items.Clear();
+            for (int i = (int)memoryPos.Value; i < 10 && i < vm.Memory.Length; i++)
+                memoryListBox.Items.Add(vm.Memory[i]);
             return;
         }
         private void Start(object sender, EventArgs e)
@@ -197,7 +210,7 @@ namespace debugger
         private void NextBtnClicked(object sender, EventArgs e) => Next();
         private void memoryEditor_ValueChanged(object sender, EventArgs e)
         {
-            memoryListBox.SelectedIndex = (int)memoryEditor.Value;
+            memoryListBox.SelectedIndex = (int)memoryPos.Value;
         }
     }
 }

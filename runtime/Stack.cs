@@ -16,5 +16,6 @@
             byte top = pop();
             return (ushort)((top << 8) | bottom);
         }
+        public void clear() => stack.Clear();
     }
 }

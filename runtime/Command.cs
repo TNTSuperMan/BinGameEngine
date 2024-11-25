@@ -1,6 +1,4 @@
-﻿using System.Data;
-
-namespace runtime
+﻿namespace runtime
 {
     public partial class Runtime
     {
@@ -26,6 +24,11 @@ namespace runtime
             {
                 case Commands.push:
                     stack.push(memory[++pc]);
+                    break;
+                case Commands.pop:
+                    stack.pop();
+                    break;
+                case Commands.cls:
                     break;
             }
         }

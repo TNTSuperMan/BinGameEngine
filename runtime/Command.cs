@@ -23,6 +23,7 @@
         {
             var StackOperate = (operate op) =>
                 stack.push((byte)(op(stack.pop(), stack.pop())));
+            ushort addr;
             switch ((Commands)memory[pc])
             {
                 case Commands.push:
@@ -57,6 +58,32 @@
                     break;
                 case Commands.equal:
                     StackOperate((b, a) => a == b ? 1:0);
+                    break;
+                case Commands.truejump:
+                    addr = stack.popAddr();
+                    if (stack.pop() != 0)
+                    {
+                        pc = addr;
+                    }
+                    break;
+                case Commands.jump:
+                    pc = stack.popAddr();
+                    break;
+                case Commands.call:
+                    callstack.Add(pc);
+                    pc = stack.popAddr();
+                    break;
+                case Commands.ret:
+                    if(callstack.Count == 0)
+                    {
+                        onEnd();
+                    }
+                    else
+                    {
+                        addr = callstack.Last();
+                        callstack.RemoveAt(callstack.Count - 1);
+                        pc = addr;
+                    }
                     break;
             }
         }

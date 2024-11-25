@@ -1,4 +1,4 @@
-﻿namespace runtime
+﻿namespace bgeruntime
 {
     internal class Memory
     {

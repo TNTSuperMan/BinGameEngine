@@ -1,4 +1,4 @@
-﻿namespace runtime
+﻿namespace bgeruntime
 {
     public delegate void Redraw(Graphic[] g);
     public delegate byte GetKeyState();

@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace runtime
+namespace bgeruntime
 {
     public class Graphic
     {

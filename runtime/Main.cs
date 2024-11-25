@@ -1,4 +1,4 @@
-﻿namespace runtime
+﻿namespace bgeruntime
 {
     public partial class Runtime
     {

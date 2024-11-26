@@ -38,6 +38,7 @@
             memoryPos = new NumericUpDown();
             memoryListBox = new ListBox();
             groupBox4 = new GroupBox();
+            pcBox = new TextBox();
             programListBox = new ListBox();
             label1 = new Label();
             stateText = new TextBox();
@@ -72,10 +73,10 @@
             // 
             stackListBox.FormattingEnabled = true;
             stackListBox.ItemHeight = 15;
-            stackListBox.Items.AddRange(new object[] { "65535", "65535", "0", "0", "0" });
+            stackListBox.Items.AddRange(new object[] { "255", "255", "0", "0" });
             stackListBox.Location = new Point(6, 22);
             stackListBox.Name = "stackListBox";
-            stackListBox.Size = new Size(55, 379);
+            stackListBox.Size = new Size(43, 379);
             stackListBox.TabIndex = 1;
             // 
             // groupBox1
@@ -83,7 +84,7 @@
             groupBox1.Controls.Add(stackListBox);
             groupBox1.Location = new Point(274, 12);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(67, 414);
+            groupBox1.Size = new Size(55, 414);
             groupBox1.TabIndex = 2;
             groupBox1.TabStop = false;
             groupBox1.Text = "Stack";
@@ -91,9 +92,9 @@
             // groupBox2
             // 
             groupBox2.Controls.Add(callStackListBox);
-            groupBox2.Location = new Point(347, 12);
+            groupBox2.Location = new Point(335, 12);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(84, 414);
+            groupBox2.Size = new Size(70, 414);
             groupBox2.TabIndex = 3;
             groupBox2.TabStop = false;
             groupBox2.Text = "CallStack";
@@ -102,17 +103,17 @@
             // 
             callStackListBox.FormattingEnabled = true;
             callStackListBox.ItemHeight = 15;
-            callStackListBox.Items.AddRange(new object[] { "4294967296", "4294967296", "4294967296", "0", "0", "0" });
+            callStackListBox.Items.AddRange(new object[] { "65535", "65535", "0", "0", "0" });
             callStackListBox.Location = new Point(6, 22);
             callStackListBox.Name = "callStackListBox";
-            callStackListBox.Size = new Size(72, 379);
+            callStackListBox.Size = new Size(58, 379);
             callStackListBox.TabIndex = 1;
             // 
             // groupBox3
             // 
             groupBox3.Controls.Add(memoryPos);
             groupBox3.Controls.Add(memoryListBox);
-            groupBox3.Location = new Point(437, 12);
+            groupBox3.Location = new Point(411, 12);
             groupBox3.Name = "groupBox3";
             groupBox3.Size = new Size(67, 414);
             groupBox3.TabIndex = 3;
@@ -127,12 +128,13 @@
             memoryPos.Size = new Size(55, 23);
             memoryPos.TabIndex = 7;
             memoryPos.Value = new decimal(new int[] { 40960, 0, 0, 0 });
+            memoryPos.ValueChanged += memoryPos_ValueChanged;
             // 
             // memoryListBox
             // 
             memoryListBox.FormattingEnabled = true;
             memoryListBox.ItemHeight = 15;
-            memoryListBox.Items.AddRange(new object[] { "65535", "65535", "0", "0", "0", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" });
+            memoryListBox.Items.AddRange(new object[] { "255", "255", "0", "0", "0", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" });
             memoryListBox.Location = new Point(6, 52);
             memoryListBox.Name = "memoryListBox";
             memoryListBox.Size = new Size(55, 349);
@@ -140,22 +142,31 @@
             // 
             // groupBox4
             // 
+            groupBox4.Controls.Add(pcBox);
             groupBox4.Controls.Add(programListBox);
-            groupBox4.Location = new Point(510, 12);
+            groupBox4.Location = new Point(484, 12);
             groupBox4.Name = "groupBox4";
-            groupBox4.Size = new Size(109, 414);
+            groupBox4.Size = new Size(102, 414);
             groupBox4.TabIndex = 4;
             groupBox4.TabStop = false;
             groupBox4.Text = "Program";
+            // 
+            // pcBox
+            // 
+            pcBox.Location = new Point(6, 21);
+            pcBox.Name = "pcBox";
+            pcBox.ReadOnly = true;
+            pcBox.Size = new Size(90, 23);
+            pcBox.TabIndex = 1;
             // 
             // programListBox
             // 
             programListBox.FormattingEnabled = true;
             programListBox.ItemHeight = 15;
-            programListBox.Items.AddRange(new object[] { "　push 1fff", "＞cls", "　ret", "　chkkey", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27" });
-            programListBox.Location = new Point(6, 22);
+            programListBox.Items.AddRange(new object[] { "　push 1f", "＞cls", "　ret", "　dumpkey", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27" });
+            programListBox.Location = new Point(6, 52);
             programListBox.Name = "programListBox";
-            programListBox.Size = new Size(97, 379);
+            programListBox.Size = new Size(90, 349);
             programListBox.TabIndex = 0;
             // 
             // label1
@@ -219,7 +230,7 @@
             // 
             runningCheck.AutoSize = true;
             runningCheck.Enabled = false;
-            runningCheck.Location = new Point(114, 305);
+            runningCheck.Location = new Point(114, 335);
             runningCheck.Name = "runningCheck";
             runningCheck.Size = new Size(71, 19);
             runningCheck.TabIndex = 10;
@@ -241,18 +252,19 @@
             // fasterCheck
             // 
             fasterCheck.AutoSize = true;
-            fasterCheck.Location = new Point(12, 332);
+            fasterCheck.Location = new Point(114, 305);
             fasterCheck.Name = "fasterCheck";
             fasterCheck.Size = new Size(59, 19);
             fasterCheck.TabIndex = 12;
             fasterCheck.Text = "Faster!";
             fasterCheck.UseVisualStyleBackColor = true;
+            fasterCheck.CheckedChanged += fasterCheck_CheckedChanged;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(631, 438);
+            ClientSize = new Size(595, 433);
             Controls.Add(fasterCheck);
             Controls.Add(nextBtn);
             Controls.Add(runningCheck);
@@ -268,8 +280,8 @@
             Controls.Add(panel1);
             DoubleBuffered = true;
             MaximizeBox = false;
-            MaximumSize = new Size(647, 477);
-            MinimumSize = new Size(647, 477);
+            MaximumSize = new Size(611, 472);
+            MinimumSize = new Size(611, 472);
             Name = "Form1";
             Text = "BGERuntime";
             groupBox1.ResumeLayout(false);
@@ -277,6 +289,7 @@
             groupBox3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)memoryPos).EndInit();
             groupBox4.ResumeLayout(false);
+            groupBox4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)tickNum).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -304,5 +317,6 @@
         private CheckBox runningCheck;
         private Button nextBtn;
         private CheckBox fasterCheck;
+        private TextBox pcBox;
     }
 }

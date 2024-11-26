@@ -118,9 +118,9 @@ namespace debugger
             {
                 int start = Math.Max(PC2Line() - 2, 0);
                 programListBox.Items.Clear();
-                for (int i = 0; i < 25; i++)
-                    if(programTexts.Count > (start+i))
-                        programListBox.Items.Add((start+i == PC2Line() ? "@" : ">")+" "+programTexts[start+i]);
+                for (int i = 0; i < 23; i++)
+                    if (programTexts.Count > (start + i))
+                        programListBox.Items.Add((start + i == PC2Line() ? "@" : ">") + " " + programTexts[start + i]);
             }
             try
             {
@@ -131,14 +131,13 @@ namespace debugger
                 End();
                 stateText.Text = e.Message;
             }
-            
+
+            pcBox.Text = pc.ToString();
             pc = vm.debug.PC;
             stackListBox.Items.Clear();
             foreach (var stack in vm.debug.StackList)
                 stackListBox.Items.Add(stack);
-            memoryListBox.Items.Clear();
-            for (int i = (int)memoryPos.Value; i < (int)memoryPos.Value+23 && i < ushort.MaxValue; i++)
-                memoryListBox.Items.Add(vm.debug.Load((ushort)i));
+            memoryPos_ValueChanged(new object(), new EventArgs());
             return;
         }
         private void Start(object sender, EventArgs e)
@@ -192,7 +191,7 @@ namespace debugger
         private void Draw(object sender, PaintEventArgs e)
         {
             foreach (var d in graphicsStack)
-                if(d.isDraw)
+                if (d.isDraw)
                     e.Graphics.FillRectangle(new SolidBrush(d.color), d.X, d.Y, d.Width, d.Height);
             graphicsStack = [];
             return;
@@ -209,5 +208,14 @@ namespace debugger
             }
         }
         private void NextBtnClicked(object sender, EventArgs e) => Next();
+
+        private void fasterCheck_CheckedChanged(object sender, EventArgs e) => tickNum.ReadOnly = fasterCheck.Checked;
+
+        private void memoryPos_ValueChanged(object sender, EventArgs e)
+        {
+            memoryListBox.Items.Clear();
+            for (int i = (int)memoryPos.Value; i < (int)memoryPos.Value + 23 && i < ushort.MaxValue; i++)
+                memoryListBox.Items.Add(vm.debug.Load((ushort)i));
+        }
     }
 }

@@ -4,7 +4,7 @@
     {
         private bool isEnded = false;
 
-        private void StackOperate(Opr opr) => stack.Push((byte)opr(stack.Pop(), stack.  Pop()));
+        private void StackOperate(Opr opr) => stack.Push((byte)opr(stack.Pop(), stack.Pop()));
         delegate int Opr(byte b, byte a);
         private Opr add = (b, a) => a + b;
         private Opr sub = (b, a) => a - b;

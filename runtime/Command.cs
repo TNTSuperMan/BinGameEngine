@@ -108,9 +108,38 @@
                     redrawStack.Add(new(stack.pop(), stack.pop(), stack.pop(), stack.pop(), stack.pop()));
                     break;
                 case Command.graph:
-                    byte i = stack.pop(), y = stack.pop(), x = stack.pop();
-                    foreach (var g in graphics[i].Draw(x, y))
+                    byte id = stack.pop(), y = stack.pop(), x = stack.pop();
+                    foreach (var g in graphics[id].Draw(x, y))
                         redrawStack.Add(g);
+                    break;
+                case Command.io:
+                    byte[] data = memory.LoadIO();
+                    switch (stack.pop())
+                    {
+                        case 0: //Graphics
+                            List<byte> graphStack = new();
+                            graphics.Clear();
+                            for (int i = 0;i < 0x1000; i++)
+                            {
+                                if ((data[i] & 0b11000000) << 6 == 0b11)
+                                {
+                                    graphics.Add(new(graphStack.ToArray()));
+                                    graphStack.Clear();
+                                }
+                                else graphStack.Add(data[i]);
+                            }
+                            break;
+                        case 1: //Sound
+                            break;
+                        case 2: //Load
+                            data = onLoad();
+                            for(int i = 0;i < 0x1000; i++)
+                                memory.Store((byte)(0xf000 + i), data[i]);
+                            break;
+                        case 3: //Save
+                            onSave(data);
+                            break;
+                    }
                     break;
             }
             pc++;

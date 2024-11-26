@@ -27,5 +27,6 @@
                 ram[addr - 0xa000] = value;
             }
         }
+        public byte[] LoadIO() => ram.AsSpan(0x5000, 0x1000).ToArray();
     }
 }

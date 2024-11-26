@@ -283,7 +283,7 @@
             MaximumSize = new Size(611, 472);
             MinimumSize = new Size(611, 472);
             Name = "Form1";
-            Text = "BGERuntime";
+            Text = "BGEDebugger";
             groupBox1.ResumeLayout(false);
             groupBox2.ResumeLayout(false);
             groupBox3.ResumeLayout(false);

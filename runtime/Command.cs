@@ -101,11 +101,16 @@
                     stack.push(getKeyState());
                     break;
                 case Command.redraw:
-                    onRedraw(graphicsStack.ToArray());
-                    graphicsStack.Clear();
+                    onRedraw(redrawStack.ToArray());
+                    redrawStack.Clear();
                     break;
                 case Command.rect:
-                    graphicsStack.Add(new(stack.pop(), stack.pop(), stack.pop(), stack.pop(), stack.pop()));
+                    redrawStack.Add(new(stack.pop(), stack.pop(), stack.pop(), stack.pop(), stack.pop()));
+                    break;
+                case Command.graph:
+                    byte i = stack.pop(), y = stack.pop(), x = stack.pop();
+                    foreach (var g in graphics[i].Draw(x, y))
+                        redrawStack.Add(g);
                     break;
             }
             pc++;

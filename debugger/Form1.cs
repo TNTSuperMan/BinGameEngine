@@ -7,7 +7,7 @@ namespace debugger
         ushort pc = 0;
         byte[] bin = [];
         List<string> programTexts = new List<string>();
-        Graphic[] graphicsStack = [];
+        GraphRect[] graphicsStack = [];
         Runtime vm;
 
         bool debug = true;
@@ -145,7 +145,7 @@ namespace debugger
         {
             vm = new(bin);
             vm.onEnd = End;
-            vm.onRedraw = (Graphic[] e) =>
+            vm.onRedraw = (GraphRect[] e) =>
             {
                 graphicsStack = e;
                 panel1.Invalidate();

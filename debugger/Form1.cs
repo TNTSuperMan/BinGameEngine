@@ -5,7 +5,6 @@ namespace debugger
     public partial class Form1 : Form
     {
         ushort pc = 0;
-        ushort pcbefore = 0;
         byte[] bin = [];
         List<string> programTexts = new List<string>();
         Graphic[] graphicsStack = [];
@@ -89,9 +88,7 @@ namespace debugger
                 }
                 programListBox.Items.Clear();
                 foreach (string a in programTexts)
-                {
-                    programListBox.Items.Add("< " + a);
-                }
+                    programListBox.Items.Add("> " + a);
             }
             catch (FileNotFoundException)
             {
@@ -119,10 +116,11 @@ namespace debugger
             }
             if (debug)
             {
-                if (pc > 0) programListBox.Items[pcbefore] = "< " + programTexts[pcbefore];
-                programListBox.Items[PC2Line()] = "@ " + programTexts[PC2Line()];
-                programListBox.TopIndex = PC2Line() - 2;
-                pcbefore = (ushort)PC2Line();
+                int start = Math.Max(PC2Line() - 2, 0);
+                programListBox.Items.Clear();
+                for (int i = 0; i < 25; i++)
+                    if(programTexts.Count > (start+i))
+                        programListBox.Items.Add((start+i == PC2Line() ? "@" : ">")+" "+programTexts[start+i]);
             }
             try
             {

@@ -151,7 +151,7 @@
             // 
             programListBox.FormattingEnabled = true;
             programListBox.ItemHeight = 15;
-            programListBox.Items.AddRange(new object[] { "　push 1fff", "＞cls", "　ret", "　chkkey" });
+            programListBox.Items.AddRange(new object[] { "　push 1fff", "＞cls", "　ret", "　chkkey", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27" });
             programListBox.Location = new Point(6, 22);
             programListBox.Name = "programListBox";
             programListBox.Size = new Size(97, 379);

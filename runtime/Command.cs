@@ -2,6 +2,7 @@
 {
     public partial class Runtime
     {
+        private bool isEnded = false;
         delegate int Operate(byte b, byte a);
         enum Command: byte
         {
@@ -16,7 +17,7 @@
         }
         public void EmulateFrame()
         {
-            while (memory.Load(pc) != (byte)Command.redraw)
+            while (memory.Load(pc) != (byte)Command.redraw && !isEnded)
                 EmulateNext();
         }
         public void EmulateNext()
@@ -80,6 +81,7 @@
                 case Command.ret:
                     if(callstack.Count == 0)
                     {
+                        isEnded = true;
                         onEnd();
                     }
                     else

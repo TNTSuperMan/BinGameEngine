@@ -3,7 +3,17 @@
     public partial class Runtime
     {
         private bool isEnded = false;
-        delegate int Operate(byte b, byte a);
+
+        private void StackOperate(Opr opr) => stack.push((byte)opr(stack.pop(), stack.pop()));
+        delegate int Opr(byte b, byte a);
+        private Opr add = (b, a) => a + b;
+        private Opr sub = (b, a) => a - b;
+        private Opr mul = (b, a) => a * b;
+        private Opr div = (b, a) => a / b;
+        private Opr rem = (b, a) => a % b;
+        private Opr nand = (b, a) => ~(a & b);
+        private Opr greater = (b, a) => a > b ? 1:0;
+        private Opr equal = (b, a) => a == b ? 1:0;
         enum Command: byte
         {
             push,pop,cls,
@@ -22,8 +32,6 @@
         }
         public void EmulateNext()
         {
-            var StackOperate = (Operate op) =>
-                stack.push((byte)(op(stack.pop(), stack.pop())));
             ushort addr;
             switch ((Command)memory.Load(pc))
             {
@@ -37,28 +45,28 @@
                     stack.clear();
                     break;
                 case Command.add:
-                    StackOperate((b, a) => a + b);
+                    StackOperate(add);
                     break;
                 case Command.sub:
-                    StackOperate((b, a) => a - b);
+                    StackOperate(sub);
                     break;
                 case Command.mul:
-                    StackOperate((b, a) => a * b);
+                    StackOperate(mul);
                     break;
                 case Command.div:
-                    StackOperate((b, a) => a / b);
+                    StackOperate(div);
                     break;
                 case Command.rem:
-                    StackOperate((b, a) => a & b);
+                    StackOperate(rem);
                     break;
                 case Command.nand:
-                    StackOperate((b, a) => ~(a&b));
+                    StackOperate(nand);
                     break;
                 case Command.greater:
-                    StackOperate((b, a) => a>b ? 1:0);
+                    StackOperate(greater);
                     break;
                 case Command.equal:
-                    StackOperate((b, a) => a == b ? 1:0);
+                    StackOperate(equal);
                     break;
                 case Command.truejump:
                     addr = stack.popAddr();

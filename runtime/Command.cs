@@ -105,6 +105,7 @@
                     graphicsStack.Clear();
                     break;
                 case Command.rect:
+                    graphicsStack.Add(new(stack.pop(), stack.pop(), stack.pop(), stack.pop(), stack.pop()));
                     break;
             }
             pc++;

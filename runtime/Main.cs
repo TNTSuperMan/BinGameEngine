@@ -2,11 +2,11 @@
 {
     public partial class Runtime
     {
-        public List<ushort> callstack
+        public Stack<ushort> callstack
         {
             get; private set;
         } = new();
-        private Stack stack = new();
+        private Stack<byte> stack = new();
         private Memory memory;
 
         private ushort pc = 0;
@@ -17,7 +17,7 @@
         {
             memory = new Memory(rom);
             debug = new(
-                () => stack.StackList,
+                () => [.. stack],
                 () => pc,
                 memory.Load,
                 memory.Store);
@@ -25,7 +25,7 @@
     }
     public class RuntimeDebug
     {
-        public delegate List<byte> DelegateStackList();
+        public delegate byte[] DelegateStackList();
         public delegate ushort DelegatePC();
         public delegate byte DelegateLoad(ushort addr);
         public delegate void DelegateStore(ushort addr, byte value);
@@ -33,7 +33,7 @@
         readonly DelegateStackList _GetStackList;
         readonly DelegatePC _GetPC;
 
-        public List<byte> StackList => _GetStackList();
+        public byte[] StackList => _GetStackList();
         public ushort PC => _GetPC();
         public readonly DelegateLoad Load;
         public readonly DelegateStore Store;

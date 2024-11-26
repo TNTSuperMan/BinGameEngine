@@ -4,7 +4,7 @@
     {
         private bool isEnded = false;
 
-        private void StackOperate(Opr opr) => stack.push((byte)opr(stack.pop(), stack.pop()));
+        private void StackOperate(Opr opr) => stack.Push((byte)opr(stack.Pop(), stack.  Pop()));
         delegate int Opr(byte b, byte a);
         private Opr add = (b, a) => a + b;
         private Opr sub = (b, a) => a - b;
@@ -25,6 +25,12 @@
             sound,stopsound,
             io
         }
+        public ushort popAddr()
+        {
+            byte bottom = stack.Pop();
+            byte top = stack.Pop();
+            return (ushort)((top << 8) | bottom);
+        }
         public void EmulateFrame()
         {
             while (memory.Load(pc) != (byte)Command.redraw && !isEnded)
@@ -36,13 +42,13 @@
             switch ((Command)memory.Load(pc))
             {
                 case Command.push:
-                    stack.push(memory.Load(++pc));
+                    stack.Push(memory.Load(++pc));
                     break;
                 case Command.pop:
-                    stack.pop();
+                    stack.Pop();
                     break;
                 case Command.cls:
-                    stack.clear();
+                    stack.Clear();
                     break;
                 case Command.add:
                     StackOperate(add);
@@ -69,8 +75,8 @@
                     StackOperate(equal);
                     break;
                 case Command.truejump:
-                    addr = stack.popAddr();
-                    if (stack.pop() != 0)
+                    addr = popAddr();
+                    if (stack.Pop() != 0)
                     {
                         pc = addr;
                     }
@@ -80,11 +86,11 @@
                     }
                     return;
                 case Command.jump:
-                    pc = stack.popAddr();
+                    pc = popAddr();
                     return;
                 case Command.call:
-                    callstack.Add(pc);
-                    pc = stack.popAddr();
+                    callstack.Push(pc);
+                    pc = popAddr();
                     return;
                 case Command.ret:
                     if(callstack.Count == 0)
@@ -94,35 +100,34 @@
                     }
                     else
                     {
-                        addr = callstack.Last();
-                        callstack.RemoveAt(callstack.Count - 1);
+                        addr = callstack.Pop();
                         pc = addr;
                     }
                     break;
                 case Command.load:
-                    stack.push(memory.Load(stack.popAddr()));
+                    stack.Push(memory.Load(popAddr()));
                     break;
                 case Command.store:
-                    memory.Store(stack.popAddr(), stack.pop());
+                    memory.Store(popAddr(), stack.Pop());
                     break;
                 case Command.dumpkey:
-                    stack.push(getKeyState());
+                    stack.Push(getKeyState());
                     break;
                 case Command.redraw:
                     onRedraw(redrawStack.ToArray());
                     redrawStack.Clear();
                     break;
                 case Command.rect:
-                    redrawStack.Add(new(stack.pop(), stack.pop(), stack.pop(), stack.pop(), stack.pop()));
+                    redrawStack.Add(new(stack.Pop(), stack.Pop(), stack.Pop(), stack.Pop(), stack.Pop()));
                     break;
                 case Command.graph:
-                    byte id = stack.pop(), y = stack.pop(), x = stack.pop();
+                    byte id = stack.Pop(), y = stack.Pop(), x = stack.Pop();
                     foreach (var g in graphics[id].Draw(x, y))
                         redrawStack.Add(g);
                     break;
                 case Command.io:
                     byte[] data = memory.LoadIO();
-                    switch (stack.pop())
+                    switch (stack.Pop())
                     {
                         case 0: //Graphics
                             List<byte> graphStack = new();

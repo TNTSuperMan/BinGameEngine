@@ -59,6 +59,7 @@
             // 
             // panel1
             // 
+            panel1.BorderStyle = BorderStyle.FixedSingle;
             panel1.Location = new Point(12, 12);
             panel1.MaximumSize = new Size(256, 256);
             panel1.MinimumSize = new Size(256, 256);

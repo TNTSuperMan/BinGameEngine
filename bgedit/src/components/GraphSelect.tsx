@@ -1,4 +1,4 @@
-import "./GraphSelect.sccs"
+import "./GraphSelect.scss"
 import Graphic from "./Graphic";
 
 function GraphSelect(props: {data:{name:string, data:number[]}[]}){

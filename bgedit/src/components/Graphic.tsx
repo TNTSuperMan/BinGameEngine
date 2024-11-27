@@ -1,7 +1,7 @@
 import "./Graphic.scss";
 
-function Pixel(props: {x:number, y:number, d:number, size:number, i:number}){
-    return <div className="pixel" key={props.i} style={{
+function Pixel(props: {x:number, y:number, d:number, size:number}){
+    return <div className="pixel" style={{
         left:props.x * props.size,
         top: props.y * props.size,
         width: props.size,
@@ -19,7 +19,7 @@ function Graphic(props: {graph:number[], size:number}){
             x = 0;
             y++;
         }
-        pixels.push(Pixel({x,y,d,size:props.size,i}));
+        pixels.push(<Pixel x={x} y={y} size={props.size} d={d} key={i} />);
         x++;
         i++;
     })

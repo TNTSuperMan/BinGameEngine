@@ -1,4 +1,16 @@
 .graphselect{
     grid-column: 1 / 2;
     grid-row: 2 / 3;
+    border-right:1px #000 solid;
+    .graphitem{
+        background:#ccc;
+        margin:5px;
+        padding:10px;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        cursor:pointer;
+        &:hover{
+            background:#ddd;
+        }
+    }
 }

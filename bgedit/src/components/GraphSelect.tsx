@@ -9,7 +9,6 @@ function GraphSelect(props: {data:{name:string, data:number[]}[]}){
                 <Graphic graph={e.data} size={1}/>
         </div>)}
     </div>
-    /**/
 }
 
 export default GraphSelect;

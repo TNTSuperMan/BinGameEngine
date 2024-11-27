@@ -17,7 +17,7 @@
         {
             memory = new Memory(rom);
             debug = new(
-                () => [.. stack],
+                () => stack.Reverse().ToArray(),
                 () => pc,
                 memory.Load,
                 memory.Store);

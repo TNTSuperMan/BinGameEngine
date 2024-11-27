@@ -9,7 +9,7 @@ function App() {
     <>
       <div className="menu"><Menu/></div>
       
-      {data.map((e,i)=><GraphSelect key={i} data={e.data} name={e.name}/>)}
+      <GraphSelect data={data} />
     </>
   )
 }

@@ -1,0 +1,13 @@
+
+button.menu{
+    border:none;
+    margin:2px;
+    padding:3px 8px;
+    border-radius: 2px;
+    background:#eee;
+    font-size:15px;
+    transition:all 0.3s ease;
+    &:hover{
+        background:#bbb;
+    }
+}

@@ -4,7 +4,7 @@ export type Graphic = {
     name: string,
     data: number[]
 }
-type State = {data:Graphic[]};
+export type State = {data:Graphic[]};
 const slice = createSlice<State, SliceCaseReducers<State>, string, SliceSelectors<State>>({
     name: "data",
     initialState: {data:[]},

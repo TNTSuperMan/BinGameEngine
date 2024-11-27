@@ -2,7 +2,7 @@ import { configureStore, createSlice, PayloadAction, SliceCaseReducers, SliceSel
 
 export type Graphic = {
     name: string,
-    data: number[][]
+    data: number[]
 }
 type State = {data:Graphic[]};
 const slice = createSlice<State, SliceCaseReducers<State>, string, SliceSelectors<State>>({
@@ -22,10 +22,7 @@ const slice = createSlice<State, SliceCaseReducers<State>, string, SliceSelector
                     const d = e.data;
                     if(!Array.isArray(d)) throw 0;
                     d.forEach(t=>{
-                        if(!Array.isArray(t)) throw 0;
-                        t.forEach(u=>{
-                            if(typeof u != "number") throw 0;
-                        })
+                        if(typeof t != "number") throw 0;
                     })
                 })
                 state.data = raw;

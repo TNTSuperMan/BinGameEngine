@@ -16,6 +16,7 @@ function EditorMenu({index}: {index:number}){
             if(Number.isNaN(parseInt(e.target.value))) return;
             const after:number[] = [];
             const widthDiff = parseInt(e.target.value) - width;
+            if(Number.isNaN(widthDiff)) return;
             data[index].data.forEach((e,i)=>{
                 if(isNextLine(e) || i == data[index].data.length-1){
                     if(widthDiff > 0){
@@ -33,10 +34,18 @@ function EditorMenu({index}: {index:number}){
         <span className="x">x</span>
         <input type="number" value={height} onChange={e=>{
             if(Number.isNaN(parseInt(e.target.value))) return;
-            const addition:number[] = [];
-            for(let i = 0;i < parseInt(e.target.value)+1;i++)
-                addition.push(i == 0 ? NEXTLINE : TRANSPARENT);
-            dispatch(edit([index, [...data[index].data, ...addition]]));
+            const heightDiff = parseInt(e.target.value) - height;
+            if(Number.isNaN(heightDiff)) return;
+            if(height > 0){
+                const addition:number[] = [];
+                for(let i = 0;i < heightDiff;i++)
+                    addition.push(i == 0 ? NEXTLINE : TRANSPARENT);
+                dispatch(edit([index, [...data[index].data, ...addition]]));
+            }else{
+                dispatch(edit([index, 
+                    data[index].data.filter((_e,i)=>
+                        i < ((width+1) * parseInt(e.target.value)))]));
+            }
         }} />
     </div>
 }

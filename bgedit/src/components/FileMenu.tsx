@@ -1,7 +1,7 @@
 import "./FileMenu.scss";
 import { useDispatch } from "react-redux";
 import { useRef } from "react";
-import { init, store, open } from "../store";
+import { init, store, open, State } from "../store";
 import { NEXTLINE } from "./_editorutil";
 
 type MenuProps = {
@@ -15,9 +15,9 @@ function MenuBtn(props: MenuProps){
         </button>);
 }
 
-export function ExportData(): number[]{
+export function ExportData(state: State): number[]{
     const contents:number[] = [];
-    store.getState().data.data.forEach(g=>{
+    state.data.forEach(g=>{
         g.data.forEach(l=>{
             const line = [...l];
             while((line[line.length-1] & 0b11000000) == 0b01000000) line.pop();
@@ -53,7 +53,7 @@ function Menu(){
             "application/json", "graphics.json")}/>
         <MenuBtn text="エクスポート" func={()=>{
             download(
-                new Uint8Array(ExportData()),
+                new Uint8Array(ExportData(store.getState().data)),
                 "application/octet-stream", "graphics.bin"
             )
         }}/>

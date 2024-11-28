@@ -33,7 +33,7 @@ function Menu(){
         <MenuBtn text="新規" func={()=>dispatch(init(1))}/>
         <MenuBtn text="開く" func={()=>uploader.current?.click()}/>
         <MenuBtn text="保存" func={()=>download(
-            JSON.stringify(store.getState().data),
+            JSON.stringify(store.getState().data.data),
             "application/json", "graphics.json")}/>
         <MenuBtn text="エクスポート" func={()=>{
             let content = "";

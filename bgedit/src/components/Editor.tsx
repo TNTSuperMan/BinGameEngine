@@ -18,7 +18,7 @@ function Editor({index}: {index:number}){
         return <>
             <EditorMenu index={index} changeZoom={changeZoom}/>
             <div className="editor">
-                <Graphic graph={data[index].data} size={zoom} onclick={(x,y)=>{
+                <Graphic graph={data[index]?.data??[]} size={zoom} onclick={(x,y)=>{
                     if(color.isTransparent){
                         dispatch(editPixel([index, x, y, TRANSPARENT]));
                     }else{

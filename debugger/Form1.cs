@@ -49,40 +49,14 @@ namespace debugger
                 for (int i = 0; i < bin.Length; i++)
                 {
                     string t = string.Empty;
-                    if (bin[i] == 0)
+                    if (bin[i] == 1)
                     {
                         t = "push ";
                         t += bin[++i].ToString("x2");
                     }
                     else
                     {
-                        switch (bin[i])
-                        {
-                            case 0x01: t = "pop"; break;
-                            case 0x02: t = "cls"; break;
-                            case 0x03: t = "add"; break;
-                            case 0x04: t = "sub"; break;
-                            case 0x05: t = "mul"; break;
-                            case 0x06: t = "div"; break;
-                            case 0x07: t = "rem"; break;
-                            case 0x08: t = "nand"; break;
-                            case 0x09: t = "equal"; break;
-                            case 0x0a: t = "greater"; break;
-                            case 0x0b: t = "truejump"; break;
-                            case 0x0c: t = "jump"; break;
-                            case 0x0d: t = "call"; break;
-                            case 0x0e: t = "ret"; break;
-                            case 0x0f: t = "load"; break;
-                            case 0x10: t = "store"; break;
-                            case 0x11: t = "dumpkey"; break;
-                            case 0x12: t = "redraw"; break;
-                            case 0x13: t = "rect"; break;
-                            case 0x14: t = "graph"; break;
-                            case 0x15: t = "sound"; break;
-                            case 0x16: t = "stopsound"; break;
-                            case 0x17: t = "io"; break;
-                            default: t = "Undefined"; break;
-                        }
+                        t = ((Runtime.Command)bin[i]).ToString();
                     }
                     programTexts.Add(t);
                 }

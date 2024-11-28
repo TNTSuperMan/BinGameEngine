@@ -13,19 +13,12 @@ function Pixel(props: {x:number, y:number, d:number, size:number, onclick:ClickE
     }}/>
 }
 
-function Graphic(props: {graph:number[], size:number, onclick: ClickEvent}){
+function Graphic({graph, size, onclick}: {graph:number[][], size:number, onclick: ClickEvent}){
     const pixels:JSX.Element[] = [];
-    let x = 0,y = 0,i = 0;
-    props.graph.forEach(d=>{
-        if((d & 0b11000000) >> 6 == 0b10){
-            x = 0;
-            y++;
-            return;
-        }
-        pixels.push(<Pixel x={x} y={y} size={props.size} d={d} key={i} onclick={props.onclick}/>);
-        x++;
-        i++;
-    })
+    let i = 0;
+    for(let y = 0;y < graph.length;y++)
+        for(let x = 0;x < graph[y].length;x++)
+            pixels.push(<Pixel x={x} y={y} size={size} d={graph[y][x]} key={i++} onclick={onclick}/>);
     return <div className="graph">{pixels}</div>;
 }
 

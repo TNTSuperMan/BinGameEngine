@@ -2,7 +2,7 @@ import "./Editor.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { editPixel, Graphic as GraphData, State } from "../store";
-import { isNextLine, TRANSPARENT } from "./_editorutil";
+import { TRANSPARENT } from "./_editorutil";
 import Palette, { Color } from "./Palette";
 import EditorMenu from "./EditorMenu";
 import Graphic from "./Graphic";
@@ -18,14 +18,10 @@ function Editor({index}: {index:number}){
             <EditorMenu index={index}/>
             <div className="editor">
                 <Graphic graph={data[index].data} size={5} onclick={(x,y)=>{
-                    let i = 0;
-                    for(let j = 0;j < y;j++)
-                        while(isNextLine(data[index].data[i++]));
-                    i += x;
                     if(color.isTransparent){
-                        dispatch(editPixel([index, i, TRANSPARENT]));
+                        dispatch(editPixel([index, x, y, TRANSPARENT]));
                     }else{
-                        dispatch(editPixel([index, i, (color.R << 4) | (color.G << 2) | (color.B << 0)]));
+                        dispatch(editPixel([index, x, y, (color.R << 4) | (color.G << 2) | (color.B << 0)]));
                     }
                 }} />
             </div>

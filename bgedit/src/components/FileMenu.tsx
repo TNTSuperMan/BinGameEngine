@@ -36,7 +36,7 @@ function Menu(){
             "application/json", "graphics.json")}/>
         <MenuBtn text="エクスポート" func={()=>download(
             store.getState().data.data.map(e=>
-                e.data.map(e=>String.fromCharCode(e)).join("")).join(""),
+                e.data.map(e=>e.map(e=>String.fromCharCode(e)).join(String.fromCharCode(0b10000000))).join("")).join(""),
             "application/octet-stream", "graphics.bin"
         )}/>
         <a ref={downloader} style={{display:"none"}} target="_blank"/>

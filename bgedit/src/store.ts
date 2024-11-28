@@ -2,7 +2,7 @@ import { configureStore, createSlice, PayloadAction, SliceCaseReducers, SliceSel
 
 export type Graphic = {
     name: string,
-    data: number[]
+    data: number[][]
 }
 export type State = {data:Graphic[]};
 const slice = createSlice<State, SliceCaseReducers<State>, string, SliceSelectors<State>>({
@@ -22,7 +22,10 @@ const slice = createSlice<State, SliceCaseReducers<State>, string, SliceSelector
                     const d = e.data;
                     if(!Array.isArray(d)) throw 0;
                     d.forEach(t=>{
-                        if(typeof t != "number") throw 0;
+                        if(!Array.isArray(t)) throw 0;
+                        t.forEach(e=>{
+                            if(typeof e != "number") throw 0;
+                        })
                     })
                 })
                 state.data = raw;
@@ -30,11 +33,11 @@ const slice = createSlice<State, SliceCaseReducers<State>, string, SliceSelector
                 alert("ファイルが不正です")
             }
         },
-        edit(state, action: PayloadAction<[number, number[]]>){
+        edit(state, action: PayloadAction<[number, number[][]]>){
             state.data[action.payload[0]].data = action.payload[1];
         },
-        editPixel(state, action: PayloadAction<[number, number, number]>){
-            state.data[action.payload[0]].data[action.payload[1]] = action.payload[2];
+        editPixel(state, action: PayloadAction<[number, number, number, number]>){
+            state.data[action.payload[0]].data[action.payload[1]][action.payload[2]] = action.payload[3];
         }
     }
 })

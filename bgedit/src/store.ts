@@ -38,6 +38,15 @@ const slice = createSlice<State, SliceCaseReducers<State>, string, SliceSelector
         },
         editPixel(state, action: PayloadAction<[number, number, number, number]>){
             state.data[action.payload[0]].data[action.payload[2]][action.payload[1]] = action.payload[3];
+        },
+        remove(state, action: PayloadAction<number>){
+            state.data.splice(action.payload, 1);
+        },
+        add(state){
+            state.data.push({data:[[1]], name:"Graphic"});
+        },
+        rename(state, action: PayloadAction<[number, string]>){
+            state.data[action.payload[0]].name = action.payload[1];
         }
     }
 })
@@ -48,4 +57,4 @@ export const store = configureStore({
     }
 })
 
-export const { init, open, edit, editPixel } = slice.actions;
+export const { init, open, edit, editPixel, remove, add, rename } = slice.actions;

@@ -17,7 +17,6 @@ function MenuBtn(props: MenuProps){
 
 export function ExportData(): number[]{
     const contents:number[] = [];
-    console.log(store.getState().data.data)
     store.getState().data.data.forEach(g=>{
         g.data.forEach(l=>{
             const line = [...l];

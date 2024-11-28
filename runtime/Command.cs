@@ -156,9 +156,6 @@
                             break;
                     }
                     break;
-                default:
-                    stack.Push(memory.Load(pc));
-                    break;
             }
             pc++;
         }

@@ -54,11 +54,6 @@ namespace debugger
                         t = "push ";
                         t += bin[++i].ToString("x2");
                     }
-                    else if (bin[i] > 24)
-                    {
-                        t = "push ";
-                        t += bin[i].ToString("x2");
-                    }
                     else
                     {
                         t = ((Runtime.Command)bin[i]).ToString();

@@ -36,7 +36,7 @@ function EditorMenu(props: {index:number, changeZoom: (v:number)=>void}){
             <input type="number" min={1} value={height} onChange={e=>{
                 if(Number.isNaN(parseInt(e.target.value))) return;
                 const heightDiff = parseInt(e.target.value) - height;
-                if(height > 0){
+                if(heightDiff > 0){
                     const addition:number[][] = [];
                     for(let i = 0;i < heightDiff;i++){
                         addition.push([]);

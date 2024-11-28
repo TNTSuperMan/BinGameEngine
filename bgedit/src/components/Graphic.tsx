@@ -18,6 +18,7 @@ function Graphic(props: {graph:number[], size:number}){
         if((d & 0b11000000) >> 6 == 0b10){
             x = 0;
             y++;
+            return;
         }
         pixels.push(<Pixel x={x} y={y} size={props.size} d={d} key={i} />);
         x++;

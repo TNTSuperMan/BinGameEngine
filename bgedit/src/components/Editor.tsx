@@ -2,12 +2,14 @@ import { useDispatch, useSelector } from "react-redux";
 import "./Editor.scss";
 import { edit, Graphic as GraphData, State } from "../store";
 import Graphic from "./Graphic";
+import { useState } from "react";
 
 const TRANSPARENT = 0b01000000;
 const NEXTLINE = 0b10000000;
 
 function Editor({index}: {index:number}){
     const data = useSelector<{data:State}, GraphData[]>(e=>e.data.data);
+    const [color,changeColor] = useState({R:0,G:0,B:0,isTransparent:false});
     const dispatch = useDispatch();
     if(index == -1){
         return <></>
@@ -47,7 +49,17 @@ function Editor({index}: {index:number}){
                 }} />
             </div>
             <div className="editor">
-                <Graphic graph={data[index].data} size={5} onclick={()=>{}} />
+                <Graphic graph={data[index].data} size={5} onclick={(x,y)=>{
+                    let i = 0;
+                    for(let j = 0;j < y;j++)
+                        while(data[index].data[i++] == NEXTLINE);
+                    i += x;
+                    if(color.isTransparent){
+                        data[index].data[i] = TRANSPARENT;
+                    }else{
+                        data[index].data[i] = (color.R << 4) | (color.G << 2) | (color.B << 0);
+                    }
+                }} />
             </div>
         </>
     }

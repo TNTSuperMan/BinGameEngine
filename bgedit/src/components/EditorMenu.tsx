@@ -52,7 +52,7 @@ function EditorMenu(props: {index:number, changeZoom: (v:number)=>void}){
             }}/>
         </div>
 
-        zoom:<input type="number" max={100} min={1} name="zoom" value={zoom} onChange={e=>changezoom(parseInt(e.target.value))} />
+        ズーム:<input type="number" max={100} min={1} name="zoom" value={zoom} onChange={e=>changezoom(parseInt(e.target.value))} />
     </div>
 }
 

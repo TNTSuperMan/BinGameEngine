@@ -14,9 +14,9 @@
         private Opr nand = (b, a) => ~(a & b);
         private Opr greater = (b, a) => a > b ? 1:0;
         private Opr equal = (b, a) => a == b ? 1:0;
-        enum Command: byte
+        public enum Command: byte
         {
-            push,pop,cls,
+            nop,push,pop,cls,
             add,sub,mul,div,rem,nand,equal,greater,
             truejump,jump,call,ret,
             load,store,
@@ -41,6 +41,8 @@
             ushort addr;
             switch ((Command)memory.Load(pc))
             {
+                case Command.nop:
+                    break;
                 case Command.push:
                     stack.Push(memory.Load(++pc));
                     break;

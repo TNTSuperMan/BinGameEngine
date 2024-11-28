@@ -14,7 +14,8 @@ function Palette(props: {changeState: (c:Color)=>void}){
             changeColor({R:color.R, G:parseInt(e.target.value), B:color.B, isTransparent: color.isTransparent})} /><br/>
         B:<input type="range" name="B" value={color.B} min={0} max={3} onChange={e=>
             changeColor({R:color.R, G:color.G, B:parseInt(e.target.value), isTransparent: color.isTransparent})} /><br/>
-        <input type="checkbox" name="transparent" checked={color.isTransparent} onChange={e=>color.isTransparent = e.target.checked} />
+        <input type="checkbox" name="transparent" checked={color.isTransparent} onChange={e=>
+            changeColor({R:color.R, G:color.G, B:color.B, isTransparent: e.target.checked})} />
     </div>
 }
 

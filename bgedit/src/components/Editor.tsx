@@ -15,7 +15,6 @@ function Editor({index}: {index:number}){
         const lineat = data[index].data.findIndex(isNextLine);
         const width = lineat == -1 ? data[index].data.length : lineat;
         const height= data[index].data.filter(isNextLine).length + 1;
-        console.log("redraw!")
         return <>
             <div className="editorMenu">
                 <span>{data[index]?.name}</span>
@@ -23,7 +22,6 @@ function Editor({index}: {index:number}){
                     if(Number.isNaN(parseInt(e.target.value))) return;
                     const after:number[] = [];
                     const widthDiff = parseInt(e.target.value) - width;
-                    console.log(widthDiff);
                     data[index].data.forEach((e,i)=>{
                         if(isNextLine(e) || i == data[index].data.length-1){
                             if(widthDiff > 0){

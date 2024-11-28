@@ -77,7 +77,7 @@ namespace debugger
             for (uint i = 0; i < pc; i++)
             {
                 res++;
-                if (bin[i] == 0) i += 1;
+                if (bin[i] == 1) i += 1;
             }
             return res;
         }

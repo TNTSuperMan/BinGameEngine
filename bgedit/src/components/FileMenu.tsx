@@ -2,6 +2,7 @@ import "./FileMenu.scss";
 import { useDispatch } from "react-redux";
 import { useRef } from "react";
 import { init, store, open } from "../store";
+import { NEXTLINE } from "./_editorutil";
 
 type MenuProps = {
     text: string,
@@ -34,14 +35,23 @@ function Menu(){
         <MenuBtn text="保存" func={()=>download(
             JSON.stringify(store.getState().data),
             "application/json", "graphics.json")}/>
-        <MenuBtn text="エクスポート" func={()=>download(
-            store.getState().data.data.map(e=>
-                e.data.map(e=>
-                    e.map(e=>String.fromCharCode(e)).join(""))
-                        .join(String.fromCharCode(0b10000000)))
-                        .join(String.fromCharCode(0b11000000)),
-            "application/octet-stream", "graphics.bin"
-        )}/>
+        <MenuBtn text="エクスポート" func={()=>{
+            let content = "";
+            store.getState().data.data.forEach(g=>{
+                g.data.forEach(line=>{
+                    while((line[line.length-1] & 0b11000000) == 0b01000000) line.pop();
+                    line.forEach(num=>{
+                        content += String.fromCharCode(num);
+                    })
+                    content += String.fromCharCode(NEXTLINE);
+                })
+                content += String.fromCharCode(0b11000000);
+            })
+            download(
+                content,
+                "application/octet-stream", "graphics.bin"
+            )
+        }}/>
         <a ref={downloader} style={{display:"none"}} target="_blank"/>
         <input ref={uploader} type="file" style={{display:"none"}}
             onChange={e=>e.target.files?.item(0)?.text().then(e=>dispatch(open(e)))} />

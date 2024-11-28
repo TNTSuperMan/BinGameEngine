@@ -59,6 +59,9 @@ namespace compiler
                         if (Regex.IsMatch(line, "^import"))
                         {
                             importPath.Add(line.Substring(7));
+                        }else if(Regex.IsMatch(line, "^inject"))
+                        {
+                            len += (ushort)File.ReadAllBytes(line.Substring(7)).Length;
                         }
                         break;
                     case '!':
@@ -117,8 +120,10 @@ namespace compiler
             foreach (string l in source.Split('\n'))
             {
                 string line = l.Trim();
-                if (line.Length == 0) continue;
                 if (line[0] == '/') foreach (BGEData d in compileLine(line.Substring(1), exportedTagName, exportedTagPoint)) bge.Add(d);
+                if (Regex.IsMatch("^inject", line))
+                    foreach (byte b in File.ReadAllBytes(line.Substring(7)))
+                        bge.Add(new(b));
             }
             List<byte> data = new();
             foreach (BGEData b in bge) foreach (byte c in b.bin) data.Add(c);
@@ -220,19 +225,15 @@ namespace compiler
     }
     public class BGEData
     {
-        public Command _operator;
-        public char? _pushdata;
+        public readonly Command _operator;
+        public readonly char? _pushdata;
+        public readonly bool _isBinary = false;
         public uint length
         {
             get
             {
-                return (uint)((_operator == Command.push) ? 2 : 1);
+                return (uint)((!_isBinary && _operator == Command.push) ? 2 : 1);
             }
-        }
-        public BGEData()
-        {
-            _operator = Command.push;
-            _pushdata = null;
         }
         public BGEData(Command @operator)
         {
@@ -243,6 +244,11 @@ namespace compiler
             _operator = Command.push;
             _pushdata = pushdata;
         }
+        public BGEData(byte data)
+        {
+            _isBinary = true;
+            _operator = (Command)data;
+        }
         public byte[] bin
         {
             get
@@ -250,7 +256,7 @@ namespace compiler
                 byte[] ret = new byte[length];
 
                 ret[0] = (byte)_operator;
-                if (_pushdata != null)
+                if (!_isBinary && _pushdata != null)
                 {
                     ret[1] = (byte)_pushdata;
                 }

@@ -15,6 +15,23 @@ function MenuBtn(props: MenuProps){
         </button>);
 }
 
+export function ExportData(): number[]{
+    const contents:number[] = [];
+    console.log(store.getState().data.data)
+    store.getState().data.data.forEach(g=>{
+        g.data.forEach(l=>{
+            const line = [...l];
+            while((line[line.length-1] & 0b11000000) == 0b01000000) line.pop();
+            line.forEach(num=>{
+                contents.push(num);
+            })
+            contents.push(NEXTLINE);
+        })
+        contents.push(0b11000000);
+    })
+    return contents;
+}
+
 function Menu(){
     const dispatch = useDispatch();
     const downloader = useRef<HTMLAnchorElement|null>(null);
@@ -36,21 +53,8 @@ function Menu(){
             JSON.stringify(store.getState().data.data),
             "application/json", "graphics.json")}/>
         <MenuBtn text="エクスポート" func={()=>{
-            const contents:number[] = [];
-            console.log(store.getState().data.data)
-            store.getState().data.data.forEach(g=>{
-                g.data.forEach(l=>{
-                    const line = [...l];
-                    while((line[line.length-1] & 0b11000000) == 0b01000000) line.pop();
-                    line.forEach(num=>{
-                        contents.push(num);
-                    })
-                    contents.push(NEXTLINE);
-                })
-                contents.push(0b11000000);
-            })
             download(
-                new Uint8Array(contents),
+                new Uint8Array(ExportData()),
                 "application/octet-stream", "graphics.bin"
             )
         }}/>

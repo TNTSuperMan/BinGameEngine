@@ -2,11 +2,14 @@
     grid-column: 2 / 3;
     grid-row: 3 / 4;
     padding:10px;
-    .pixel{
-        &:hover{
-            border:1px white solid;
-            border-color: white black;
-            z-index:99999;
+    .graph{
+        border:1px black solid;
+        .pixel{
+            &:hover{
+                border:1px white solid;
+                border-color: white black;
+                z-index:99999;
+            }
         }
     }
 }

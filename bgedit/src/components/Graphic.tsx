@@ -19,7 +19,9 @@ function Graphic({graph, size, onclick}: {graph:number[][], size:number, onclick
     for(let y = 0;y < graph.length;y++)
         for(let x = 0;x < graph[y].length;x++)
             pixels.push(<Pixel x={x} y={y} size={size} d={graph[y][x]} key={i++} onclick={onclick}/>);
-    return <div className="graph">{pixels}</div>;
+    return <div className="graph" style={{
+        width: (graph[0]?.length ?? 0)*size,
+        height: graph.length*size}}>{pixels}</div>;
 }
 
 export default Graphic;

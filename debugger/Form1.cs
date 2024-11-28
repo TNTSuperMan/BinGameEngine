@@ -83,18 +83,22 @@ namespace debugger
         }
         private void Next()
         {
-            if (pc >= bin.Length || programTexts.Count <= PC2Line())
-            {
-                End();
-                return;
-            }
             if (debug)
             {
-                int start = Math.Max(PC2Line() - 2, 0);
-                programListBox.Items.Clear();
-                for (int i = 0; i < 23; i++)
-                    if (programTexts.Count > (start + i))
-                        programListBox.Items.Add((start + i == PC2Line() ? "@" : ">") + " " + programTexts[start + i]);
+
+                if (programTexts.Count <= PC2Line())
+                {
+                    programListBox.Items.Clear();
+                    programListBox.Items.Add("---far pc---");
+                }
+                else
+                {
+                    int start = Math.Max(PC2Line() - 2, 0);
+                    programListBox.Items.Clear();
+                    for (int i = 0; i < 23; i++)
+                        if (programTexts.Count > (start + i))
+                            programListBox.Items.Add((start + i == PC2Line() ? "@" : ">") + " " + programTexts[start + i]);
+                }
             }
             try
             {

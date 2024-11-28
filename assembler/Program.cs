@@ -65,7 +65,7 @@ internal class Program
             }
             catch(Exception e)
             {
-                Console.WriteLine("コンパイラエラー:" + e.Message);
+                Console.WriteLine("コンパイラエラー:" + e.Message + "\n" + e.StackTrace);
             }
         }
     }

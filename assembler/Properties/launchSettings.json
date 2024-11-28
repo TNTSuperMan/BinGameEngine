@@ -2,7 +2,7 @@
   "profiles": {
     "compiler": {
       "commandName": "Project",
-      "commandLineArgs": "debug/asm.bge debug/asm.bin",
+      "commandLineArgs": "debug/obj.bge debug/out.bin",
       "workingDirectory": "C:\\Users\\broke\\Program(github)\\BinGameEngine"
     }
   }

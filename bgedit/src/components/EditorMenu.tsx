@@ -19,7 +19,7 @@ function EditorMenu(props: {index:number, changeZoom: (v:number)=>void}){
         <div className="size">
             <input type="number" value={width} onChange={e=>{
                 if(Number.isNaN(parseInt(e.target.value))) return;
-                const after:number[][] = [...data[index].data];
+                const after:number[][] = [...data[index].data.map(t=>[...t])];
                 const widthDiff = parseInt(e.target.value) - width;
                 if(widthDiff > 0){
                     for(let i = 0;i < widthDiff;i++)
@@ -37,12 +37,14 @@ function EditorMenu(props: {index:number, changeZoom: (v:number)=>void}){
                 if(Number.isNaN(parseInt(e.target.value))) return;
                 const heightDiff = parseInt(e.target.value) - height;
                 if(height > 0){
-                    const addition:number[] = [];
-                    for(let i = 0;i < heightDiff;i++)
-                        addition.push(TRANSPARENT);
+                    const addition:number[][] = [];
+                    for(let i = 0;i < heightDiff;i++){
+                        addition.push([]);
+                        for(let j = 0;j < width;j++) addition[addition.length-1].push(TRANSPARENT);
+                    }
                     dispatch(edit([index, [...data[index].data, ...addition]]));
                 }else{
-                    const after:number[][] = [...data[index].data];
+                    const after:number[][] = [...data[index].data.map(t=>[...t])];
                     for(let i = 0;i < -heightDiff;i++)
                         after.pop();
                     dispatch(edit([index, after]));

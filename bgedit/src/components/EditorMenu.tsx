@@ -1,7 +1,7 @@
 import "./EditorMenu.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { isNextLine, NEXTLINE, TRANSPARENT } from "./_editorutil";
 import { edit, Graphic, State } from "../store";
+import { isNextLine, NEXTLINE, TRANSPARENT } from "./_editorutil";
 
 function EditorMenu({index}: {index:number}){
     const dispatch = useDispatch();

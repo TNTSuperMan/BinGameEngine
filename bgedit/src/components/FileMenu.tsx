@@ -1,7 +1,7 @@
-import { init, store, open } from "../store";
-import { useRef } from "react";
 import "./FileMenu.scss";
 import { useDispatch } from "react-redux";
+import { useRef } from "react";
+import { init, store, open } from "../store";
 
 type MenuProps = {
     text: string,

@@ -1,5 +1,5 @@
-import "./Palette.scss";
 import { useEffect, useState } from "react";
+import "./Palette.scss";
 
 export type Color = {R:number, G:number, B:number, isTransparent:boolean};
 function Palette(props: {changeState: (c:Color)=>void}){

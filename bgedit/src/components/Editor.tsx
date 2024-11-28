@@ -1,11 +1,11 @@
-import { useDispatch, useSelector } from "react-redux";
 import "./Editor.scss";
-import { editPixel, Graphic as GraphData, State } from "../store";
-import Graphic from "./Graphic";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
-import EditorMenu from "./EditorMenu";
+import { editPixel, Graphic as GraphData, State } from "../store";
 import { isNextLine, TRANSPARENT } from "./_editorutil";
 import Palette, { Color } from "./Palette";
+import EditorMenu from "./EditorMenu";
+import Graphic from "./Graphic";
 
 function Editor({index}: {index:number}){
     const data = useSelector<{data:State}, GraphData[]>(e=>e.data.data);

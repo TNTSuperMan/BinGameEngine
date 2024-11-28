@@ -37,7 +37,7 @@ const slice = createSlice<State, SliceCaseReducers<State>, string, SliceSelector
             state.data[action.payload[0]].data = action.payload[1];
         },
         editPixel(state, action: PayloadAction<[number, number, number, number]>){
-            state.data[action.payload[0]].data[action.payload[1]][action.payload[2]] = action.payload[3];
+            state.data[action.payload[0]].data[action.payload[2]][action.payload[1]] = action.payload[3];
         }
     }
 })

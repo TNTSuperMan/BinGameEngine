@@ -29,6 +29,9 @@ const slice = createSlice<State, SliceCaseReducers<State>, string, SliceSelector
             }catch{
                 alert("ファイルが不正です")
             }
+        },
+        edit(state, action: PayloadAction<[number, number[]]>){
+            state.data[action.payload[0]].data = action.payload[1];
         }
     }
 })
@@ -39,4 +42,4 @@ export const store = configureStore({
     }
 })
 
-export const { init, open } = slice.actions;
+export const { init, open, edit } = slice.actions;

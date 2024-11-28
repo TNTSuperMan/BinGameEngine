@@ -11,7 +11,7 @@ function GraphSelect(props: {setid: (id:number)=>void}){
             <div className="graphitem" key={i} onClick={()=>props.setid(i)}>
                 {i}:<input type="text" name="name" value={e.name}
                     onChange={e=>dispatch(rename([i, e.target.value]))} />
-                <button onClick={()=>dispatch(remove(i))}>X</button>
+                <button onClick={()=>confirm("本当に消しますか？")?dispatch(remove(i)):0}>X</button>
                 <Graphic graph={e.data} size={2} onclick={()=>{}}/>
         </div>)}
         <button onClick={()=>dispatch(add(0))}>+</button>

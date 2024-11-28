@@ -5,7 +5,7 @@ function Menu(){
     const explen = ExportData().length;
     return <div className="menu">
         <FileMenu/>
-        長さ：{explen}, 残り：{0x1000 - explen}
+        <span className="lendata">長さ：{explen}b, 残り：{0x1000 - explen}b</span>
     </div>
 }
 

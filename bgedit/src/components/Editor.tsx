@@ -4,7 +4,7 @@ import { Graphic as GraphData, State } from "../store";
 import Graphic from "./Graphic";
 import { useState } from "react";
 import EditorMenu from "./EditorMenu";
-import { isNextLine, TRANSPARENT } from "./editorutil";
+import { isNextLine, TRANSPARENT } from "./_editorutil";
 
 function Editor({index}: {index:number}){
     const data = useSelector<{data:State}, GraphData[]>(e=>e.data.data);

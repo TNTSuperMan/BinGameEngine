@@ -8,8 +8,8 @@ function EditorMenu(props: {index:number, changeZoom: (v:number)=>void}){
     const dispatch = useDispatch();
     const index = props.index;
     const data = useSelector<{data:State}, Graphic[]>(e=>e.data.data);
-    const width = data[props.index].data[0]?.length ?? 0;
-    const height= data[props.index].data.length;
+    const width = data[props.index]?.data[0]?.length ?? 1;
+    const height= data[props.index]?.data.length ?? 1;
 
     const [zoom, changezoom] = useState(5);
     useEffect(()=>props.changeZoom(zoom), [zoom, props]);

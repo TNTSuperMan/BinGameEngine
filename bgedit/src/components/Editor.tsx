@@ -35,7 +35,6 @@ function Editor({index}: {index:number}){
                         }
                         after.push(e);
                     })
-                    console.log(after)
                     dispatch(edit([index, after]));
                 }}/>
                 <span className="x">x</span>

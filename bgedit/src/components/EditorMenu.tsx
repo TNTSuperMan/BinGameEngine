@@ -17,7 +17,7 @@ function EditorMenu(props: {index:number, changeZoom: (v:number)=>void}){
     return <div className="editorMenu">
         <span>{data[index]?.name}</span>
         <div className="size">
-            <input type="number" value={width} onChange={e=>{
+            <input type="number" min={1} value={width} onChange={e=>{
                 if(Number.isNaN(parseInt(e.target.value))) return;
                 const after:number[][] = [...data[index].data.map(t=>[...t])];
                 const widthDiff = parseInt(e.target.value) - width;
@@ -33,7 +33,7 @@ function EditorMenu(props: {index:number, changeZoom: (v:number)=>void}){
                 dispatch(edit([index, after]));
             }}/>
             <span className="x">x</span>
-            <input type="number" value={height} onChange={e=>{
+            <input type="number" min={1} value={height} onChange={e=>{
                 if(Number.isNaN(parseInt(e.target.value))) return;
                 const heightDiff = parseInt(e.target.value) - height;
                 if(height > 0){

@@ -60,8 +60,7 @@ namespace bgeruntime
                 {
                     y++;
                     x = 0;
-                }
-                raws.Add(new GraphRect(x, y, d));
+                }else raws.Add(new GraphRect(x, y, d));
                 x++;
             }
             rawdata = raws.ToArray();

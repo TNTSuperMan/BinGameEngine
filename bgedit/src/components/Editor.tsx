@@ -5,10 +5,11 @@ import Graphic from "./Graphic";
 import { useState } from "react";
 import EditorMenu from "./EditorMenu";
 import { isNextLine, TRANSPARENT } from "./_editorutil";
+import Palette, { Color } from "./Palette";
 
 function Editor({index}: {index:number}){
     const data = useSelector<{data:State}, GraphData[]>(e=>e.data.data);
-    const [color,changeColor] = useState({R:0,G:0,B:0,isTransparent:false});
+    const [color,changeColor] = useState<Color>({R:0,G:0,B:0,isTransparent:false});
     if(index == -1){
         return <></>
     }else{
@@ -27,6 +28,7 @@ function Editor({index}: {index:number}){
                     }
                 }} />
             </div>
+            <Palette changeState={changeColor}/>
         </>
     }
 }

@@ -17,6 +17,7 @@ function Editor({index}: {index:number}){
             <div className="editorMenu">
                 <span>{data[index]?.name}</span>
                 <input type="number" value={width} onChange={e=>{
+                    if(Number.isNaN(parseInt(e.target.value))) return;
                     const after:number[] = [];
                     const widthDiff = parseInt(e.target.value) - width;
                     console.log(widthDiff);
@@ -36,7 +37,13 @@ function Editor({index}: {index:number}){
                     dispatch(edit([index, after]));
                 }}/>
                 <span className="x">x</span>
-                <input type="number" value={height} onChange={()=>0} />
+                <input type="number" value={height} onChange={e=>{
+                    if(Number.isNaN(parseInt(e.target.value))) return;
+                    const addition:number[] = [];
+                    for(let i = 0;i < parseInt(e.target.value);i++)
+                        addition.push(0b10000000);
+                    dispatch(edit([index, [...data[index].data, ...addition]]));
+                }} />
             </div>
             <div className="editor">
             </div>

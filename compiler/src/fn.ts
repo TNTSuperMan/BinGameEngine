@@ -1,4 +1,4 @@
-import { defvar, Variable } from "./var.ts";
+import { defvar, varaddr, Variable } from "./var.ts";
 import { Expr } from "./native.ts";
 import { Exprs } from "./control.ts"
 import genid from "genid.ts";
@@ -9,7 +9,8 @@ export const defn = <T extends string[]>(name:string, fn:(...vars:number[])=>Exp
     for(let i = 0;i < fn.length;i++) vars.push(defvar());
     const realname = ":fn_" +name + genid();
     fndefines += realname + "\n";
-    fndefines += fn(...vars).join("\n") + "\n";
+    fndefines += vars.reverse().map(e=>varaddr(e)+"store\n").join("")
+    fndefines += fn(...vars.reverse()).join("\n") + "\n";
     return (...args)=>args.join("") + `\n/ ${realname} call\n`
 }
 

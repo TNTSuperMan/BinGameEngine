@@ -47,7 +47,7 @@ function Editor({index}: {index:number}){
                 }} />
             </div>
             <div className="editor">
-                <Graphic graph={data[index].data} size={5} />
+                <Graphic graph={data[index].data} size={5} onclick={()=>{}} />
             </div>
         </>
     }

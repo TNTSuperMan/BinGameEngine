@@ -1,17 +1,19 @@
 import "./Graphic.scss";
-
-function Pixel(props: {x:number, y:number, d:number, size:number}){
-    return <div className="pixel" style={{
-        left:props.x * props.size,
-        top: props.y * props.size,
-        width: props.size,
-        height:props.size,
-        background: (props.d & 0b11000000) >> 6 == 0b01 ? "" :
-        `rgb(${((props.d&0b110000)>>4)*85},${((props.d&0b1100)>>2)*85},${(props.d&0b11)*85})`
+type ClickEvent = (x: number, y: number) => void;
+function Pixel(props: {x:number, y:number, d:number, size:number, onclick:ClickEvent}){
+    return <div className="pixel"
+            onClick={()=>props.onclick(props.x,props.y)}
+            style={{
+                left:props.x * props.size,
+                top: props.y * props.size,
+                width: props.size,
+                height:props.size,
+                background: (props.d & 0b11000000) >> 6 == 0b01 ? "" :
+                `rgb(${((props.d&0b110000)>>4)*85},${((props.d&0b1100)>>2)*85},${(props.d&0b11)*85})`
     }}/>
 }
 
-function Graphic(props: {graph:number[], size:number}){
+function Graphic(props: {graph:number[], size:number, onclick: ClickEvent}){
     const pixels:JSX.Element[] = [];
     let x = 0,y = 0,i = 0;
     props.graph.forEach(d=>{
@@ -20,7 +22,7 @@ function Graphic(props: {graph:number[], size:number}){
             y++;
             return;
         }
-        pixels.push(<Pixel x={x} y={y} size={props.size} d={d} key={i} />);
+        pixels.push(<Pixel x={x} y={y} size={props.size} d={d} key={i} onclick={props.onclick}/>);
         x++;
         i++;
     })

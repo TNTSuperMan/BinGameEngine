@@ -4,7 +4,7 @@ import "./Palette.scss";
 export type Color = {R:number, G:number, B:number, isTransparent:boolean};
 function Palette(props: {changeState: (c:Color)=>void}){
     const [color, changeColor] = useState<Color>({R:0,G:0,B:0,isTransparent:false});
-    useEffect(()=>props.changeState(color), [color]);
+    useEffect(()=>props.changeState(color), [color, props]);
     return <div className="palette">
         <div className="prev" style={{background:color.isTransparent ?
             "" : `rgb(${color.R*85},${color.G*85},${color.B*85})`}}/>

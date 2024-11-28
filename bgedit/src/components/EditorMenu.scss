@@ -3,13 +3,20 @@
     grid-row: 2 / 3;
     border-bottom: 1px #000 solid;
     padding:10px;
-    span{
-        margin:0 20px;
-    }
-    input{
-        width:30px;
-    }
-    span.x{
-        margin:0 5px;
+    .size{
+        display:inline;
+        padding:5px;
+        margin:5px;
+        border-radius: 5px;
+        border:1px #000 solid;
+        span{
+            margin:0 20px;
+        }
+        input{
+            width:30px;
+        }
+        span.x{
+            margin:0 5px;
+        }
     }
 }

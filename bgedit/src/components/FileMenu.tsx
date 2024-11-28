@@ -39,7 +39,8 @@ function Menu(){
             const contents:number[] = [];
             console.log(store.getState().data.data)
             store.getState().data.data.forEach(g=>{
-                g.data.forEach(line=>{
+                g.data.forEach(l=>{
+                    const line = [...l];
                     while((line[line.length-1] & 0b11000000) == 0b01000000) line.pop();
                     line.forEach(num=>{
                         contents.push(num);

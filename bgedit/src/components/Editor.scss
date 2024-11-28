@@ -1,18 +1,3 @@
-.editorMenu{
-    grid-column: 2 / 3;
-    grid-row: 2 / 3;
-    padding:10px;
-    span{
-        margin:0 20px;
-    }
-    input{
-        width:30px;
-    }
-    span.x{
-        margin:0 5px;
-    }
-}
-
 .editor{
     grid-column: 2 / 3;
     grid-row: 3 / 4;

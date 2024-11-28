@@ -1,6 +1,6 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "./Editor.scss";
-import { Graphic as GraphData, State } from "../store";
+import { editPixel, Graphic as GraphData, State } from "../store";
 import Graphic from "./Graphic";
 import { useState } from "react";
 import EditorMenu from "./EditorMenu";
@@ -9,6 +9,7 @@ import Palette, { Color } from "./Palette";
 
 function Editor({index}: {index:number}){
     const data = useSelector<{data:State}, GraphData[]>(e=>e.data.data);
+    const dispatch = useDispatch();
     const [color,changeColor] = useState<Color>({R:0,G:0,B:0,isTransparent:false});
     if(index == -1){
         return <></>
@@ -22,9 +23,9 @@ function Editor({index}: {index:number}){
                         while(isNextLine(data[index].data[i++]));
                     i += x;
                     if(color.isTransparent){
-                        data[index].data[i] = TRANSPARENT;
+                        dispatch(editPixel([index, i, TRANSPARENT]));
                     }else{
-                        data[index].data[i] = (color.R << 4) | (color.G << 2) | (color.B << 0);
+                        dispatch(editPixel([index, i, (color.R << 4) | (color.G << 2) | (color.B << 0)]));
                     }
                 }} />
             </div>

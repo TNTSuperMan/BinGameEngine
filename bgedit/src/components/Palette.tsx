@@ -8,12 +8,12 @@ function Palette(props: {changeState: (c:Color)=>void}){
     return <div className="palette">
         <div className="prev" style={{background:color.isTransparent ?
             "" : `rgb(${color.R*85},${color.G*85},${color.B*85})`}}/>
-        <input type="range" name="R" value={color.R} min={0} max={3} onChange={e=>
-            changeColor({R:parseInt(e.target.value), G:color.G, B:color.B, isTransparent: false})} />
-        <input type="range" name="G" value={color.G} min={0} max={3} onChange={e=>
-            changeColor({R:color.R, G:parseInt(e.target.value), B:color.B, isTransparent: false})} />
-        <input type="range" name="B" value={color.B} min={0} max={3} onChange={e=>
-            changeColor({R:color.R, G:color.G, B:parseInt(e.target.value), isTransparent: false})} />
+        R:<input type="range" name="R" value={color.R} min={0} max={3} onChange={e=>
+            changeColor({R:parseInt(e.target.value), G:color.G, B:color.B, isTransparent: false})} /><br/>
+        G:<input type="range" name="G" value={color.G} min={0} max={3} onChange={e=>
+            changeColor({R:color.R, G:parseInt(e.target.value), B:color.B, isTransparent: false})} /><br/>
+        B:<input type="range" name="B" value={color.B} min={0} max={3} onChange={e=>
+            changeColor({R:color.R, G:color.G, B:parseInt(e.target.value), isTransparent: false})} /><br/>
     </div>
 }
 

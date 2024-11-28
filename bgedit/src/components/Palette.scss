@@ -1,4 +1,8 @@
 .palette{
+    grid-column: 3 / 4;
+    grid-row: 3 / 4;
+    border-left: 1px #000 solid;
+    padding:10px;
     .prev{
         width:30px;
         height:30px;

@@ -1,12 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
 import "./Editor.scss";
-import { edit, Graphic, State } from "../store";
+import { edit, Graphic as GraphData, State } from "../store";
+import Graphic from "./Graphic";
 
 const TRANSPARENT = 0b01000000;
 const NEXTLINE = 0b10000000;
 
 function Editor({index}: {index:number}){
-    const data = useSelector<{data:State}, Graphic[]>(e=>e.data.data);
+    const data = useSelector<{data:State}, GraphData[]>(e=>e.data.data);
     const dispatch = useDispatch();
     if(index == -1){
         return <></>
@@ -47,6 +48,7 @@ function Editor({index}: {index:number}){
                 }} />
             </div>
             <div className="editor">
+                <Graphic graph={data[index].data} size={5} />
             </div>
         </>
     }

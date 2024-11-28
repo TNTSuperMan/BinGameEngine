@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using static bgeruntime.Runtime;
 
 namespace compiler
 {
@@ -185,29 +186,29 @@ namespace compiler
                 {
                     switch (text.ToLower())
                     {
-                        case "push":    ret.Add(new(BGEOperator.push)); break;
-                        case "pop":     ret.Add(new(BGEOperator.pop)); break;
-                        case "cls":     ret.Add(new(BGEOperator.cls)); break;
-                        case "add":     ret.Add(new(BGEOperator.add)); break;
-                        case "sub":     ret.Add(new(BGEOperator.sub)); break;
-                        case "mul":     ret.Add(new(BGEOperator.mul)); break;
-                        case "div":     ret.Add(new(BGEOperator.div)); break;
-                        case "rem":     ret.Add(new(BGEOperator.rem)); break;
-                        case "nand":    ret.Add(new(BGEOperator.nand)); break;
-                        case "equal":   ret.Add(new(BGEOperator.equal)); break;
-                        case "greater": ret.Add(new(BGEOperator.greater)); break;
-                        case "truejump":ret.Add(new(BGEOperator.truejump)); break;
-                        case "jump":    ret.Add(new(BGEOperator.jump)); break;
-                        case "call":    ret.Add(new(BGEOperator.call)); break;
-                        case "ret":     ret.Add(new(BGEOperator.ret)); break;
-                        case "load":    ret.Add(new(BGEOperator.load)); break;
-                        case "store":   ret.Add(new(BGEOperator.store)); break;
-                        case "dumpkey": ret.Add(new(BGEOperator.dumpkey)); break;
-                        case "redraw":  ret.Add(new(BGEOperator.redraw)); break;
-                        case "rect":    ret.Add(new(BGEOperator.rect)); break;
-                        case "graph":   ret.Add(new(BGEOperator.graph)); break;
-                        case "sound":   ret.Add(new(BGEOperator.sound)); break;
-                        case "io":      ret.Add(new(BGEOperator.io)); break;
+                        case "push":    ret.Add(new(Command.push)); break;
+                        case "pop":     ret.Add(new(Command.pop)); break;
+                        case "cls":     ret.Add(new(Command.cls)); break;
+                        case "add":     ret.Add(new(Command.add)); break;
+                        case "sub":     ret.Add(new(Command.sub)); break;
+                        case "mul":     ret.Add(new(Command.mul)); break;
+                        case "div":     ret.Add(new(Command.div)); break;
+                        case "rem":     ret.Add(new(Command.rem)); break;
+                        case "nand":    ret.Add(new(Command.nand)); break;
+                        case "equal":   ret.Add(new(Command.equal)); break;
+                        case "greater": ret.Add(new(Command.greater)); break;
+                        case "truejump":ret.Add(new(Command.truejump)); break;
+                        case "jump":    ret.Add(new(Command.jump)); break;
+                        case "call":    ret.Add(new(Command.call)); break;
+                        case "ret":     ret.Add(new(Command.ret)); break;
+                        case "load":    ret.Add(new(Command.load)); break;
+                        case "store":   ret.Add(new(Command.store)); break;
+                        case "dumpkey": ret.Add(new(Command.dumpkey)); break;
+                        case "redraw":  ret.Add(new(Command.redraw)); break;
+                        case "rect":    ret.Add(new(Command.rect)); break;
+                        case "graph":   ret.Add(new(Command.graph)); break;
+                        case "sound":   ret.Add(new(Command.sound)); break;
+                        case "io":      ret.Add(new(Command.io)); break;
                         default:
                             throw new BGEException(text.ToLower() + "という演算子はありません", fpath, line);
                     }
@@ -217,56 +218,29 @@ namespace compiler
             return ret;
         }
     }
-    public enum BGEOperator : byte
-    {
-        push,
-        pop,
-        cls,
-        add,
-        sub,
-        mul,
-        div,
-        rem,
-        nand,
-        equal,
-        greater,
-        truejump,
-        jump,
-        call,
-        ret,
-        load,
-        store,
-        dumpkey,
-        redraw,
-        rect,
-        graph,
-        sound,
-        io
-    }
-
     public class BGEData
     {
-        public BGEOperator _operator;
+        public Command _operator;
         public char? _pushdata;
         public uint length
         {
             get
             {
-                return (uint)((_operator == BGEOperator.push) ? 2 : 1);
+                return (uint)((_operator == Command.push) ? 2 : 1);
             }
         }
         public BGEData()
         {
-            _operator = BGEOperator.push;
+            _operator = Command.push;
             _pushdata = null;
         }
-        public BGEData(BGEOperator @operator)
+        public BGEData(Command @operator)
         {
             _operator = @operator;
         }
         public BGEData(char pushdata)
         {
-            _operator = BGEOperator.push;
+            _operator = Command.push;
             _pushdata = pushdata;
         }
         public byte[] bin

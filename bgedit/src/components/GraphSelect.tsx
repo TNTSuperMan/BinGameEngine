@@ -9,7 +9,7 @@ function GraphSelect(props: {setid: (id:number)=>void}){
     return <div className="graphselect">
         {data.map((e,i)=>
             <div className="graphitem" key={i} onClick={()=>props.setid(i)}>
-                <input type="text" name="name" value={e.name}
+                {i}:<input type="text" name="name" value={e.name}
                     onChange={e=>dispatch(rename([i, e.target.value]))} />
                 <button onClick={()=>dispatch(remove(i))}>X</button>
                 <Graphic graph={e.data} size={2} onclick={()=>{}}/>

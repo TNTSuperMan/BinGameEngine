@@ -19,7 +19,7 @@ function Menu(){
     const dispatch = useDispatch();
     const downloader = useRef<HTMLAnchorElement|null>(null);
     const uploader = useRef<HTMLInputElement|null>(null);
-    function download(data:string, mime:string, link:string){
+    function download(data:string|Uint8Array, mime:string, link:string){
         if(downloader.current){
             const url = URL.createObjectURL(
                 new Blob([data], {type: mime}));
@@ -36,19 +36,20 @@ function Menu(){
             JSON.stringify(store.getState().data.data),
             "application/json", "graphics.json")}/>
         <MenuBtn text="エクスポート" func={()=>{
-            let content = "";
+            const contents:number[] = [];
+            console.log(store.getState().data.data)
             store.getState().data.data.forEach(g=>{
                 g.data.forEach(line=>{
                     while((line[line.length-1] & 0b11000000) == 0b01000000) line.pop();
                     line.forEach(num=>{
-                        content += String.fromCharCode(num);
+                        contents.push(num);
                     })
-                    content += String.fromCharCode(NEXTLINE);
+                    contents.push(NEXTLINE);
                 })
-                content += String.fromCharCode(0b11000000);
+                contents.push(0b11000000);
             })
             download(
-                content,
+                new Uint8Array(contents),
                 "application/octet-stream", "graphics.bin"
             )
         }}/>

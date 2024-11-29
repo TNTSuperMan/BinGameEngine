@@ -15,6 +15,7 @@ private:
 	uchar callstack_count = 0;
 
 	std::vector<Pect> displayStack = std::vector<Pect>();
+	std::vector<Graphic> graphics = std::vector<Graphic>();
 
 	uchar ram[0x6000];
 	uchar rom[0xa000];

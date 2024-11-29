@@ -100,13 +100,24 @@ void Runtime::Emulate() {
 
     case io:
         uchar* data = ram + 0x5000;
+        std::vector<uchar> graphstack;
         switch (Pop()) {
+        case 0:
+            graphstack = std::vector<uchar>();
+            graphics.clear();
+            for (int i = 0; i < 0x1000; i++) {
+                if ((data[i] & 0b11000000) << 6 == 0b11) {
+                    graphics.push_back(Graphic(graphstack));
+                    graphstack.clear();
+                }else graphstack.push_back(data[i]);
+            }
+            break;
         case 2: //Load
             data = onLoad();
             for (int i = 0; i < 0x1000; i++)
                 ram[0x5000+i] = data[i];
             break;
-        case 3:
+        case 3: //Save
             onSave(data);
             break;
         }

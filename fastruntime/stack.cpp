@@ -1,10 +1,10 @@
 #include "fastruntime.hpp"
 
-void Runtime::push(uchar value) {
+void Runtime::Push(uchar value) {
 	stack[stack_count++] = value;
 }
 
-uchar Runtime::pop() {
+uchar Runtime::Pop() {
 	return stack[--stack_count];
 }
 

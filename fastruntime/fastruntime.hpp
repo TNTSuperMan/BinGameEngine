@@ -21,8 +21,8 @@ private:
 	ushort pc = 0;
 	bool isEnded = false;
 
-	void push(uchar);
-	uchar pop();
+	void Push(uchar);
+	uchar Pop();
 
 	void Call(ushort);
 	ushort Ret();

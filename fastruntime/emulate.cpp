@@ -23,6 +23,7 @@ void Runtime::Emulate() {
     case nop:
         break;
     case push:
+        Push(Load(++pc));
         break;
     }
 }

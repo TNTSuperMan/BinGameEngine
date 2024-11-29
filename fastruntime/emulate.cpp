@@ -97,5 +97,18 @@ void Runtime::Emulate() {
     case rect:
         displayStack.push_back(Graphic(Pop(), Pop(), Pop(), Pop(), Pop()));
         break;
+
+    case io:
+        uchar* data = ram + 0x5000;
+        switch (Pop()) {
+        case 2: //Load
+            data = onLoad();
+            for (int i = 0; i < 0x1000; i++)
+                ram[i + 0x5000] = data[i];
+            break;
+        case 3:
+            onSave(data);
+            break;
+        }
     }
 }

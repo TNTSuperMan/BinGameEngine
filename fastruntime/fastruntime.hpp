@@ -5,6 +5,7 @@
 
 typedef unsigned char uchar;
 typedef unsigned short ushort;
+
 class Runtime {
 private:
 	uchar stack[256];

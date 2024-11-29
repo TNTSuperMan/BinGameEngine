@@ -59,5 +59,28 @@ void Runtime::Emulate() {
     case greater: //スタックの都合上逆です。
         Push(Pop() < Pop() ? 1 : 0);
         break;
+    case truejump:
+        ushort addr = PopAddr();
+        if (Pop() != 0) {
+            pc = addr;
+            return;
+        }
+        break;
+    case jump:
+        pc = PopAddr();
+        return;
+    case call:
+        Call(pc);
+        pc = PopAddr();
+        return;
+    case ret:
+        if (callstack_count == 0) {
+            isEnded = true;
+            onEnd();
+        }
+        else {
+            pc = Ret();
+        }
+        break;
     }
 }

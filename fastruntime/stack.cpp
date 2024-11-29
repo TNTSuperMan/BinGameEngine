@@ -22,10 +22,5 @@ void Runtime::Call(ushort addr) {
 }
 
 ushort Runtime::Ret() {
-	if (callstack_count == 0) {
-		throw "Callstack underflow";
-	}
-	else {
-		return callstack[--callstack_count];
-	}
+	return callstack[--callstack_count];
 }

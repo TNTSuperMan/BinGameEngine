@@ -17,6 +17,8 @@ private:
 
 	uchar ram[0x6000];
 	uchar rom[0xa000];
+
+	ushort pc = 0;
 public:
 	Runtime(uchar* rom, ushort len);
 

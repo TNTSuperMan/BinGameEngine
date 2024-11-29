@@ -143,6 +143,7 @@
     <ClInclude Include="graphic.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="emulate.cpp" />
     <ClCompile Include="graphic.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="memory.cpp" />

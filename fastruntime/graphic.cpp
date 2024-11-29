@@ -35,3 +35,20 @@ Pect::Pect(uchar x, uchar y, uchar c) {
 	B = color.B;
 	isDraw = !color.isTransparent;
 }
+
+Graphic::Graphic(std::vector<Pect> data) {
+	pixels = data;
+}
+
+std::vector<Pect> Graphic::Draw(uchar x, uchar y) {
+	std::vector<Pect> moved = std::vector<Pect>();
+	for (int i = 0; i < pixels.size(); i++) {
+		Pect p = pixels.at(i);
+		if ((0xff - p.X) < x) continue;
+		if ((0xff - p.Y) < y) continue;
+		p.X += x;
+		p.Y += y;
+		moved.push_back(p);
+	}
+	return moved;
+}

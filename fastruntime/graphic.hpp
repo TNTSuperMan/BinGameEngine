@@ -16,6 +16,12 @@ struct Pect {
 	Pect(uchar x, uchar y, uchar c);
 };
 
+struct Graphic {
+	std::vector<Pect> pixels;
+	Graphic(std::vector<Pect>);
+	std::vector<Pect> Draw(uchar x, uchar y);
+};
+
 struct Color {
 	uchar R;
 	uchar G;

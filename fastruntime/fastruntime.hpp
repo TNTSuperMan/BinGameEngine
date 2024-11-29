@@ -7,7 +7,7 @@ typedef unsigned char uchar;
 typedef unsigned short ushort;
 class Runtime {
 private:
-	char stack[256];
+	uchar stack[256];
 	uchar stack_count = 0;
 
 	ushort callstack[256];
@@ -20,6 +20,12 @@ private:
 
 	ushort pc = 0;
 	bool isEnded = false;
+
+	void push(uchar);
+	uchar pop();
+
+	void Call(ushort);
+	ushort Ret();
 public:
 	Runtime(uchar* rom, ushort len);
 

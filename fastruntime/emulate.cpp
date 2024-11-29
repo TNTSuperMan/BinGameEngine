@@ -17,3 +17,12 @@ void Runtime::EmulateFrame() {
         Emulate();
     if (!isEnded) Emulate();
 }
+
+void Runtime::Emulate() {
+    switch (Load(pc)) {
+    case nop:
+        break;
+    case push:
+        break;
+    }
+}

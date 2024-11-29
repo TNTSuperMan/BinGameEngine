@@ -14,7 +14,7 @@ private:
 	ushort callstack[256];
 	uchar callstack_count = 0;
 
-	std::vector<Graphic> displayStack = std::vector<Graphic>();
+	std::vector<Pect> displayStack = std::vector<Pect>();
 
 	uchar ram[0x6000];
 	uchar rom[0xa000];
@@ -37,7 +37,7 @@ public:
 	uchar Load(ushort);
 	void Store(ushort, uchar);
 
-	std::function<void(Graphic[], int)> onRedraw;
+	std::function<void(Pect[], int)> onRedraw;
 	std::function<uchar()> getkeyState;
 	std::function<void(uchar[])> onSave;
 	std::function<uchar*()> onLoad;

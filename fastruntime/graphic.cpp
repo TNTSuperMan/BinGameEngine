@@ -1,7 +1,7 @@
 #pragma once
 #include "graphic.hpp"
 
-Graphic::Graphic(uchar c, uchar h, uchar w, uchar y, uchar x) {
+Pect::Pect(uchar c, uchar h, uchar w, uchar y, uchar x) {
 	X = x;
 	Y = x;
 	Width = x;
@@ -14,7 +14,7 @@ Graphic::Graphic(uchar c, uchar h, uchar w, uchar y, uchar x) {
 	isDraw = !color.isTransparent;
 }
 
-Graphic::Graphic(uchar x, uchar y, uchar c) {
+Pect::Pect(uchar x, uchar y, uchar c) {
 	X = x;
 	Y = y;
 	Width = 1;

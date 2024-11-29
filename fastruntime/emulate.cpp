@@ -95,7 +95,7 @@ void Runtime::Emulate() {
         displayStack.clear();
         break;
     case rect:
-        displayStack.push_back(Graphic(Pop(), Pop(), Pop(), Pop(), Pop()));
+        displayStack.push_back(Pect(Pop(), Pop(), Pop(), Pop(), Pop()));
         break;
 
     case io:

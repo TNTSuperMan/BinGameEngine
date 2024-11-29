@@ -1,7 +1,7 @@
 #pragma once
 #include "fastruntime.hpp"
 
-struct Graphic {
+struct Pect {
 	uchar X;
 	uchar Y;
 	uchar Width;
@@ -11,8 +11,8 @@ struct Graphic {
 	uchar B;
 	bool isPixel;
 	bool isDraw;
-	Graphic(uchar c, uchar h, uchar w, uchar y, uchar x);
-	Graphic(uchar x, uchar y, uchar c);
+	Pect(uchar c, uchar h, uchar w, uchar y, uchar x);
+	Pect(uchar x, uchar y, uchar c);
 };
 
 struct Color {

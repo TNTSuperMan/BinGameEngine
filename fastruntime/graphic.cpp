@@ -36,8 +36,22 @@ Pect::Pect(uchar x, uchar y, uchar c) {
 	isDraw = !color.isTransparent;
 }
 
-Graphic::Graphic(std::vector<Pect> data) {
-	pixels = data;
+Graphic::Graphic(std::vector<uchar> data) {
+	pixels = std::vector<Pect>();
+	uchar x = 0,y = 0;
+	for (int i = 0; i < data.size(); i++) {
+		uchar d = data.at(i);
+		if ((d & 0b11000000) >> 6 != 0b01) {
+			if ((d & 0b11000000) >> 6 != 0b10) {
+				y++;
+				x = 0;
+			}
+			else {
+				pixels.push_back(Pect(x, y, d));
+				x++;
+			}
+		}
+	}
 }
 
 std::vector<Pect> Graphic::Draw(uchar x, uchar y) {

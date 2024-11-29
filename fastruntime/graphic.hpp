@@ -18,7 +18,7 @@ struct Pect {
 
 struct Graphic {
 	std::vector<Pect> pixels;
-	Graphic(std::vector<Pect>);
+	Graphic(std::vector<uchar>);
 	std::vector<Pect> Draw(uchar x, uchar y);
 };
 

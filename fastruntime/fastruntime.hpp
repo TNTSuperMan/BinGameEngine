@@ -1,5 +1,6 @@
 #pragma once
 #include <functional>
+#include <vector>
 #include "graphic.hpp"
 
 typedef unsigned char uchar;
@@ -11,6 +12,8 @@ private:
 
 	ushort callstack[256];
 	uchar callstack_count = 0;
+
+	std::vector<Graphic> graphics = std::vector<Graphic>();
 
 	uchar ram[0x6000];
 	uchar rom[0xa000];

@@ -91,11 +91,11 @@ void Runtime::Emulate() {
     case dumpkey:
         Push(getkeyState());
     case redraw:
-        onRedraw(graphics.data(), graphics.size());
-        graphics.clear();
+        onRedraw(displayStack.data(), displayStack.size());
+        displayStack.clear();
         break;
     case rect:
-        graphics.push_back(Graphic(Pop(), Pop(), Pop(), Pop(), Pop()));
+        displayStack.push_back(Graphic(Pop(), Pop(), Pop(), Pop(), Pop()));
         break;
     }
 }

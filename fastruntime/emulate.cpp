@@ -104,7 +104,7 @@ void Runtime::Emulate() {
         case 2: //Load
             data = onLoad();
             for (int i = 0; i < 0x1000; i++)
-                ram[i + 0x5000] = data[i];
+                ram[0x5000+i] = data[i];
             break;
         case 3:
             onSave(data);

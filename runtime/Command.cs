@@ -82,12 +82,9 @@
                     if (stack.Pop() != 0)
                     {
                         pc = addr;
+                        return;
                     }
-                    else
-                    {
-                        pc++;
-                    }
-                    return;
+                    break;
                 case Command.jump:
                     pc = popAddr();
                     return;

@@ -35,6 +35,7 @@
         {
             while (memory.Load(pc) != (byte)Command.redraw && !isEnded)
                 EmulateNext();
+            if (!isEnded) EmulateNext();
         }
         public void EmulateNext()
         {

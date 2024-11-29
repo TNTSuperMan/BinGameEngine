@@ -19,6 +19,7 @@ private:
 	uchar rom[0xa000];
 
 	ushort pc = 0;
+	bool isEnded = false;
 public:
 	Runtime(uchar* rom, ushort len);
 

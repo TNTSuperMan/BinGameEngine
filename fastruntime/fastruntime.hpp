@@ -25,8 +25,8 @@ private:
 	uchar Pop();
 	ushort PopAddr();
 
-	void Call(ushort);
-	ushort Ret();
+	void PushCallstack(ushort);
+	ushort PopCallstack();
 public:
 	Runtime(uchar* rom, ushort len);
 

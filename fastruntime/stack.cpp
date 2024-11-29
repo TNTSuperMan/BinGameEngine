@@ -12,7 +12,7 @@ ushort Runtime::PopAddr() {
 	return (ushort)(Pop() | (Pop() << 8));
 }
 
-void Runtime::Call(ushort addr) {
+void Runtime::PushCallstack(ushort addr) {
 	if (callstack_count == 0xff) {
 		throw "Callstack overflow";
 	}
@@ -21,6 +21,6 @@ void Runtime::Call(ushort addr) {
 	}
 }
 
-ushort Runtime::Ret() {
+ushort Runtime::PopCallstack() {
 	return callstack[--callstack_count];
 }

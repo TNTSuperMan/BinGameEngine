@@ -70,7 +70,7 @@ void Runtime::Emulate() {
         pc = PopAddr();
         return;
     case call:
-        Call(pc);
+        PushCallstack(pc);
         pc = PopAddr();
         return;
     case ret:
@@ -79,7 +79,7 @@ void Runtime::Emulate() {
             onEnd();
         }
         else {
-            pc = Ret();
+            pc = PopCallstack();
         }
         break;
     }

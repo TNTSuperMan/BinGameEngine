@@ -144,6 +144,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="graphic.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="memory.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

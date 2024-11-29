@@ -7,10 +7,10 @@ typedef unsigned short ushort;
 class Runtime {
 private:
 	char stack[256];
-	uchar stack_count;
+	uchar stack_count = 0;
 
 	ushort callstack[256];
-	uchar callstack_count;
+	uchar callstack_count = 0;
 
 	uchar ram[0x6000];
 	uchar rom[0xa000];

@@ -8,6 +8,10 @@ uchar Runtime::Pop() {
 	return stack[--stack_count];
 }
 
+ushort Runtime::PopAddr() {
+	return (ushort)(Pop() | (Pop() << 8));
+}
+
 void Runtime::Call(ushort addr) {
 	if (callstack_count == 0xff) {
 		throw "Callstack overflow";

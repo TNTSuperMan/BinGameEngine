@@ -23,6 +23,7 @@ private:
 
 	void Push(uchar);
 	uchar Pop();
+	ushort PopAddr();
 
 	void Call(ushort);
 	ushort Ret();

@@ -1,6 +1,7 @@
 #pragma once
 #include "fastruntime.hpp"
 
+// Pixel X Rect
 struct Pect {
 	uchar X;
 	uchar Y;

@@ -91,7 +91,7 @@ void Runtime::Emulate() {
     case dumpkey:
         Push(getkeyState());
     case redraw:
-        onRedraw(displayStack.data(), displayStack.size());
+        onRedraw(displayStack);
         displayStack.clear();
         break;
     case rect:

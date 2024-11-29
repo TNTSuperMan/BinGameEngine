@@ -23,7 +23,7 @@ public:
 	uchar Load(ushort);
 	void Store(ushort, uchar);
 
-	std::function<void(Graphic[])> onRedraw;
+	std::function<void(Graphic[], int)> onRedraw;
 	std::function<uchar()> getkeyState;
 	std::function<void(uchar[])> onSave;
 	std::function<uchar*()> onLoad;

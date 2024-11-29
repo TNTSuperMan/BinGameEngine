@@ -1,6 +1,6 @@
 #include "fastruntime.hpp"
 
-enum Command
+enum Command: uchar
 {
     nop, push, pop, cls,
     add, sub, mul, div, rem, nand, equal, greater,

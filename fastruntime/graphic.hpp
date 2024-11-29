@@ -11,7 +11,7 @@ struct Graphic {
 	uchar B;
 	bool isPixel;
 	bool isDraw;
-	Graphic(uchar x, uchar y, uchar w, uchar h, uchar c);
+	Graphic(uchar c, uchar h, uchar w, uchar y, uchar x);
 	Graphic(uchar x, uchar y, uchar c);
 };
 

@@ -88,5 +88,14 @@ void Runtime::Emulate() {
     case store:
         Store(PopAddr(), Pop());
         break;
+    case dumpkey:
+        Push(getkeyState());
+    case redraw:
+        onRedraw(graphics.data(), graphics.size());
+        graphics.clear();
+        break;
+    case rect:
+        graphics.push_back(Graphic(Pop(), Pop(), Pop(), Pop(), Pop()));
+        break;
     }
 }

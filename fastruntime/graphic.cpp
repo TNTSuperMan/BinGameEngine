@@ -1,7 +1,7 @@
 #pragma once
 #include "graphic.hpp"
 
-Graphic::Graphic(uchar x, uchar y, uchar w, uchar h, uchar c) {
+Graphic::Graphic(uchar c, uchar h, uchar w, uchar y, uchar x) {
 	X = x;
 	Y = x;
 	Width = x;

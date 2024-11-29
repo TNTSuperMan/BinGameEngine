@@ -38,7 +38,7 @@ public:
 	uchar Load(ushort);
 	void Store(ushort, uchar);
 
-	std::function<void(Pect[], int)> onRedraw;
+	std::function<void(std::vector<Pect>)> onRedraw;
 	std::function<uchar()> getkeyState;
 	std::function<void(uchar[])> onSave;
 	std::function<uchar*()> onLoad;

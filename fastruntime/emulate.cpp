@@ -82,5 +82,11 @@ void Runtime::Emulate() {
             pc = PopCallstack();
         }
         break;
+    case load:
+        Push(Load(PopAddr()));
+        break;
+    case store:
+        Store(PopAddr(), Pop());
+        break;
     }
 }

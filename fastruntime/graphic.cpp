@@ -1,5 +1,5 @@
 #pragma once
-#include "graphic.hpp"
+#include "fastruntime.hpp"
 
 Color c2rgb(uchar c) {
 	Color color;

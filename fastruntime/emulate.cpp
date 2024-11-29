@@ -1,6 +1,6 @@
 #include "fastruntime.hpp"
 
-enum Command: uchar
+enum class Command: uchar
 {
     nop, push, pop, cls,
     add, sub, mul, div, rem, nand, equal, greater,
@@ -13,67 +13,70 @@ enum Command: uchar
 };
 
 void Runtime::EmulateFrame() {
-    while (Load(pc) == redraw && !isEnded)
+    while ((Command)Load(pc) == Command::redraw && !isEnded)
         Emulate();
     if (!isEnded) Emulate();
 }
 
 void Runtime::Emulate() {
     uchar tmp;
-    switch (Load(pc)) {
-    case nop:
+    uchar* data;
+    ushort addr;
+    std::vector<uchar> graphstack;
+    switch ((Command)Load(pc)) {
+    case Command::nop:
         break;
-    case push:
+    case Command::push:
         Push(Load(++pc));
         break;
-    case pop:
+    case Command::pop:
         Pop();
         break;
-    case cls:
+    case Command::cls:
         stack_count = 0;
         break;
-    case add:
+    case Command::add:
         Push(Pop() + Pop());
         break;
-    case sub:
+    case Command::sub:
         tmp = Pop();
         Push(Pop() + tmp);
         break;
-    case mul:
+    case Command::mul:
         Push(Pop() * Pop());
         break;
-    case div:
+    case Command::div:
         tmp = Pop();
         Push(Pop() / tmp);
         break;
-    case rem:
+    case Command::rem:
         tmp = Pop();
         Push(Pop() % tmp);
         break;
-    case nand:
+    case Command::nand:
         Push(~(Pop() & Pop()));
         break;
-    case equal:
+    case Command::equal:
         Push(Pop() == Pop() ? 1 : 0);
         break;
-    case greater: //スタックの都合上逆です。
+    case Command::greater: //スタックの都合上逆です。
         Push(Pop() < Pop() ? 1 : 0);
         break;
-    case truejump:
-        ushort addr = PopAddr();
+    case Command::truejump:
+        addr = PopAddr();
         if (Pop() != 0) {
             pc = addr;
             return;
         }
         break;
-    case jump:
+    case Command::jump:
         pc = PopAddr();
         return;
-    case call:
+    case Command::call:
         PushCallstack(pc);
         pc = PopAddr();
         return;
-    case ret:
+    case Command::ret:
         if (callstack_count == 0) {
             isEnded = true;
             onEnd();
@@ -82,25 +85,24 @@ void Runtime::Emulate() {
             pc = PopCallstack();
         }
         break;
-    case load:
+    case Command::load:
         Push(Load(PopAddr()));
         break;
-    case store:
+    case Command::store:
         Store(PopAddr(), Pop());
         break;
-    case dumpkey:
+    case Command::dumpkey:
         Push(getkeyState());
-    case redraw:
+    case Command::redraw:
         onRedraw(displayStack);
         displayStack.clear();
         break;
-    case rect:
+    case Command::rect:
         displayStack.push_back(Pect(Pop(), Pop(), Pop(), Pop(), Pop()));
         break;
 
-    case io:
-        uchar* data = ram + 0x5000;
-        std::vector<uchar> graphstack;
+    case Command::io:
+        data = ram + 0x5000;
         switch (Pop()) {
         case 0:
             graphstack = std::vector<uchar>();

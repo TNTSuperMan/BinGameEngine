@@ -1,10 +1,39 @@
 #pragma once
 #include <functional>
 #include <vector>
-#include "graphic.hpp"
 
 typedef unsigned char uchar;
 typedef unsigned short ushort;
+
+using namespace std;
+
+// Pixel X Rect
+struct Pect {
+	uchar X;
+	uchar Y;
+	uchar Width;
+	uchar Height;
+	uchar R;
+	uchar G;
+	uchar B;
+	bool isPixel;
+	bool isDraw;
+	Pect(uchar c, uchar h, uchar w, uchar y, uchar x);
+	Pect(uchar x, uchar y, uchar c);
+};
+
+struct Graphic {
+	vector<Pect> pixels;
+	Graphic(vector<uchar>);
+	vector<Pect> Draw(uchar x, uchar y);
+};
+
+struct Color {
+	uchar R;
+	uchar G;
+	uchar B;
+	bool isTransparent;
+};
 
 class Runtime {
 private:
@@ -14,8 +43,8 @@ private:
 	ushort callstack[256];
 	uchar callstack_count = 0;
 
-	std::vector<Pect> displayStack = std::vector<Pect>();
-	std::vector<Graphic> graphics = std::vector<Graphic>();
+	vector<Pect> displayStack;
+	vector<Graphic> graphics;
 
 	uchar ram[0x6000];
 	uchar rom[0xa000];
@@ -38,11 +67,13 @@ public:
 	uchar Load(ushort);
 	void Store(ushort, uchar);
 
-	std::function<void(std::vector<Pect>)> onRedraw;
-	std::function<uchar()> getkeyState;
-	std::function<void(uchar[])> onSave;
-	std::function<uchar*()> onLoad;
-	std::function<void(uchar hz, uchar len)> onSound;
-	std::function<void()> onStopSound;
-	std::function<void()> onEnd;
+	function<void(vector<Pect>)> onRedraw;
+	function<uchar()> getkeyState;
+	function<void(uchar[])> onSave;
+	function<uchar*()> onLoad;
+	function<void(uchar hz, uchar len)> onSound;
+	function<void()> onStopSound;
+	function<void()> onEnd;
 };
+
+Color c2rgb(uchar);

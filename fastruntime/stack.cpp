@@ -15,8 +15,7 @@ ushort Runtime::PopAddr() {
 void Runtime::PushCallstack(ushort addr) {
 	if (callstack_count == 0xff) {
 		throw "Callstack overflow";
-	}
-	else {
+	} else {
 		callstack[callstack_count++] = addr;
 	}
 }

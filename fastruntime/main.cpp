@@ -14,7 +14,6 @@ Runtime::Runtime(uchar* rom, ushort len) {
 		this->ram[i] = 0;
 }
 
-
 Runtime::Runtime() {
 	stack = new uchar[256];
 	callstack = new ushort[256];

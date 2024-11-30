@@ -4,6 +4,8 @@
 ## 状況
 runtimeとdebuggerはsound機能とセーブ機能以外だいたい実装できてきました。  
 assemblerはバイナリを埋めるとかしたい  
-bge用画像編集アプリがあれば便利そうだからbgeditを作ってます(完全製作途中)
+bgeditだいたい完成
+fastruntimeとfastgameに苦戦中
+compilerの型も苦戦
 ## 命令リストとかは？
 [ここらへんを参照してください](/js/funclist/index.html)

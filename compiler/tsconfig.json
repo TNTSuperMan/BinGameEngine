@@ -15,7 +15,8 @@
       "emitDecoratorMetadata": true,
       "skipLibCheck": true,
       "forceConsistentCasingInFileNames": true,
-      "noEmit": true,
+      "declaration": true,
+      "emitDeclarationOnly": true,
       "allowImportingTsExtensions": true
     },
     "include": ["src/**/*"],

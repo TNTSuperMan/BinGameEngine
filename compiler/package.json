@@ -5,7 +5,8 @@
   "main": "src/index.ts",
   "type": "module",
   "scripts": {
-    "build": "rollup -c"
+    "build": "rollup -c",
+    "build:type": "tsc -d"
   },
   "author": "TNTSuperMan",
   "license": "MIT",

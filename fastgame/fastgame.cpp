@@ -25,14 +25,15 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     if(DxLib_Init() == -1) return -1;
     SetDrawScreen(DX_SCREEN_BACK);
 
-    std::ifstream ifs;
-    ifs.open(".\\out.bin");
-    if(!ifs) return -2;
-    vector<uchar> data;
-    uchar c;
-    while((c = ifs.get()) != EOF)
-        data.push_back(c);
-    Runtime vm = Runtime(data.data(), data.size());
+    FILE* stream;
+    if(fopen_s(&stream, ".\\out.bin", "rb")){
+        return -2;
+    }
+    uchar buffer[0x10000];
+    size_t len = fread_s(buffer, 0x10000, 1, 0x10000, stream);
+    fclose(stream);
+
+    Runtime vm = Runtime(buffer, (uchar)len);
     bool isEnded = false;
     vector<Pect> disps;
     Pect cur = Pect(0,0,0);

@@ -29,7 +29,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     ifs.open(".\\out.bin");
     if(!ifs) return -2;
     vector<uchar> data;
-    char c;
+    uchar c;
     while((c = ifs.get()) != EOF)
         data.push_back(c);
     Runtime vm = Runtime(data.data(), data.size());

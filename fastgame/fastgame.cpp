@@ -19,7 +19,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_ LPWSTR    lpCmdLine,
                      _In_ int       nCmdShow){
     SetOutApplicationLogValidFlag(0);
-    ChangeWindowMode(0);
+    ChangeWindowMode(1);
     SetGraphMode(256, 256, 16);
     SetMainWindowText(L"fastgame");
     if(DxLib_Init() == -1) return -1;

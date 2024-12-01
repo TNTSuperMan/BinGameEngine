@@ -37,17 +37,17 @@ struct Color {
 
 class Runtime {
 private:
-	uchar* stack;
+	uchar stack[256];
 	uchar stack_count = 0;
 
-	ushort* callstack;
+	ushort callstack[256];
 	uchar callstack_count = 0;
 
 	vector<Pect> displayStack;
 	vector<Graphic> graphics;
 
-	uchar* ram;
-	uchar* rom;
+	uchar rom[0xa000];
+	uchar ram[0x6000];
 
 	ushort pc = 0;
 	bool isEnded = false;

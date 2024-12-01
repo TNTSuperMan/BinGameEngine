@@ -93,7 +93,8 @@ void Runtime::Emulate() {
         Push(Load(PopAddr()));
         break;
     case Command::store:
-        Store(PopAddr(), Pop());
+        addr = PopAddr();
+        Store(addr, Pop());
         break;
     case Command::dumpkey:
         Push(getkeyState());

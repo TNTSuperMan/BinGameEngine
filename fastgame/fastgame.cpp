@@ -14,6 +14,8 @@ using namespace std;
 
 typedef unsigned char uchar;
 
+uchar buffer[0x10000];
+
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
                      _In_ LPWSTR    lpCmdLine,
@@ -29,7 +31,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     if(fopen_s(&stream, ".\\out.bin", "rb")){
         return -2;
     }
-    uchar buffer[0x10000];
     size_t len = fread_s(buffer, 0x10000, 1, 0x10000, stream);
     fclose(stream);
 

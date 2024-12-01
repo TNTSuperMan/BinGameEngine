@@ -13,7 +13,7 @@ enum class Command: uchar
 };
 
 void Runtime::EmulateFrame() {
-    while ((Command)Load(pc) == Command::redraw && !isEnded)
+    while ((Command)Load(pc) != Command::redraw && !isEnded)
         Emulate();
     if (!isEnded) Emulate();
 }

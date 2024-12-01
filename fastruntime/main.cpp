@@ -7,7 +7,7 @@ Runtime::Runtime(uchar* rom, ushort len) {
 	ram = new uchar[0x6000];
 	for (ushort i = 0; i < len; i++)
 		this->rom[i] = rom[i];
-	for (ushort i = 0; i < (0xa000 - len); i++)
+	for (ushort i = len; i < 0xa000; i++)
 		this->rom[i] = 0;
 
 	for (ushort i = 0; i < 0x6000; i++)

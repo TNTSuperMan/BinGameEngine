@@ -13,8 +13,11 @@ enum class Command: uchar
 };
 
 void Runtime::EmulateFrame() {
-    while ((Command)Load(pc) != Command::redraw && !isEnded)
+    Command c = (Command)Load(pc);
+    while ((c != Command::redraw) && !isEnded) {
         Emulate();
+        c = (Command)Load(pc);
+    }
     if (!isEnded) Emulate();
 }
 
@@ -23,7 +26,8 @@ void Runtime::Emulate() {
     uchar* data;
     ushort addr;
     std::vector<uchar> graphstack;
-    switch ((Command)Load(pc)) {
+    Command c = (Command)Load(pc);
+    switch (c) {
     case Command::nop:
         break;
     case Command::push:
@@ -124,4 +128,5 @@ void Runtime::Emulate() {
             break;
         }
     }
+    pc++;
 }

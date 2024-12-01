@@ -90,7 +90,7 @@ function oid2bid(e){
 
       <td class="empty"></td>
 
-      <td>{{ operator(Array.isArray(d) ? 0 : d) }}</td>
+      <td>{{ operator(Array.isArray(d) ? 1 : d) }}</td>
 
       <td v-if="Array.isArray(d)">{{
         d[0] +

@@ -2,10 +2,7 @@ import { varaddr, Variable } from "./var.ts";
 
 export type Expr = string;
 
-//Number to Hex
-const n2h = (e:number) => "/ " + e.toString(16) + "\n";
-
-export const num=(a:number)=>n2h(a);
+export const num=(a:number)=> "/ " + a.toString(16) + "\n";
 
 export const pop=()=>"/ pop\n";
 export const cls=()=>"/ cls\n";

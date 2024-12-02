@@ -9,7 +9,7 @@ export const defn = <T extends string[]>(name:string, fn:(...vars:number[])=>Exp
     for(let i = 0;i < fn.length;i++) vars.push(defvar());
     const realname = ":fn_" +name + genid();
     fndefines += realname + "\n";
-    fndefines += vars.reverse().map(e=>varaddr(e)+"store\n").join("")
+    fndefines += vars.reverse().map(e=>varaddr(e)+"\n/ store\n").join("")
     fndefines += fn(...vars.reverse()).join("\n") + "\n";
     return (...args)=>args.join("") + `\n/ ${realname} call\n`
 }

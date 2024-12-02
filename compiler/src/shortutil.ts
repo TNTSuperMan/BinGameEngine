@@ -9,8 +9,8 @@ export default ()=>({
     defvar:():ShortVar => 
         [defBvar(), defBvar()],
     
-    Store:(v:ShortVar):Expr =>
-        (`${v[1]}\n/ store\n${v[0]}\n/ store\n`),
+    Store:(up:Expr, bot:Expr, v:ShortVar):Expr =>
+        `${set(v[0], up) + set(v[1], bot)}`,
     
     Load:(v:ShortVar):Expr => 
         vr(v[0]) + vr(v[1]),

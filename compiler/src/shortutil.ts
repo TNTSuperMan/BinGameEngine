@@ -1,7 +1,7 @@
-import { If } from "control";
-import { defn } from "fn";
-import { add, Expr, greater, num, set, sub } from "native";
-import { Variable, defvar as defBvar, varaddr, vr } from "var";
+import { If } from "./control.ts";
+import { defn } from "./fn.ts";
+import { add, Expr, greater, num, set, sub } from "./native.ts";
+import { Variable, defvar as defBvar, varaddr, vr } from "./var.ts";
 
 export type ShortVar = [Variable, Variable];
 

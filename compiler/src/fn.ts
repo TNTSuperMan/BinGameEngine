@@ -1,7 +1,7 @@
 import { defvar, varaddr, Variable } from "./var.ts";
 import { Expr } from "./native.ts";
 import { Exprs } from "./control.ts"
-import genid from "genid.ts";
+import genid from "./genid.ts";
 export let fndefines = "";
 
 export const defn = <T extends string[]>(name:string, fn:(...vars:number[])=>Exprs):(...args:T)=>Expr => {

@@ -1,4 +1,4 @@
-import { Expr } from "native";
+import { Expr } from "./native.ts";
 
 export const varaddr = (a:Variable):Expr=>{
     let h:string = a.toString(16)

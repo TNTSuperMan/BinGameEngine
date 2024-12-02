@@ -1,4 +1,4 @@
-import genid from "genid.ts";
+import genid from "./genid.ts";
 import { not } from "./bool.ts";
 import { Expr } from "./native.ts";
 export type Exprs = string[]

@@ -12,7 +12,7 @@ export const defn = <T extends string[]>(name:string, fn:(...vars:number[])=>Exp
 
     fndefines += realname + "\n";
     fndefines += vars.reverse().map(e=>varaddr(e)+"/ store\n").join("")
-    fndefines += fn(...vars.reverse()).join("") + "\n";
+    fndefines += fn(...vars.reverse()).join("");
     return (...args)=>args.join("") + `/ ${realname} call\n`
 }
 

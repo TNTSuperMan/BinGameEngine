@@ -2,7 +2,7 @@ import { varaddr, Variable } from "./var.ts";
 
 export type Expr = string;
 
-export const comment = (a:string):Expr => `;${a}`;
+export const comment = (a:string):Expr => `;${a}\n`;
 
 export const num=(a:number)=> "/ " + a.toString(16) + "\n";
 

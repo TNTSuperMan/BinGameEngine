@@ -9,12 +9,12 @@ export const If = (condition:Expr, trueCode: Exprs, falseCode: Exprs = []):Expr 
     const endTag = ":if_end"+id;
 
     ret += `/ ${trueTag} truejump\n`
-    ret += falseCode.join("\n");
-    ret += `\n/ ${endTag} jump\n`;
+    ret += falseCode.join("");
+    ret += `/ ${endTag} jump\n`;
 
-    ret += `\n${trueTag}\n`;
-    ret += trueCode.join("\n");
-    ret += `\n${endTag}\n`;
+    ret += `${trueTag}\n`;
+    ret += trueCode.join("");
+    ret += `${endTag}\n`;
 
     return ret;
 }
@@ -26,7 +26,7 @@ export const While = (condition: Expr, code: Exprs):Expr => {
     ret += loopTag + "\n";
     ret += not(condition) + "/ "+endTag+" truejump\n";
     
-    ret += code.join("\n")
+    ret += code.join("")
 
     ret += "/ "+loopTag+" jump\n"
     ret += endTag + "\n";

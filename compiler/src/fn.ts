@@ -3,6 +3,7 @@ import { Expr } from "./native.ts";
 import { Exprs } from "./control.ts"
 import genid from "./genid.ts";
 export let fndefines = "";
+export let bindefines = "";
 
 export const defn = <T extends string[]>(name:string, fn:(...vars:number[])=>Exprs):(...args:T)=>Expr => {
     let vars:Variable[] = [];
@@ -17,7 +18,7 @@ export const defn = <T extends string[]>(name:string, fn:(...vars:number[])=>Exp
 
 export const loadbinary = (name: string, path: string):Expr => {
     const realname = ":binary_" + name + genid();
-    fndefines += realname ; "\n";
-    fndefines += `inject ${path}\n`
+    bindefines += realname ; "\n";
+    bindefines += `inject ${path}\n`
     return "/ "+realname+"\n"
 }

@@ -15,7 +15,11 @@
                 },
                 {
                     "name": "entity.name.tag",
-                    "match": ":[\\w]+"
+                    "match": "^:[^\\s]+$"
+                },
+                {
+                    "name": "entity.other.attribute-name",
+                    "match": ":[^\\s]+"
                 },
                 {
                     "name": "entity.name.tag",
@@ -23,7 +27,7 @@
                 },
                 {
                     "name": "constant.numeric",
-                    "match": " ([\\da-fA-F]){1,4}"
+                    "match": "[\\s/]([\\da-fA-F]){1,2}"
                 },
                 {
                     "name": "comment.line",

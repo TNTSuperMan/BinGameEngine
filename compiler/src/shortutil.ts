@@ -5,7 +5,7 @@ import { Variable, defvar as defBvar, varaddr, vr } from "./var.ts";
 
 export type ShortVar = [Variable, Variable];
 
-export default ()=>({
+export const useSutil = ()=>({
     defvar:():ShortVar => 
         [defBvar(), defBvar()],
     

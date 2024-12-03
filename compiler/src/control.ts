@@ -3,8 +3,8 @@ import { not } from "./bool.ts";
 import { Expr } from "./native.ts";
 export type Exprs = string[]
 export const If = (condition:Expr, trueCode: Exprs, falseCode: Exprs = [], comment?: string):Expr => {
-    let ret = comment ? `;${comment}\n` : "";
-    const id = genid();
+    let ret = "";
+    const id = (comment ? `_${comment}` : "") + genid();
     const trueTag = ":if_true"+id;
     const endTag = ":if_end"+id;
 
@@ -21,8 +21,8 @@ export const If = (condition:Expr, trueCode: Exprs, falseCode: Exprs = [], comme
     return ret;
 }
 export const While = (condition: Expr, code: Exprs, comment?: string):Expr => {
-    let ret = comment ? `;${comment}\n` : "";
-    const id = genid();
+    let ret = "";
+    const id = (comment ? `_${comment}` : "") + genid();
     const loopTag = ":while_loop" + id;
     const endTag = ":while_end" + id;
     ret += loopTag + "\n";

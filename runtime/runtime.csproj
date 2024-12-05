@@ -8,4 +8,8 @@
     <Authors>TNTSuperMan</Authors>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="SoundMaker" Version="2.3.2" />
+  </ItemGroup>
+
 </Project>

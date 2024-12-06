@@ -1,6 +1,6 @@
 import { Expr } from "./native.ts";
 
-const vars: [string, number][] = [];
+export const vars: [string, number][] = [];
 
 export const varaddr = (a:Variable):Expr=>{
     let h:string = a.toString(16)

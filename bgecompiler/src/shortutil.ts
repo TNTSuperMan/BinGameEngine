@@ -6,8 +6,8 @@ import { Variable, defvar as defBvar, varaddr, vr } from "./var.ts";
 export type ShortVar = [Variable, Variable];
 
 export const useSutil = ()=>({
-    defvar:():ShortVar => 
-        [defBvar(), defBvar()],
+    defvar:(description?: string):ShortVar => 
+        [defBvar(description), defBvar(description)],
     
     Store:(up:Expr, bot:Expr, v:ShortVar):Expr =>
         set(v[0], up) + set(v[1], bot),

@@ -15,7 +15,7 @@ export const useSutil = ()=>({
     Load:(v:ShortVar):Expr => 
         vr(v[0]) + vr(v[1]),
     
-    Addr:(v:ShortVar):Exprs => 
+    Addr:(v:ShortVar):[Expr, Expr] => 
         [varaddr(v[0]), varaddr(v[1])],
     
     

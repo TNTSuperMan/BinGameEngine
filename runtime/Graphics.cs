@@ -77,7 +77,7 @@ namespace bgeruntime
             }
             return ret.ToArray();
         }
-        static public List<Graphic> Bin2Graphics(byte[] data)
+        static public Graphic[] Bin2Graphics(byte[] data)
         {
             List<Graphic> graphics = new();
             List<byte> graphStack = new();
@@ -91,12 +91,12 @@ namespace bgeruntime
                 }
                 else graphStack.Add(data[i]);
             }
-            return graphics;
+            return graphics.ToArray();
         }
     }
     public partial class Runtime
     {
         private List<GraphRect> redrawStack = new();
-        private List<Graphic> graphics = new();
+        private Graphic[] graphics;
     }
 }

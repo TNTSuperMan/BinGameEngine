@@ -4,7 +4,7 @@ using SoundMaker.Sounds.SoundChannels;
 
 namespace bgeruntime
 {
-    internal class Sound
+    public class Sound
     {
         enum Flag
         {
@@ -47,14 +47,14 @@ namespace bgeruntime
                         i++;if (i >= data.Length) return channel;
                         channel.Add(new Note(
                             (Scale)(data[i] & 0b00001111),
-                                    data[i] & 0b11110000,
+                                   (data[i] & 0b11110000) >> 4,
                             len));
                         break;
                 }
             }
             return channel;
         }
-        public static byte[][] Bin2SoundStreams(byte[] data)
+        public static byte[][] Bin2WavBins(byte[] data)
         {
             List<byte[]> parts = new();
             List<ISoundChannel> part = new();
@@ -71,10 +71,10 @@ namespace bgeruntime
                 }
                 if (GetFlag(data[i]) == Flag.Next && !beforeNote)
                 {
-                    pcount++;
                     part.Add(Bin2Channel(tempo, (ChannelState)pcount, partBytes.ToArray()));
                     partBytes.Clear();
-                    if(pcount >= 4)
+                    pcount++;
+                    if (pcount >= 3)
                     {
                         var wave = new MonauralMixer(part).Mix();
                         var sound = new SoundMaker.WaveFile.SoundWaveChunk(wave.GetBytes(format.BitRate));
@@ -95,7 +95,7 @@ namespace bgeruntime
                 }
                 else
                 {
-                    beforeNote = GetFlag(data[i]) == Flag.Note;
+                    if(beforeNote) beforeNote = GetFlag(data[i]) == Flag.Note;
                     partBytes.Add(data[i]);
                 }
             }

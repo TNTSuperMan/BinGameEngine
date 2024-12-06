@@ -22,3 +22,17 @@ export const ret=(...a:Expr[]):Expr=>a.join("\n")+"/ ret\n";
 
 export const rect=(x:Expr,y:Expr,w:Expr,h:Expr,c:Expr):Expr=>x+y+w+h+c+"/ rect\n";
 export const redraw=():Expr=>"/ redraw\n";
+
+export const graph=(g:Expr):Expr=>g + "/ graph\n";
+
+export const sound=(s:Expr):Expr=>s + "/ sound\n";
+export const stopsound=():Expr=>"/ stopsound\n";
+
+export const IO = {
+    graphic:0,
+    sound: 1,
+    load: 2,
+    save: 3
+}
+
+export const io=(t: number):Expr => num(t) + "/ io\n";

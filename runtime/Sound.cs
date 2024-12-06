@@ -110,4 +110,8 @@ namespace bgeruntime
             return parts.ToArray();
         }
     }
+    public partial class Runtime
+    {
+        private byte[][] sounds;
+    }
 }

@@ -13,10 +13,10 @@ namespace bgeruntime
         public readonly byte Height = 1;
         public GraphRect(byte c, byte h, byte w, byte y, byte x)
         {
-            X = x;
-            Y = y;
-            Width = w;
-            Height = h;
+            X = Math.Min(x, (byte)0x7f);
+            Y = Math.Min(y, (byte)0x7f);
+            Width = (byte)Math.Min(Width, 0x7f - X);
+            Height =(byte)Math.Min(Height, 0x7f - Y);
             color = Color.FromArgb(
                 ((c & 0b00110000) >> 4) * 85,
                 ((c & 0b00001100) >> 2) * 85,

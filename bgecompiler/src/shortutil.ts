@@ -1,4 +1,4 @@
-import { Exprs, If } from "./control.ts";
+import { If } from "./control.ts";
 import { defn } from "./fn.ts";
 import { add, Expr, greater, num, set, sub } from "./native.ts";
 import { Variable, defvar as defBvar, varaddr, vr } from "./var.ts";

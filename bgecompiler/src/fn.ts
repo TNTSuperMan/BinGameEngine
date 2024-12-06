@@ -18,7 +18,7 @@ export const defn = <T extends string[]>(name:string, fn:(...vars:number[])=>Exp
 
 export const loadbinary = (name: string, path: string):Expr => {
     const realname = ":binary_" + name + genid();
-    bindefines += realname ; "\n";
+    bindefines += realname + "\n";
     bindefines += `inject ${path}\n`
     return "/ "+realname+"\n"
 }

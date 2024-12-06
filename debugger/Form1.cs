@@ -170,7 +170,7 @@ namespace debugger
         {
             foreach (var d in graphicsStack)
                 if (d.isDraw)
-                    e.Graphics.FillRectangle(new SolidBrush(d.color), d.X, d.Y, d.Width, d.Height);
+                    e.Graphics.FillRectangle(new SolidBrush(d.color), d.X * 2, d.Y * 2, d.Width * 2, d.Height * 2);
             graphicsStack = [];
             return;
         }

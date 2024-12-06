@@ -1,4 +1,5 @@
 using bgeruntime;
+using System.Media;
 using System.Reflection;
 namespace debugger
 {
@@ -8,6 +9,7 @@ namespace debugger
         byte[] bin = [];
         List<string> programTexts = new List<string>();
         GraphRect[] graphicsStack = [];
+        List<SoundPlayer> Sounds = new();
         Runtime vm;
 
         bool debug = true;
@@ -126,6 +128,16 @@ namespace debugger
             {
                 graphicsStack = e;
                 panel1.Invalidate();
+            };
+            vm.onSound = (byte[] wave) =>
+            {
+                Sounds.Add(new(new MemoryStream(wave)));
+                Sounds.Last().Play();
+            };
+            vm.onStopSound = () =>
+            {
+                foreach (var sound in Sounds) sound.Stop();
+                Sounds.Clear();
             };
             startBtn.Enabled = false;
             debug = !fasterCheck.Checked;

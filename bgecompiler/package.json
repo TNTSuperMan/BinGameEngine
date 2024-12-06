@@ -7,7 +7,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "rollup -c && tsc",
-    "build:type": "tsc -d"
+    "publish": "npm run build"
   },
   "author": "TNTSuperMan",
   "license": "MIT",

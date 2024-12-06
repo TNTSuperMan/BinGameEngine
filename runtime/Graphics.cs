@@ -33,6 +33,7 @@ namespace bgeruntime
                 ((c & 0b00000011) >> 0) * 85
             );
             isPixel = true;
+            isDraw = ((c & 0b11000000) >> 6) == 0b01;
             X = x;
             Y = y;
         }
@@ -56,10 +57,11 @@ namespace bgeruntime
             byte x = 0, y = 0;
             foreach (var d in data)
             {
-                if ((d & 0b11000000) << 6 == 0b10)
+                if ((d & 0b11000000) >> 6 == 0b10)
                 {
                     y++;
                     x = 0;
+                    continue;
                 }else raws.Add(new GraphRect(x, y, d));
                 x++;
             }
@@ -81,10 +83,9 @@ namespace bgeruntime
         {
             List<Graphic> graphics = new();
             List<byte> graphStack = new();
-            graphics.Clear();
-            for (int i = 0; i < 0x1000; i++)
+            for (int i = 0; i < data.Length; i++)
             {
-                if ((data[i] & 0b11000000) << 6 == 0b11)
+                if ((data[i] & 0b11000000) >> 6 == 0b11)
                 {
                     graphics.Add(new(graphStack.ToArray()));
                     graphStack.Clear();

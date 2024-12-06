@@ -140,7 +140,7 @@
                             graphics = Graphic.Bin2Graphics(data);
                             break;
                         case 1: //Sound
-                            sounds = Sound.Bin2WavBins(data);
+                            sounds = SoundGenerator.Bin2WavBins(data);
                             break;
                         case 2: //Load
                             data = onLoad();

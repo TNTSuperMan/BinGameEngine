@@ -4,7 +4,7 @@
     public delegate byte GetKeyState();
     public delegate void Save(byte[] data);
     public delegate byte[] Load();
-    public delegate void PlaySound(byte[] wave);
+    public delegate void PlaySound(Sound sound);
     public delegate void StopSound();
     public delegate void End();
 
@@ -14,7 +14,7 @@
         public GetKeyState getKeyState = ()=>0;
         public Save        onSave      = (byte[] data)=>{};
         public Load        onLoad      = ()=>new byte[0x1000];
-        public PlaySound   onSound     = (byte[] wave)=>{};
+        public PlaySound   onSound     = (Sound sound)=>{};
         public StopSound   onStopSound = ()=>{};
         public End         onEnd       = ()=>{};
     }

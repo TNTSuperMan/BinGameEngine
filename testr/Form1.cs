@@ -12,7 +12,7 @@ namespace testr
         GraphRect[] disps = [];
         private void Form1_Load(object sender, EventArgs e)
         {
-            byte[][] data = Sound.Bin2WavBins([
+            byte[][] data = SoundGenerator.Bin2WavBins([
                 120,       //Sq1
                 0b01000100, 0b01010000,
                 0b01000100, 0b01010001,

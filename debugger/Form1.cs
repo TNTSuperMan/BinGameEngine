@@ -129,10 +129,11 @@ namespace debugger
                 graphicsStack = e;
                 panel1.Invalidate();
             };
-            vm.onSound = (byte[] wave) =>
+            vm.onSound = (Sound sound) =>
             {
-                Sounds.Add(new(new MemoryStream(wave)));
-                Sounds.Last().Play();
+                Sounds.Add(new(sound.Stream()));
+                if (sound.isLoop) Sounds.Last().PlayLooping();
+                else Sounds.Last().Play();
             };
             vm.onStopSound = () =>
             {

@@ -6,6 +6,17 @@ namespace bgeruntime
 {
     public class Sound
     {
+        public readonly byte[] Wave;
+        public readonly bool isLoop;
+        public Sound(byte[] wave, bool isloop)
+        {
+            Wave = wave;
+            isLoop = isloop;
+        }
+        public MemoryStream Stream() => new MemoryStream(Wave);
+    }
+    public class SoundGenerator
+    {
         enum Flag
         {
             Rest, Note, Tuplet, Next
@@ -54,19 +65,21 @@ namespace bgeruntime
             }
             return channel;
         }
-        public static byte[][] Bin2WavBins(byte[] data)
+        public static Sound[] Bin2WavBins(byte[] data)
         {
-            List<byte[]> parts = new();
+            List<Sound> parts = new();
             List<ISoundChannel> part = new();
             List<byte> partBytes = new();
             int pcount = 0;
             int tempo = 0;
+            bool isLoop = false;
             bool beforeNote = false;
             for(int i = 0;i < data.Length; i++)
             {
                 if(tempo == 0)
                 {
-                    tempo = data[i];
+                    tempo = (data[i] & 0b1111111) * 4;
+                    isLoop = (data[i] & 0b10000000) != 0;
                     continue;
                 }
                 if (GetFlag(data[i]) == Flag.Next && !beforeNote)
@@ -92,7 +105,7 @@ namespace bgeruntime
                         var stream = new MemoryStream();
                         var writer = new SoundMaker.WaveFile.WaveWriter(wformat, sound);
                         writer.Write(stream);
-                        parts.Add(stream.ToArray());
+                        parts.Add(new(stream.ToArray(), isLoop));
                         stream.Close();
 
                         pcount = 0;
@@ -112,6 +125,6 @@ namespace bgeruntime
     }
     public partial class Runtime
     {
-        private byte[][] sounds;
+        private Sound[] sounds;
     }
 }

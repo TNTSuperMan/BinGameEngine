@@ -33,7 +33,7 @@ namespace bgeruntime
                 ((c & 0b00000011) >> 0) * 85
             );
             isPixel = true;
-            isDraw = ((c & 0b11000000) >> 6) == 0b01;
+            isDraw = ((c & 0b11000000) >> 6) != 0b01;
             X = x;
             Y = y;
         }

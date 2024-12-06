@@ -130,17 +130,7 @@
                     switch (stack.Pop())
                     {
                         case 0: //Graphics
-                            List<byte> graphStack = new();
-                            graphics.Clear();
-                            for (int i = 0;i < 0x1000; i++)
-                            {
-                                if ((data[i] & 0b11000000) << 6 == 0b11)
-                                {
-                                    graphics.Add(new(graphStack.ToArray()));
-                                    graphStack.Clear();
-                                }
-                                else graphStack.Add(data[i]);
-                            }
+                            graphics = Graphic.Bin2Graphics(data);
                             break;
                         case 1: //Sound
                             break;

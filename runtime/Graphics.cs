@@ -77,6 +77,22 @@ namespace bgeruntime
             }
             return ret.ToArray();
         }
+        static public List<Graphic> Bin2Graphics(byte[] data)
+        {
+            List<Graphic> graphics = new();
+            List<byte> graphStack = new();
+            graphics.Clear();
+            for (int i = 0; i < 0x1000; i++)
+            {
+                if ((data[i] & 0b11000000) << 6 == 0b11)
+                {
+                    graphics.Add(new(graphStack.ToArray()));
+                    graphStack.Clear();
+                }
+                else graphStack.Add(data[i]);
+            }
+            return graphics;
+        }
     }
     public partial class Runtime
     {

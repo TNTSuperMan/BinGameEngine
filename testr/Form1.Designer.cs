@@ -28,13 +28,26 @@
         /// </summary>
         private void InitializeComponent()
         {
+            panel1 = new Panel();
             SuspendLayout();
+            // 
+            // panel1
+            // 
+            panel1.BorderStyle = BorderStyle.FixedSingle;
+            panel1.Location = new Point(12, 12);
+            panel1.MaximumSize = new Size(512, 512);
+            panel1.MinimumSize = new Size(512, 512);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(512, 512);
+            panel1.TabIndex = 0;
+            panel1.Paint += panel1_Paint;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(539, 546);
+            Controls.Add(panel1);
             Name = "Form1";
             Text = "Form1";
             Load += Form1_Load;
@@ -42,5 +55,7 @@
         }
 
         #endregion
+
+        private Panel panel1;
     }
 }

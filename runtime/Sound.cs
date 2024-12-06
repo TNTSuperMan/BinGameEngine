@@ -33,7 +33,7 @@ namespace bgeruntime
                     channel = new LowBitNoiseSoundChannel(tempo, format, PanType.Both);
                     break;
                 default:
-                    throw new Exception("Unknown channel: " + c);
+                    throw new Exception();
             }
             for(int i = 0;i < data.Length; i++)
             {
@@ -71,7 +71,14 @@ namespace bgeruntime
                 }
                 if (GetFlag(data[i]) == Flag.Next && !beforeNote)
                 {
-                    part.Add(Bin2Channel(tempo, (ChannelState)pcount, partBytes.ToArray()));
+                    try
+                    {
+                        part.Add(Bin2Channel(tempo, (ChannelState)pcount, partBytes.ToArray()));
+                    }
+                    catch
+                    {
+                        return [];
+                    }
                     partBytes.Clear();
                     pcount++;
                     if (pcount >= 3)

@@ -24,6 +24,10 @@ namespace bgeruntime
             );
             if ((c & 0b11000000) >> 6 == 0b01)
                 isDraw = false;
+            if (Width == 0)
+                isDraw = false;
+            if (Height == 0)
+                isDraw = false;
         }
         public GraphRect(byte x, byte y, byte c)
         {
@@ -42,10 +46,14 @@ namespace bgeruntime
             color = g.color;
             isPixel = g.isPixel;
             isDraw = g.isDraw;
-            Width = g.Width;
-            Height = g.Height;
-            X = x;
-            Y = y;
+            X = Math.Min(x, (byte)0x7f);
+            Y = Math.Min(y, (byte)0x7f);
+            Width = (byte)Math.Min(g.Width, 0x7f - X);
+            Height = (byte)Math.Min(g.Height, 0x7f - Y);
+            if (Width == 0)
+                isDraw = false;
+            if (Height == 0)
+                isDraw = false;
         }
     }
     public class Graphic

@@ -125,6 +125,13 @@
                     foreach (var g in graphics[id].Draw(x, y))
                         redrawStack.Add(g);
                     break;
+                case Command.sound:
+                    byte id_ = stack.Pop();
+                    if (id_ < sounds.Length) onSound(sounds[id_]);
+                    break;
+                case Command.stopsound:
+                    onStopSound();
+                    break;
                 case Command.io:
                     byte[] data = memory.LoadIO();
                     switch (stack.Pop())

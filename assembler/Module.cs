@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿
+using System.Text.RegularExpressions;
 using static bgeruntime.Runtime;
 
 namespace compiler
@@ -122,7 +123,7 @@ namespace compiler
                 string line = l.Trim();
                 if (line.Length == 0) continue;
                 if (line[0] == '/') foreach (BGEData d in compileLine(line.Substring(1), exportedTagName, exportedTagPoint)) bge.Add(d);
-                if (Regex.IsMatch("^inject", line))
+                if (Regex.IsMatch(line, "^inject"))
                     foreach (byte b in File.ReadAllBytes(line.Substring(7)))
                         bge.Add(new(b));
             }

@@ -125,6 +125,6 @@ namespace bgeruntime
     }
     public partial class Runtime
     {
-        private Sound[] sounds;
+        private Sound[] sounds = [];
     }
 }

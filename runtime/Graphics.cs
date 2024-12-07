@@ -106,6 +106,6 @@ namespace bgeruntime
     public partial class Runtime
     {
         private List<GraphRect> redrawStack = new();
-        private Graphic[] graphics;
+        private Graphic[] graphics = [];
     }
 }

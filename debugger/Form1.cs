@@ -106,7 +106,7 @@ namespace debugger
             {
                 vm.EmulateNext();
             }
-            catch (StackOutOfRangeException e)
+            catch (InvalidOperationException e)
             {
                 End();
                 stateText.Text = e.Message;

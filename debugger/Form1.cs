@@ -108,6 +108,12 @@ namespace debugger
             }
             catch (InvalidOperationException e)
             {
+                pcBox.Text = pc.ToString();
+                pc = vm.debug.PC;
+                stackListBox.Items.Clear();
+                foreach (var stack in vm.debug.StackList)
+                    stackListBox.Items.Add(stack);
+                memoryPos_ValueChanged(new object(), new EventArgs());
                 End();
                 stateText.Text = e.Message;
             }

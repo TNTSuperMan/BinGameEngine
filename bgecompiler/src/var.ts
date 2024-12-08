@@ -3,15 +3,10 @@ import { Expr, num } from "./native.ts";
 export const vars: [string, number][] = [];
 export type Pointer = [Expr, Expr];
 
-export const varaddr = (a:Variable):Pointer=>{
-    const h:string = a.toString(16)
-    const up = ((h[h.length-4]??"")+(h[h.length-3]??""))
-    const down = ((h[h.length-2]??"")+(h[h.length-1]??""))
-    return [`/ ${up}\n`, `/ ${down}\n`]
-}
-export const vr =(a:Variable)=>varaddr(a).join("")+"/ load\n";
-let i:Variable = 0xa000;
+export const echoVars = () =>
+    vars.forEach(e=>console.log(`[Var]${e[0]}: ${e[1].toString(16)}`))
 
+let i:Variable = 0xa000;
 export type Variable = number;
 export const defvar = (description?: string):Variable => {
     if(i >= 0xffff){
@@ -22,5 +17,14 @@ export const defvar = (description?: string):Variable => {
     }
 }
 
-export const echoVars = () =>
-    vars.forEach(e=>console.log(`[Var]${e[0]}: ${e[1].toString(16)}`))
+export const toptr = (a:Variable):Pointer=>{
+    const h:string = a.toString(16)
+    const up = ((h[h.length-4]??"")+(h[h.length-3]??""))
+    const down = ((h[h.length-2]??"")+(h[h.length-1]??""))
+    return [`/ ${up}\n`, `/ ${down}\n`]
+}
+export const vrFromPtr = (a:Pointer):Expr=>a.join("")+"/ load\n";
+export const vr =(a:Variable):Expr=>vrFromPtr(toptr(a));
+
+export const setFromPtr = (a:Pointer,b:Expr):Expr=>b+a.join("")+"/ store\n";
+export const set=(a:Variable,b:Expr):Expr=>setFromPtr(toptr(a), b);

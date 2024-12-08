@@ -1,6 +1,6 @@
 import { If } from "./control.ts";
 import { defn } from "./fn.ts";
-import { add, Expr, greater, num, sub } from "./native.ts";
+import { add, Expr, greater, num, ret, sub } from "./native.ts";
 import { Pointer, Variable, defvar as defBvar, toptr, vr, set, vrP, setP } from "./var.ts";
 
 export type ShortVar = [Variable, Variable];
@@ -27,7 +27,8 @@ export const useSutil = ()=>({
         If(greater(vr(expr), add(sub(vrP(addr1),num(255)),num(1))),[
             setP(addr0, add(vrP(addr1), num(1)))
         ]),
-        setP(addr1, add(vrP(addr1), vr(expr)))
+        setP(addr1, add(vrP(addr1), vr(expr))),
+        ret()
     ]}),
     
     Sub:defn<[Expr,Expr,Expr,Expr,Expr]>("su_sub",(addr00,addr01,addr10,addr11,expr)=>
@@ -38,6 +39,7 @@ export const useSutil = ()=>({
         If(greater(vr(expr), vrP(addr1)),[
             setP(addr0, sub(vrP(addr1), num(1)))
         ]),
-        setP(addr1, sub(vrP(addr1), vr(expr)))
+        setP(addr1, sub(vrP(addr1), vr(expr))),
+        ret()
     ]}),
 })

@@ -151,6 +151,10 @@
                         case 3: //Save
                             onSave(data);
                             break;
+                        case 4: //Clear
+                            for (ushort i = 0; i <= 0xffff; i++)
+                                memory.Store(i, 0);
+                            break;
                     }
                     break;
             }

@@ -1,3 +1,4 @@
+import { not } from "bool.ts";
 import { If } from "./control.ts";
 import { defn } from "./fn.ts";
 import { add, Expr, greater, num, ret, sub } from "./native.ts";
@@ -24,7 +25,7 @@ export const useSutil = ()=>({
         const addr0:Pointer = [vr(addr00),vr(addr01)];
         const addr1:Pointer = [vr(addr10),vr(addr11)];
         return[
-        If(greater(vr(expr), add(sub(num(255),vrP(addr1)),num(1))),[
+        If(not(greater(sub(num(255),vrP(addr1)), vr(expr))),[
             setP(addr0, add(vrP(addr1), num(1)))
         ]),
         setP(addr1, add(vrP(addr1), vr(expr))),

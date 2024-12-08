@@ -205,6 +205,7 @@ namespace debugger
                 {
                     End();
                     stateText.Text = ex.Message;
+                    pc = vm.debug.PC;
                     updateDumps();
                 }
             }
@@ -221,7 +222,7 @@ namespace debugger
                 for (int i = 0; i < memoryListBox.Items.Count; i++) memoryListBox.Items.Add("");
             }
             for (int i = (int)memoryPos.Value; i < (int)memoryPos.Value + 28 && i < ushort.MaxValue; i++)
-                memoryListBox.Items[i] = i.ToString("X4") + ":" + vm.debug.Load((ushort)i);
+                memoryListBox.Items[i - (int)memoryPos.Value] = i.ToString("X4") + ":" + vm.debug.Load((ushort)i);
         }
     }
 }

@@ -208,8 +208,8 @@ namespace debugger
         private void memoryPos_ValueChanged(object sender, EventArgs e)
         {
             memoryListBox.Items.Clear();
-            for (int i = (int)memoryPos.Value; i < (int)memoryPos.Value + 23 && i < ushort.MaxValue; i++)
-                memoryListBox.Items.Add(vm.debug.Load((ushort)i));
+            for (int i = (int)memoryPos.Value; i < (int)memoryPos.Value + 28 && i < ushort.MaxValue; i++)
+                memoryListBox.Items.Add(i.ToString("X4") + ":" + vm.debug.Load((ushort)i));
         }
     }
 }

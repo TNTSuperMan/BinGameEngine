@@ -132,12 +132,13 @@
             // 
             // memoryListBox
             // 
+            memoryListBox.Font = new Font("ＭＳ ゴシック", 9F, FontStyle.Regular, GraphicsUnit.Point, 128);
             memoryListBox.FormattingEnabled = true;
-            memoryListBox.ItemHeight = 15;
-            memoryListBox.Items.AddRange(new object[] { "255", "255", "0", "0", "0", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" });
+            memoryListBox.ItemHeight = 12;
+            memoryListBox.Items.AddRange(new object[] { "f000:255", "f111:255", "9999:0", "bbbb:255", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28" });
             memoryListBox.Location = new Point(6, 52);
             memoryListBox.Name = "memoryListBox";
-            memoryListBox.Size = new Size(55, 349);
+            memoryListBox.Size = new Size(55, 340);
             memoryListBox.TabIndex = 1;
             // 
             // groupBox4

@@ -122,8 +122,9 @@
                     break;
                 case Command.graph:
                     byte id = stack.Pop(), y = stack.Pop(), x = stack.Pop();
-                    foreach (var g in graphics[id].Draw(x, y))
-                        redrawStack.Add(g);
+                    if(graphics.Length > id)
+                        foreach (var g in graphics[id].Draw(x, y))
+                            redrawStack.Add(g);
                     break;
                 case Command.sound:
                     byte id_ = stack.Pop();

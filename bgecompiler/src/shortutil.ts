@@ -1,7 +1,7 @@
 import { If } from "./control.ts";
 import { defn } from "./fn.ts";
-import { add, Expr, greater, num, set, sub } from "./native.ts";
-import { Pointer, Variable, defvar as defBvar, toptr, vr } from "./var.ts";
+import { add, Expr, greater, num, sub } from "./native.ts";
+import { Pointer, Variable, defvar as defBvar, toptr, vr, set, vrP, setP } from "./var.ts";
 
 export type ShortVar = [Variable, Variable];
 
@@ -15,21 +15,29 @@ export const useSutil = ()=>({
     Load:(v:ShortVar):[Expr, Expr] => 
         [vr(v[0]), vr(v[1])],
     
-    Addr:(v:ShortVar):[...Pointer, ...Pointer] => 
+    toPtr:(v:ShortVar):[...Pointer, ...Pointer] => 
         [...toptr(v[0]), ...toptr(v[1])],
     
     
-    Add:defn<[Expr,Expr,Expr]>("su_add",(addr0,addr1,expr)=>[
-        If(greater(vr(expr), add(sub(vr(addr1)+"/ load\n",num(255)),num(1))),[ // expr > 256-short1 繰り上げ
-            set(addr0, add(vr(addr0), num(1)))
+    Add:defn<[Expr,Expr,Expr,Expr,Expr]>("su_add",(addr00,addr01,addr10,addr11,expr)=>
+        {
+        const addr0:Pointer = [vr(addr00),vr(addr01)];
+        const addr1:Pointer = [vr(addr10),vr(addr11)];
+        return[
+        If(greater(vr(expr), add(sub(vrP(addr1),num(255)),num(1))),[
+            setP(addr0, add(vrP(addr1), num(1)))
         ]),
-        set(addr1, add(vr(addr1), vr(expr)))
-    ]),
+        setP(addr1, add(vrP(addr1), vr(expr)))
+    ]}),
     
-    Sub:defn<[Expr,Expr,Expr]>("su_sub",(addr0,addr1,expr)=>[
-        If(greater(vr(expr), vr(addr1)+"/ load\n"),[ // expr > 256-short1 繰り上げ
-            set(addr0, sub(vr(addr0), num(1)))
+    Sub:defn<[Expr,Expr,Expr,Expr,Expr]>("su_sub",(addr00,addr01,addr10,addr11,expr)=>
+        {
+        const addr0:Pointer = [vr(addr00),vr(addr01)];
+        const addr1:Pointer = [vr(addr10),vr(addr11)];
+        return[
+        If(greater(vr(expr), vrP(addr1)),[
+            setP(addr0, sub(vrP(addr1), num(1)))
         ]),
-        set(addr1, sub(vr(addr1), vr(expr)))
-    ])
+        setP(addr1, sub(vrP(addr1), vr(expr)))
+    ]}),
 })

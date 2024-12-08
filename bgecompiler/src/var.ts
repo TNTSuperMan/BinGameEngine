@@ -1,18 +1,15 @@
-import { Expr } from "./native.ts";
+import { Expr, num } from "./native.ts";
 
 export const vars: [string, number][] = [];
+export type Pointer = [Expr, Expr];
 
-export const varaddr = (a:Variable):Expr=>{
-    let h:string = a.toString(16)
-    let t = "/ ";
-    let up = ((h[h.length-4]??"")+(h[h.length-3]??""))
-    t += up ? up : "0"
-    t += " "
-    let down = ((h[h.length-2]??"")+(h[h.length-1]??""))
-    t += down ? down : "0"
-    return t + "\n";
+export const varaddr = (a:Variable):Pointer=>{
+    const h:string = a.toString(16)
+    const up = ((h[h.length-4]??"")+(h[h.length-3]??""))
+    const down = ((h[h.length-2]??"")+(h[h.length-1]??""))
+    return [`/ ${up}\n`, `/ ${down}\n`]
 }
-export const vr =(a:Variable)=>varaddr(a)+"/ load\n";
+export const vr =(a:Variable)=>varaddr(a).join("")+"/ load\n";
 let i:Variable = 0xa000;
 
 export type Variable = number;

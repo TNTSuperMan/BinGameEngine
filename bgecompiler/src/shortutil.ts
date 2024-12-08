@@ -1,7 +1,7 @@
 import { If } from "./control.ts";
 import { defn } from "./fn.ts";
 import { add, Expr, greater, num, set, sub } from "./native.ts";
-import { Variable, defvar as defBvar, varaddr, vr } from "./var.ts";
+import { Pointer, Variable, defvar as defBvar, varaddr, vr } from "./var.ts";
 
 export type ShortVar = [Variable, Variable];
 
@@ -15,8 +15,8 @@ export const useSutil = ()=>({
     Load:(v:ShortVar):Expr => 
         vr(v[0]) + vr(v[1]),
     
-    Addr:(v:ShortVar):[Expr, Expr] => 
-        [varaddr(v[0]), varaddr(v[1])],
+    Addr:(v:ShortVar):[...Pointer, ...Pointer] => 
+        [...varaddr(v[0]), ...varaddr(v[1])],
     
     
     Add:defn<[Expr,Expr,Expr]>("su_add",(addr0,addr1,expr)=>[

@@ -26,7 +26,7 @@ export const useSutil = ()=>({
         const addr1:Pointer = [vr(addr10),vr(addr11)];
         return[
         If(not(greater(sub(num(255),vrP(addr1)), vr(expr))),[
-            setP(addr0, add(vrP(addr1), num(1)))
+            setP(addr0, add(vrP(addr0), num(1)))
         ]),
         setP(addr1, add(vrP(addr1), vr(expr))),
         ret()
@@ -38,7 +38,7 @@ export const useSutil = ()=>({
         const addr1:Pointer = [vr(addr10),vr(addr11)];
         return[
         If(greater(vr(expr), vrP(addr1)),[
-            setP(addr0, sub(vrP(addr1), num(1)))
+            setP(addr0, sub(vrP(addr0), num(1)))
         ]),
         setP(addr1, sub(vrP(addr1), vr(expr))),
         ret()

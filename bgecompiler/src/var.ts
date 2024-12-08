@@ -23,8 +23,8 @@ export const toptr = (a:Variable):Pointer=>{
     const down = ((h[h.length-2]??"")+(h[h.length-1]??""))
     return [`/ ${up}\n`, `/ ${down}\n`]
 }
-export const vrFromPtr = (a:Pointer):Expr=>a.join("")+"/ load\n";
-export const vr =(a:Variable):Expr=>vrFromPtr(toptr(a));
+export const vrP = (a:Pointer):Expr=>a.join("")+"/ load\n";
+export const vr =(a:Variable):Expr=>vrP(toptr(a));
 
-export const setFromPtr = (a:Pointer,b:Expr):Expr=>b+a.join("")+"/ store\n";
-export const set=(a:Variable,b:Expr):Expr=>setFromPtr(toptr(a), b);
+export const setP = (a:Pointer,b:Expr):Expr=>b+a.join("")+"/ store\n";
+export const set=(a:Variable,b:Expr):Expr=>setP(toptr(a), b);

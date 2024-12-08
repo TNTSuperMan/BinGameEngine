@@ -83,35 +83,21 @@ namespace debugger
             }
             return res;
         }
-        private void Next()
+        private void updateDumps()
         {
-            if (debug)
+            if (programTexts.Count <= PC2Line())
             {
-
-                if (programTexts.Count <= PC2Line())
-                {
-                    programListBox.Items.Clear();
-                    programListBox.Items.Add("---far pc---");
-                }
-                else
-                {
-                    int start = Math.Max(PC2Line() - 2, 0);
-                    programListBox.Items.Clear();
-                    for (int i = 0; i < 23; i++)
-                        if (programTexts.Count > (start + i))
-                            programListBox.Items.Add((start + i == PC2Line() ? "@" : ">") + " " + programTexts[start + i]);
-                }
+                programListBox.Items.Clear();
+                programListBox.Items.Add("---far pc---");
             }
-            try
+            else
             {
-                vm.EmulateNext();
+                int start = Math.Max(PC2Line() - 2, 0);
+                programListBox.Items.Clear();
+                for (int i = 0; i < 23; i++)
+                    if (programTexts.Count > (start + i))
+                        programListBox.Items.Add((start + i == PC2Line() ? "@" : ">") + " " + programTexts[start + i]);
             }
-            catch (InvalidOperationException e)
-            {
-                End();
-                stateText.Text = e.Message;
-            }
-
             pcBox.Text = pc.ToString();
             pc = vm.debug.PC;
             stackListBox.Items.Clear();
@@ -121,6 +107,19 @@ namespace debugger
             foreach (var callstack in vm.debug.CallStackList)
                 callStackListBox.Items.Add(callstack);
             memoryPos_ValueChanged(new object(), new EventArgs());
+        }
+        private void Next()
+        {
+            try
+            {
+                vm.EmulateNext();
+            }
+            catch (InvalidOperationException e)
+            {
+                End();
+                stateText.Text = e.Message;
+            }
+            updateDumps();
             return;
         }
         private void Start(object sender, EventArgs e)
@@ -148,7 +147,7 @@ namespace debugger
             pc = 0;
             stackListBox.Items.Clear();
             callStackListBox.Items.Clear();
-            memoryListBox.Items.Clear();
+            memoryPos_ValueChanged(sender, e);
             stateText.Text = "Running";
             runningCheck.Enabled = true;
             runningCheck.Checked = true;
@@ -198,7 +197,16 @@ namespace debugger
             }
             else
             {
-                vm.EmulateFrame();
+                try
+                {
+                    vm.EmulateFrame();
+                }
+                catch(InvalidOperationException ex)
+                {
+                    End();
+                    stateText.Text = ex.Message;
+                    updateDumps();
+                }
             }
         }
         private void NextBtnClicked(object sender, EventArgs e) => Next();
@@ -207,9 +215,13 @@ namespace debugger
 
         private void memoryPos_ValueChanged(object sender, EventArgs e)
         {
-            memoryListBox.Items.Clear();
+            if(memoryListBox.Items.Count != 28)
+            {
+                memoryListBox.Items.Clear();
+                for (int i = 0; i < memoryListBox.Items.Count; i++) memoryListBox.Items.Add("");
+            }
             for (int i = (int)memoryPos.Value; i < (int)memoryPos.Value + 28 && i < ushort.MaxValue; i++)
-                memoryListBox.Items.Add(i.ToString("X4") + ":" + vm.debug.Load((ushort)i));
+                memoryListBox.Items[i] = i.ToString("X4") + ":" + vm.debug.Load((ushort)i);
         }
     }
 }

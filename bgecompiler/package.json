@@ -1,6 +1,6 @@
 {
   "name": "bge-compiler",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "description": "bge compiler lib for ts/js",
   "main": "dist/compiler.js",
   "type": "module",

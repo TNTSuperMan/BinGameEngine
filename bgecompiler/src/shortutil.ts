@@ -12,8 +12,8 @@ export const useSutil = ()=>({
     Store:(up:Expr, bot:Expr, v:ShortVar):Expr =>
         set(v[0], up) + set(v[1], bot),
     
-    Load:(v:ShortVar):Expr => 
-        vr(v[0]) + vr(v[1]),
+    Load:(v:ShortVar):[Expr, Expr] => 
+        [vr(v[0]), vr(v[1])],
     
     Addr:(v:ShortVar):[...Pointer, ...Pointer] => 
         [...varaddr(v[0]), ...varaddr(v[1])],

@@ -15,8 +15,8 @@ namespace bgeruntime
         {
             X = Math.Min(x, (byte)0x7f);
             Y = Math.Min(y, (byte)0x7f);
-            Width = (byte)Math.Min(Width, 0x7f - X);
-            Height =(byte)Math.Min(Height, 0x7f - Y);
+            Width = (byte)Math.Min(w, 0x7f - X);
+            Height =(byte)Math.Min(h, 0x7f - Y);
             color = Color.FromArgb(
                 ((c & 0b00110000) >> 4) * 85,
                 ((c & 0b00001100) >> 2) * 85,

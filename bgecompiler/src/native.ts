@@ -31,7 +31,8 @@ export const IO = {
     graphic:0,
     sound: 1,
     load: 2,
-    save: 3
+    save: 3,
+    clear: 4
 }
 
 export const io=(t: number):Expr => num(t) + "/ io\n";

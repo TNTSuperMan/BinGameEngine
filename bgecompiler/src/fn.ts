@@ -11,7 +11,7 @@ export const defn = <T extends string[]>(name:string, fn:(...vars:number[])=>Exp
     const realname = ":fn_" +name + genid();
 
     fndefines += realname + "\n";
-    fndefines += vars.reverse().map(e=>toptr(e)+"/ store\n").join("")
+    fndefines += vars.reverse().map(e=>toptr(e).join("")+"/ store\n").join("")
     fndefines += fn(...vars.reverse()).join("");
     return (...args)=>args.join("") + `/ ${realname} call\n`
 }

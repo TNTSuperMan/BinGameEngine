@@ -19,6 +19,9 @@ export const useSutil = ()=>({
     toPtr:(v:ShortVar):[...Pointer, ...Pointer] => 
         [...toptr(v[0]), ...toptr(v[1])],
     
+    fromTag:(e:Expr,v:ShortVar):Expr =>
+        set(v[0], `${e}\n/ pop\n`)+
+        set(v[1], `${e}\n`)+"/ pop\n",
     
     Add:defn<[Expr,Expr,Expr,Expr,Expr]>("su_add",(addr00,addr01,addr10,addr11,expr)=>
         {

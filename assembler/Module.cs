@@ -1,4 +1,5 @@
 ﻿
+using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using static bgeruntime.Runtime;
 
@@ -60,7 +61,12 @@ namespace compiler
                         if (Regex.IsMatch(line, "^import"))
                         {
                             importPath.Add(line.Substring(7));
-                        }else if(Regex.IsMatch(line, "^inject"))
+                        }
+                        else if(Regex.IsMatch(line, "^inject_fromB64\\s"))
+                        {
+                            len += (ushort)Convert.FromBase64String(line.Substring(15)).Length;
+                        }
+                        else if(Regex.IsMatch(line, "^inject\\s"))
                         {
                             len += (ushort)File.ReadAllBytes(line.Substring(7)).Length;
                         }
@@ -123,7 +129,10 @@ namespace compiler
                 string line = l.Trim();
                 if (line.Length == 0) continue;
                 if (line[0] == '/') foreach (BGEData d in compileLine(line.Substring(1), exportedTagName, exportedTagPoint)) bge.Add(d);
-                if (Regex.IsMatch(line, "^inject"))
+                else if (Regex.IsMatch(line, "^inject_fromB64\\s"))
+                    foreach (byte b in Convert.FromBase64String(line.Substring(15)))
+                        bge.Add(new(b));
+                else if (Regex.IsMatch(line, "^inject\\s"))
                     foreach (byte b in File.ReadAllBytes(line.Substring(7)))
                         bge.Add(new(b));
             }

@@ -43,7 +43,7 @@ const slice = createSlice<State, SliceCaseReducers<State>, string, SliceSelector
             state.data.splice(action.payload, 1);
         },
         add(state){
-            state.data.push({data:[[1]], name:"Graphic"});
+            state.data.push({data:[[0]], name:"Graphic"});
         },
         rename(state, action: PayloadAction<[number, string]>){
             state.data[action.payload[0]].name = action.payload[1];

@@ -1,6 +1,7 @@
 import { Exprs } from "./control"
 import { bindefines, fndefines, resdefines } from "./fn"
 
+export * from "./bit"
 export * from "./bool"
 export * from "./control"
 export * from "./fn"

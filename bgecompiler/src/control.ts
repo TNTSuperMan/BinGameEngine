@@ -1,6 +1,6 @@
-import genid from "./genid.ts";
-import { not } from "./bool.ts";
-import { Expr } from "./native.ts";
+import genid from "./genid";
+import { not } from "./bool";
+import { Expr } from "./native";
 export type Exprs = string[]
 export const If = (condition:Expr, trueCode: Exprs, falseCode: Exprs = [], comment?: string):Expr => {
     let ret = "";

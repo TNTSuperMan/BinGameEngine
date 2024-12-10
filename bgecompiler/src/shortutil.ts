@@ -1,8 +1,8 @@
-import { not } from "bool.ts";
-import { If } from "./control.ts";
-import { defn } from "./fn.ts";
-import { add, Expr, greater, num, ret, sub } from "./native.ts";
-import { Pointer, Variable, defvar as defBvar, toptr, vr, set, vrP, setP } from "./var.ts";
+import { not } from "bool";
+import { If } from "./control";
+import { defn } from "./fn";
+import { add, Expr, greater, num, ret, sub } from "./native";
+import { Pointer, Variable, defvar as defBvar, toptr, vr, set, vrP, setP } from "./var";
 
 export type ShortVar = [Variable, Variable];
 

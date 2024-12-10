@@ -1,10 +1,10 @@
-import { Exprs } from "./control.ts"
-import { bindefines, fndefines, resdefines } from "./fn.ts"
+import { Exprs } from "./control"
+import { bindefines, fndefines, resdefines } from "./fn"
 
-export * from "./bool.ts"
-export * from "./control.ts"
-export * from "./fn.ts"
-export * from "./native.ts"
-export * from "./shortutil.ts";
-export * from "./var.ts"
+export * from "./bool"
+export * from "./control"
+export * from "./fn"
+export * from "./native"
+export * from "./shortutil";
+export * from "./var"
 export const Bundle = (entry: Exprs) => entry.join("") + fndefines + resdefines + bindefines;

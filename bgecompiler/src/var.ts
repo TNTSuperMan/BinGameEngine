@@ -1,4 +1,4 @@
-import { Expr, num } from "./native.ts";
+import { Expr, num } from "./native";
 
 export const vars: [string, number][] = [];
 export type Pointer = [Expr, Expr];

@@ -1,7 +1,7 @@
-import { defvar, toptr, Variable } from "./var.ts";
-import { Expr } from "./native.ts";
-import { Exprs } from "./control.ts"
-import genid from "./genid.ts";
+import { defvar, toptr, Variable } from "./var";
+import { Expr } from "./native";
+import { Exprs } from "./control"
+import genid from "./genid";
 export let  fndefines = "";
 export let bindefines = "";
 export let resdefines = "";

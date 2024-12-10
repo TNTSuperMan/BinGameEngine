@@ -1,4 +1,4 @@
-import { Expr } from "./native.ts";
+import { Expr } from "./native";
 
 export const boolify = (a:Expr):Expr => a+"/ 0 greater\n";
 export const not = (a:Expr):Expr => a+"/ 0 equal\n";

@@ -1,4 +1,4 @@
-import { toptr, Variable } from "./var.ts";
+import { toptr, Variable } from "./var";
 
 export type Expr = string;
 

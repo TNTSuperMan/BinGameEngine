@@ -199,6 +199,7 @@ namespace debugger
                     if (vm.EmulateFrame())
                     {
                         fasterCheck.Checked = false;
+                        runningCheck.Checked = false;
                     }
                 }
                 catch(InvalidOperationException ex)

@@ -27,6 +27,8 @@ export const graph=(g:Expr, x:Expr, y:Expr):Expr=>x + y + g + "/ graph\n";
 export const sound=(s:Expr):Expr=>s + "/ sound\n";
 export const stopsound=():Expr=>"/ stopsound\n";
 
+export const breakpoint=():Expr=>"/ break\n";
+
 export const IO = {
     graphic:0,
     sound: 1,

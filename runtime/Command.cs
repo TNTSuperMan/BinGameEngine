@@ -23,7 +23,7 @@
             dumpkey,
             redraw,rect,graph,
             sound,stopsound,
-            io
+            io, breakpoint
         }
         public ushort popAddr()
         {
@@ -31,11 +31,26 @@
             byte top = stack.Pop();
             return (ushort)((top << 8) | bottom);
         }
-        public void EmulateFrame()
+        public bool EmulateFrame()
         {
-            while (memory.Load(pc) != (byte)Command.redraw && !isEnded)
+            while ((
+                memory.Load(pc) != (byte)Command.redraw ||
+                memory.Load(pc) != (byte)Command.breakpoint) && !isEnded)
                 EmulateNext();
-            if (!isEnded) EmulateNext();
+            if (!isEnded && memory.Load(pc) == (byte)Command.breakpoint)
+            {
+                EmulateNext();
+                return true;
+            }
+            else if (!isEnded)
+            {
+                EmulateNext();
+                return false;
+            }
+            else
+            {
+                return false;
+            }
         }
         public void EmulateNext()
         {
@@ -156,6 +171,8 @@
                                 memory.Store(i, 0);
                             break;
                     }
+                    break;
+                case Command.breakpoint:
                     break;
             }
             pc++;

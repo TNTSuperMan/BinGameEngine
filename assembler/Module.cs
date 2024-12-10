@@ -225,6 +225,7 @@ namespace compiler
                         case "graph":   ret.Add(new(Command.graph)); break;
                         case "sound":   ret.Add(new(Command.sound)); break;
                         case "io":      ret.Add(new(Command.io)); break;
+                        case "break":   ret.Add(new(Command.breakpoint)); break;
                         default:
                             throw new BGEException(text.ToLower() + "という演算子はありません", fpath, line);
                     }

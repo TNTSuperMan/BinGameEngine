@@ -12,7 +12,7 @@ namespace debugger
         List<SoundPlayer> Sounds = new();
         Runtime vm;
 
-        bool debug = true;
+        bool debug => !fasterCheck.Checked;
         private void DoubleBuffer(Control c)
         {
             c.GetType().InvokeMember("DoubleBuffered",
@@ -143,7 +143,6 @@ namespace debugger
                 Sounds.Clear();
             };
             startBtn.Enabled = false;
-            debug = !fasterCheck.Checked;
             pc = 0;
             stackListBox.Items.Clear();
             callStackListBox.Items.Clear();
@@ -151,7 +150,6 @@ namespace debugger
             stateText.Text = "Running";
             runningCheck.Enabled = true;
             runningCheck.Checked = true;
-            fasterCheck.Enabled = false;
             if (debug) nextBtn.Enabled = true;
             clock.Start();
         }
@@ -162,7 +160,6 @@ namespace debugger
             runningCheck.Enabled = false;
             nextBtn.Enabled = false;
             startBtn.Enabled = true;
-            fasterCheck.Enabled = true;
         }
         private void TickChanged(object sender, EventArgs e)
         {
@@ -199,7 +196,10 @@ namespace debugger
             {
                 try
                 {
-                    vm.EmulateFrame();
+                    if (vm.EmulateFrame())
+                    {
+                        fasterCheck.Checked = false;
+                    }
                 }
                 catch(InvalidOperationException ex)
                 {

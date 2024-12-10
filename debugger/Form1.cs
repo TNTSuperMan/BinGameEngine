@@ -142,6 +142,19 @@ namespace debugger
                 foreach (var sound in Sounds) sound.Stop();
                 Sounds.Clear();
             };
+            vm.getKeyState = () =>
+            {
+                byte state = 0;
+                state |= (byte)(cup.Checked    ? 0b10000000 : 0);
+                state |= (byte)(cdown.Checked  ? 0b01000000 : 0);
+                state |= (byte)(cleft.Checked  ? 0b00100000 : 0);
+                state |= (byte)(cright.Checked ? 0b00010000 : 0);
+                state |= (byte)(csel.Checked   ? 0b00001000 : 0);
+                state |= (byte)(cstart.Checked ? 0b00000100 : 0);
+                state |= (byte)(ca.Checked     ? 0b00000010 : 0);
+                state |= (byte)(cb.Checked     ? 0b00000001 : 0);
+                return state;
+            };
             startBtn.Enabled = false;
             pc = 0;
             stackListBox.Items.Clear();

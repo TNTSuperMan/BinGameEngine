@@ -50,6 +50,15 @@
             runningCheck = new CheckBox();
             nextBtn = new Button();
             fasterCheck = new CheckBox();
+            cleft = new CheckBox();
+            csel = new CheckBox();
+            cdown = new CheckBox();
+            cup = new CheckBox();
+            cright = new CheckBox();
+            cb = new CheckBox();
+            ca = new CheckBox();
+            cstart = new CheckBox();
+            label3 = new Label();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
@@ -261,11 +270,101 @@
             fasterCheck.UseVisualStyleBackColor = true;
             fasterCheck.CheckedChanged += fasterCheck_CheckedChanged;
             // 
+            // cleft
+            // 
+            cleft.AutoSize = true;
+            cleft.Location = new Point(11, 390);
+            cleft.Name = "cleft";
+            cleft.Size = new Size(15, 14);
+            cleft.TabIndex = 0;
+            cleft.UseVisualStyleBackColor = true;
+            // 
+            // csel
+            // 
+            csel.AutoSize = true;
+            csel.Location = new Point(70, 410);
+            csel.Name = "csel";
+            csel.Size = new Size(15, 14);
+            csel.TabIndex = 13;
+            csel.UseVisualStyleBackColor = true;
+            // 
+            // cdown
+            // 
+            cdown.AutoSize = true;
+            cdown.Location = new Point(32, 410);
+            cdown.Name = "cdown";
+            cdown.Size = new Size(15, 14);
+            cdown.TabIndex = 14;
+            cdown.UseVisualStyleBackColor = true;
+            // 
+            // cup
+            // 
+            cup.AutoSize = true;
+            cup.Location = new Point(32, 370);
+            cup.Name = "cup";
+            cup.Size = new Size(15, 14);
+            cup.TabIndex = 15;
+            cup.UseVisualStyleBackColor = true;
+            // 
+            // cright
+            // 
+            cright.AutoSize = true;
+            cright.Location = new Point(53, 390);
+            cright.Name = "cright";
+            cright.Size = new Size(15, 14);
+            cright.TabIndex = 16;
+            cright.UseVisualStyleBackColor = true;
+            // 
+            // cb
+            // 
+            cb.AutoSize = true;
+            cb.Location = new Point(133, 410);
+            cb.Name = "cb";
+            cb.Size = new Size(15, 14);
+            cb.TabIndex = 17;
+            cb.UseVisualStyleBackColor = true;
+            // 
+            // ca
+            // 
+            ca.AutoSize = true;
+            ca.Location = new Point(112, 410);
+            ca.Name = "ca";
+            ca.Size = new Size(15, 14);
+            ca.TabIndex = 18;
+            ca.UseVisualStyleBackColor = true;
+            // 
+            // cstart
+            // 
+            cstart.AutoSize = true;
+            cstart.Location = new Point(91, 410);
+            cstart.Name = "cstart";
+            cstart.Size = new Size(15, 14);
+            cstart.TabIndex = 19;
+            cstart.UseVisualStyleBackColor = true;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(68, 392);
+            label3.Name = "label3";
+            label3.Size = new Size(77, 15);
+            label3.TabIndex = 20;
+            label3.Text = "sel  Stt   A    B";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(595, 433);
+            Controls.Add(label3);
+            Controls.Add(cstart);
+            Controls.Add(ca);
+            Controls.Add(cb);
+            Controls.Add(cright);
+            Controls.Add(cup);
+            Controls.Add(cdown);
+            Controls.Add(csel);
+            Controls.Add(cleft);
             Controls.Add(fasterCheck);
             Controls.Add(nextBtn);
             Controls.Add(runningCheck);
@@ -319,5 +418,14 @@
         private Button nextBtn;
         private CheckBox fasterCheck;
         private TextBox pcBox;
+        private CheckBox cleft;
+        private CheckBox csel;
+        private CheckBox cdown;
+        private CheckBox cup;
+        private CheckBox cright;
+        private CheckBox cb;
+        private CheckBox ca;
+        private CheckBox cstart;
+        private Label label3;
     }
 }

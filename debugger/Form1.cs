@@ -150,7 +150,7 @@ namespace debugger
             stateText.Text = "Running";
             runningCheck.Enabled = true;
             runningCheck.Checked = true;
-            if (debug) nextBtn.Enabled = true;
+            nextBtn.Enabled = true;
             clock.Start();
         }
         private void End()

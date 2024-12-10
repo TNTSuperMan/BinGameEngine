@@ -34,7 +34,7 @@
         public bool EmulateFrame()
         {
             while ((
-                memory.Load(pc) != (byte)Command.redraw ||
+                memory.Load(pc) != (byte)Command.redraw &&
                 memory.Load(pc) != (byte)Command.breakpoint) && !isEnded)
                 EmulateNext();
             if (!isEnded && memory.Load(pc) == (byte)Command.breakpoint)

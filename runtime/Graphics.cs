@@ -80,10 +80,7 @@ namespace bgeruntime
             List<GraphRect> ret = new();
             foreach (GraphRect data in rawdata)
             {
-                if (0xff - data.X >= x && 0xff - data.Y >= y)
-                {
-                    ret.Add(new(data, (byte)(data.X - x), (byte)(data.Y - y)));
-                }
+                ret.Add(new(data, (byte)(data.X + x), (byte)(data.Y + y)));
             }
             return ret.ToArray();
         }

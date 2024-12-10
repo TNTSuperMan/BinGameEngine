@@ -22,7 +22,7 @@ export const ret=(...a:Expr[]):Expr=>a.join("\n")+"/ ret\n";
 export const rect=(x:Expr,y:Expr,w:Expr,h:Expr,c:Expr):Expr=>x+y+w+h+c+"/ rect\n";
 export const redraw=():Expr=>"/ redraw\n";
 
-export const graph=(g:Expr, x:Expr, y:Expr):Expr=>g + x + y + "/ graph\n";
+export const graph=(g:Expr, x:Expr, y:Expr):Expr=>x + y + g + "/ graph\n";
 
 export const sound=(s:Expr):Expr=>s + "/ sound\n";
 export const stopsound=():Expr=>"/ stopsound\n";

@@ -161,7 +161,7 @@
                         case 2: //Load
                             data = onLoad();
                             for(int i = 0;i < 0x1000; i++)
-                                memory.Store((ushort)(0xf000 + i), data[i]);
+                                memory.Store((ushort)(0xf000 + i), data.Length > i ? data[i] : (byte)0);
                             break;
                         case 3: //Save
                             onSave(data);

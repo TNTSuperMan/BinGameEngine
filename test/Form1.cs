@@ -12,7 +12,7 @@ namespace testr
         GraphRect[] disps = [];
         private void Form1_Load(object sender, EventArgs e)
         {
-            byte[][] data = SoundGenerator.Bin2WavBins([
+            Sound[] data = SoundGenerator.Bin2WavBins([
                 120,       //Sq1
                 0b01000100, 0b01010000,
                 0b01000100, 0b01010001,
@@ -30,7 +30,7 @@ namespace testr
             ]);
             if (data.Length == 1)
             {
-                var sp = new SoundPlayer(new MemoryStream(data[0]));
+                var sp = new SoundPlayer(data[0].Stream());
                 sp.Play();
             }
             else

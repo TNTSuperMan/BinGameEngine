@@ -8,7 +8,7 @@ namespace compiler
     public class BGEException : Exception
     {
         public BGEException(string message) : base(message) { }
-        public BGEException(string message, string file, int line) : base(file + " " + line + "行目:" + message) { }
+        public BGEException(string message, string file, int line) : base(file + " at " + line + ": " + message) { }
     }
     public class Module
     {

@@ -33,14 +33,16 @@ namespace compiler
             if (!File.Exists(path)) throw new BGEException("Not found file: '" + path + "'");
             source = File.ReadAllText(path);
             ushort len = 0;
+            int linecount = 0;
             foreach (string l in source.Split('\n'))
             {
+                linecount++;
                 string line = l.Trim();
                 if (line.Length == 0) continue;
                 switch (line[0])
                 {
                     case '/':
-                        foreach (BGEData d in compileLine(line.Substring(1)))
+                        foreach (BGEData d in compileLine(line.Substring(1), linecount))
                         {
                             bge.Add(d);
                             len += (ushort)d.length;
@@ -124,11 +126,13 @@ namespace compiler
         public byte[] Compile(List<string>? exportedTagName = null, List<ushort>? exportedTagPoint = null)
         {
             List<BGEData> bge = new();
+            int linecount = 0;
             foreach (string l in source.Split('\n'))
             {
+                linecount++;
                 string line = l.Trim();
                 if (line.Length == 0) continue;
-                if (line[0] == '/') foreach (BGEData d in compileLine(line.Substring(1), exportedTagName, exportedTagPoint)) bge.Add(d);
+                if (line[0] == '/') foreach (BGEData d in compileLine(line.Substring(1), linecount, exportedTagName, exportedTagPoint)) bge.Add(d);
                 else if (Regex.IsMatch(line, "^inject_fromB64\\s"))
                     foreach (byte b in Convert.FromBase64String(line.Substring(15)))
                         bge.Add(new(b));
@@ -140,10 +144,9 @@ namespace compiler
             foreach (BGEData b in bge) foreach (byte c in b.bin) data.Add(c);
             return data.ToArray();
         }
-        private List<BGEData> compileLine(string source, List<string>? exportedTagName = null, List<ushort>? exportedTagPoint = null)
+        private List<BGEData> compileLine(string source, int line, List<string>? exportedTagName = null, List<ushort>? exportedTagPoint = null)
         {
             List<BGEData> ret = new();
-            int line = 0;
             foreach (string text in source.Split(' '))
             {
                 if (Regex.IsMatch(text, "^[\\da-fA-F]{1,2}$"))
@@ -230,7 +233,6 @@ namespace compiler
                             throw new BGEException("Not found operator: " + text.ToLower(), fpath, line);
                     }
                 }
-                line++;
             }
             return ret;
         }

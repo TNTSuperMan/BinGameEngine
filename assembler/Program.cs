@@ -8,13 +8,13 @@ internal class Program
     {
         if(args.Length != 2)
         {
-            Console.WriteLine("使用法: assembler.exe [ソース] [出力]");
+            Console.WriteLine("usage: assembler.exe [source] [output]");
         }
         else
         {
             try
             {
-                Console.WriteLine("--- タグ・構文の解析");
+                Console.WriteLine("--- Resolve tag");
                 List<string> impstack = new List<string>();
                 List<string> imported = new List<string>();
                 List<Module> modules = new List<Module>();
@@ -47,7 +47,7 @@ internal class Program
                     }
                 }
 
-                Console.WriteLine("--- コンパイル");
+                Console.WriteLine("--- Compile");
                 List<byte> ret = new List<byte>();
                 foreach(Module m in modules)
                 {
@@ -56,16 +56,16 @@ internal class Program
                     foreach (byte b in d) ret.Add(b);
                 }
                 File.WriteAllBytes(args[1], ret.ToArray());
-                Console.WriteLine("\n正常に\"" + args[1] + "\"に出力されました。");
+                Console.WriteLine("\nSuccess to output to \"" + args[1] + "\"");
                 return;
             }
             catch (BGEException ex)
             { 
-                Console.WriteLine("文法エラー: "+ex.Message);
+                Console.WriteLine("Syntax error: "+ex.Message);
             }
             catch(Exception e)
             {
-                Console.WriteLine("コンパイラエラー:" + e.Message + "\n" + e.StackTrace);
+                Console.WriteLine("Compiler error:" + e.Message + "\n" + e.StackTrace);
             }
         }
     }

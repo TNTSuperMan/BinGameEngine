@@ -30,7 +30,7 @@ namespace compiler
             exportedTagName = new List<string>();
             exportedTagPoint = new List<ushort>();
             importPath = new List<string>();
-            if (!File.Exists(path)) throw new BGEException("ファイル'" + path + "'が存在しません");
+            if (!File.Exists(path)) throw new BGEException("Not found file: '" + path + "'");
             source = File.ReadAllText(path);
             ushort len = 0;
             foreach (string l in source.Split('\n'))
@@ -168,7 +168,7 @@ namespace compiler
                         int i = jumpTagName.IndexOf(text.Substring(1));
                         if (i == -1)
                         {
-                            throw new BGEException("ラベル'" + text.Substring(1) + "'が見つかりません", fpath, line);
+                            throw new BGEException("Not found label: '" + text.Substring(1) + "'", fpath, line);
                         }
                         else
                         {
@@ -189,7 +189,7 @@ namespace compiler
                         int i = exportedTagName.IndexOf(text.Substring(1));
                         if (i == -1)
                         {
-                            throw new BGEException("ラベル'" + text.Substring(1) + "'が見つかりません", fpath, line);
+                            throw new BGEException("Not found label: '" + text.Substring(1) + "'", fpath, line);
                         }
                         else
                         {
@@ -227,7 +227,7 @@ namespace compiler
                         case "io":      ret.Add(new(Command.io)); break;
                         case "break":   ret.Add(new(Command.breakpoint)); break;
                         default:
-                            throw new BGEException(text.ToLower() + "という演算子はありません", fpath, line);
+                            throw new BGEException("Not found operator: " + text.ToLower(), fpath, line);
                     }
                 }
                 line++;

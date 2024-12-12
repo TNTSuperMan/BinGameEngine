@@ -167,8 +167,8 @@
                             onSave(data);
                             break;
                         case 4: //Clear
-                            for (ushort i = 0xf000; i <= 0xffff; i++)
-                                memory.Store(i, 0);
+                            for (int i = 0; i < 0x1000; i++)
+                                memory.Store((ushort)(i + 0xf000), 0);
                             break;
                     }
                     break;

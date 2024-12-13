@@ -81,7 +81,7 @@ namespace bgeruntime
             int xs = (x & 0b10000000) == 0 ? 1 : -1;
             int ys = (y & 0b10000000) == 0 ? 1 : -1;
             foreach (GraphRect data in rawdata)
-                ret.Add(new(data, data.X + xs, data.Y + ys));
+                ret.Add(new(data, data.X * xs, data.Y * ys));
             return ret.FindAll(e=>e.isDraw).ToArray();
         }
         static public Graphic[] Bin2Graphics(byte[] data)

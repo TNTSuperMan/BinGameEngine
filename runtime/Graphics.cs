@@ -78,10 +78,10 @@ namespace bgeruntime
         public GraphRect[] Draw(byte x, byte y)
         {
             List<GraphRect> ret = new();
-            int xs = (x & 0b10000000) == 0 ? 1 : -1;
-            int ys = (y & 0b10000000) == 0 ? 1 : -1;
+            int xs = (x & 0b10000000) == 0 ? x : -(0x100-x);
+            int ys = (y & 0b10000000) == 0 ? y : -(0x100-y);
             foreach (GraphRect data in rawdata)
-                ret.Add(new(data, data.X * xs, data.Y * ys));
+                ret.Add(new(data, xs + data.X, ys + data.Y));
             return ret.FindAll(e=>e.isDraw).ToArray();
         }
         static public Graphic[] Bin2Graphics(byte[] data)

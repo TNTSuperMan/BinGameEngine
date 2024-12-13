@@ -7,8 +7,8 @@ namespace bgeruntime
         public readonly Color color;
         public readonly bool isPixel = false;
         public readonly bool isDraw = true;
-        public readonly byte X;
-        public readonly byte Y;
+        public readonly int X;
+        public readonly int Y;
         public readonly byte Width = 1;
         public readonly byte Height = 1;
         public GraphRect(byte c, byte h, byte w, byte y, byte x)
@@ -24,12 +24,8 @@ namespace bgeruntime
             );
             if ((c & 0b11000000) >> 6 == 0b01)
                 isDraw = false;
-            if (Width == 0)
-                isDraw = false;
-            if (Height == 0)
-                isDraw = false;
         }
-        public GraphRect(byte x, byte y, byte c)
+        public GraphRect(int x, int y, byte c)
         {
             color = Color.FromArgb(
                 ((c & 0b00110000) >> 4) * 85,
@@ -41,18 +37,22 @@ namespace bgeruntime
             X = x;
             Y = y;
         }
-        public GraphRect(GraphRect g, byte x, byte y)
+        public GraphRect(GraphRect g, int x, int y)
         {
             color = g.color;
             isPixel = g.isPixel;
             isDraw = g.isDraw;
-            X = Math.Min(x, (byte)0x7f);
-            Y = Math.Min(y, (byte)0x7f);
+            X = Math.Min(x, 0x7f);
+            Y = Math.Min(y, 0x7f);
             Width = (byte)Math.Min(g.Width, 0x7f - X);
             Height = (byte)Math.Min(g.Height, 0x7f - Y);
             if (Width == 0)
                 isDraw = false;
             if (Height == 0)
+                isDraw = false;
+            if (X < 0)
+                isDraw = false;
+            if (Y < 0)
                 isDraw = false;
         }
     }
@@ -62,7 +62,7 @@ namespace bgeruntime
         public Graphic(byte[] data)
         {
             List<GraphRect> raws = new();
-            byte x = 0, y = 0;
+            int x = 0, y = 0;
             foreach (var d in data)
             {
                 if ((d & 0b11000000) >> 6 == 0b10)
@@ -78,11 +78,11 @@ namespace bgeruntime
         public GraphRect[] Draw(byte x, byte y)
         {
             List<GraphRect> ret = new();
+            int xs = (x & 0b10000000) == 0 ? 1 : -1;
+            int ys = (y & 0b10000000) == 0 ? 1 : -1;
             foreach (GraphRect data in rawdata)
-            {
-                ret.Add(new(data, (byte)(data.X + x), (byte)(data.Y + y)));
-            }
-            return ret.ToArray();
+                ret.Add(new(data, data.X + xs, data.Y + ys));
+            return ret.FindAll(e=>e.isDraw).ToArray();
         }
         static public Graphic[] Bin2Graphics(byte[] data)
         {

@@ -194,8 +194,7 @@ namespace debugger
         private void Draw(object sender, PaintEventArgs e)
         {
             foreach (var d in graphicsStack)
-                if (d.isDraw)
-                    e.Graphics.FillRectangle(new SolidBrush(d.color), d.X * 2, d.Y * 2, d.Width * 2, d.Height * 2);
+                e.Graphics.FillRectangle(new SolidBrush(d.color), d.X * 2, d.Y * 2, d.Width * 2, d.Height * 2);
             graphicsStack = [];
             return;
         }

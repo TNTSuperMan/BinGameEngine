@@ -1,5 +1,5 @@
 src
 node_modules
-index.tsconfig
 rollup.config.js
 tsconfig.json
+index.ts

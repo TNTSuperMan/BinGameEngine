@@ -31,3 +31,10 @@ export const defres = (name: string, resource: string):Expr => {
     resdefines += "inject_fromB64 " + btoa(resource) + "\n";
     return "/ " + realname + "\n";
 }
+
+export const defExprRes = (name: string, res: Expr):Expr => {
+    const realname = ":" + name + genid();
+    resdefines += realname + "\n";
+    resdefines += res;
+    return "/ " + realname + "\n";
+}

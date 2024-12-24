@@ -1,7 +1,9 @@
 ﻿using System.Drawing;
+using System.Reflection.Emit;
 
 namespace bgeruntime
 {
+    /*
     public class GraphRect
     {
         public readonly Color color;
@@ -99,10 +101,41 @@ namespace bgeruntime
             }
             return graphics.ToArray();
         }
+    }*/
+    public interface IGraphic
+    {
+        public void Draw();
+    }
+    public abstract class Graphic
+    {
+        public abstract IGraphic ImgAt(byte x, byte y);
+
+        public static Color ToColor(byte c) =>
+            Color.FromArgb(
+                (c & 0b11000000) >> 6 == 0b01 ? 255 : 0,
+                ((c & 0b00110000) >> 4) * 85,
+                ((c & 0b00001100) >> 2) * 85,
+                ((c & 0b00000011) >> 0) * 85
+            );
+        static public Graphic[] Bin2Graphics(byte[] data, GraphicConstructor createGraphic)
+        {
+            List<Graphic> graphics = new();
+            List<byte> graphStack = new();
+            for (int i = 0; i < data.Length; i++)
+            {
+                if ((data[i] & 0b11000000) >> 6 == 0b11)
+                {
+                    graphics.Add(createGraphic(graphStack.ToArray()));
+                    graphStack.Clear();
+                }
+                else graphStack.Add(data[i]);
+            }
+            return graphics.ToArray();
+        }
     }
     public partial class Runtime
     {
-        private List<GraphRect> redrawStack = new();
+        private List<IGraphic> redrawStack = new();
         private Graphic[] graphics = [];
     }
 }

@@ -8,7 +8,8 @@ namespace debugger
         ushort pc = 0;
         byte[] bin = [];
         List<string> programTexts = new List<string>();
-        GraphRect[] graphicsStack = [];
+        IGraphic[] graphicsStack = [];
+        Graphics currentGraph;
         List<SoundPlayer> Sounds = new();
         Runtime vm;
 
@@ -126,7 +127,7 @@ namespace debugger
         {
             vm = new(bin);
             vm.onEnd = End;
-            vm.onRedraw = (GraphRect[] e) =>
+            vm.onRedraw = (IGraphic[] e) =>
             {
                 graphicsStack = e;
                 panel1.Invalidate();
@@ -154,6 +155,14 @@ namespace debugger
                 state |= (byte)(ca.Checked     ? 0b00000010 : 0);
                 state |= (byte)(cb.Checked     ? 0b00000001 : 0);
                 return state;
+            };
+            vm.createRectangle = (byte x, byte y, byte w, byte h, Color c) =>
+            {
+                return new BGERectangle(x, y, w, h, c, ()=>currentGraph);
+            };
+            vm.createGraphic = (byte[] data) =>
+            {
+                return new BGEGraphic(data, () => currentGraph);
             };
             startBtn.Enabled = false;
             pc = 0;
@@ -193,8 +202,9 @@ namespace debugger
         }
         private void Draw(object sender, PaintEventArgs e)
         {
+            currentGraph = e.Graphics;
             foreach (var d in graphicsStack)
-                e.Graphics.FillRectangle(new SolidBrush(d.color), d.X * 2, d.Y * 2, d.Width * 2, d.Height * 2);
+                d.Draw();
             graphicsStack = [];
             return;
         }

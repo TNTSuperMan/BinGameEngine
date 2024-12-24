@@ -133,13 +133,18 @@
                     redrawStack.Clear();
                     break;
                 case Command.rect:
-                    redrawStack.Add(new(stack.Pop(), stack.Pop(), stack.Pop(), stack.Pop(), stack.Pop()));
+                    if (createRectangle == null) throw new NotImplementedException("Not Implemented createRectangle Function.\nPlease substitute [runtime var].createRectangle");
+                    redrawStack.Add(createRectangle(
+                        c : Graphic.ToColor(stack.Pop()),
+                        h : stack.Pop(),
+                        w : stack.Pop(),
+                        y : stack.Pop(),
+                        x : stack.Pop()));
                     break;
                 case Command.graph:
                     byte id = stack.Pop(), y = stack.Pop(), x = stack.Pop();
-                    if(graphics.Length > id)
-                        foreach (var g in graphics[id].Draw(x, y))
-                            redrawStack.Add(g);
+                    if (graphics.Length > id)
+                        redrawStack.Add(graphics[id].ImgAt(x, y));
                     break;
                 case Command.sound:
                     byte id_ = stack.Pop();
@@ -153,7 +158,8 @@
                     switch (stack.Pop())
                     {
                         case 0: //Graphics
-                            graphics = Graphic.Bin2Graphics(data);
+                            if (createGraphic == null) throw new NotImplementedException("Not Implemented createGraphic Function.\nPlease substitute [runtime var].createGraphic");
+                            graphics = Graphic.Bin2Graphics(data, createGraphic);
                             break;
                         case 1: //Sound
                             sounds = SoundGenerator.Bin2WavBins(data);

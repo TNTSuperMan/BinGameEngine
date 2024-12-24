@@ -1,5 +1,6 @@
 ﻿using bgeruntime;
 using System;
+using System.Drawing;
 using System.Collections.Generic;
 
 namespace debugger
@@ -42,7 +43,7 @@ namespace debugger
                     x = 0;
                     continue;
                 }
-                else g.FillRectangle(new SolidBrush(ToColor(d)), x * 2, y * 2, 1, 1);
+                else g.FillRectangle(new SolidBrush(ToColor(d)), x * 2, y * 2, 2, 2);
                 x++;
             }
 

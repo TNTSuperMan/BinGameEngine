@@ -112,7 +112,7 @@ namespace bgeruntime
 
         public static Color ToColor(byte c) =>
             Color.FromArgb(
-                (c & 0b11000000) >> 6 == 0b01 ? 255 : 0,
+                (c & 0b11000000) >> 6 == 0b01 ? 0 : 255,
                 ((c & 0b00110000) >> 4) * 85,
                 ((c & 0b00001100) >> 2) * 85,
                 ((c & 0b00000011) >> 0) * 85

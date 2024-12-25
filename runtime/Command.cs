@@ -31,11 +31,13 @@
             byte top = stack.Pop();
             return (ushort)((top << 8) | bottom);
         }
+        public int EmulateCount;
         public bool EmulateFrame()
         {
-            while ((
+            EmulateCount = 0;
+            while ( EmulateCount < 1000000 &&
                 memory.Load(pc) != (byte)Command.redraw &&
-                memory.Load(pc) != (byte)Command.breakpoint) && !isEnded)
+                memory.Load(pc) != (byte)Command.breakpoint && !isEnded)
                 EmulateNext();
             if (!isEnded && memory.Load(pc) == (byte)Command.breakpoint)
             {
@@ -45,15 +47,12 @@
             else if (!isEnded)
             {
                 EmulateNext();
-                return false;
             }
-            else
-            {
-                return false;
-            }
+            return false;
         }
         public void EmulateNext()
         {
+            EmulateCount++;
             ushort addr;
             switch ((Command)memory.Load(pc))
             {

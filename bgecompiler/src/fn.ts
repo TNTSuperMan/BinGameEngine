@@ -6,6 +6,12 @@ export let  fndefines = "";
 export let bindefines = "";
 export let resdefines = "";
 
+export const preloadFn = <T extends string[]>(name: string): (...args: T) => Expr => 
+    (...args) => args.join("") + `/ :fn_${name} call\n`;
+
+export const preloadResource = (type: "binary" | "res" | "exprres", name: string): Expr =>
+    `/ :${type}_${name}\n`;
+
 export const defn = <T extends string[]>(name:string, fn:(...vars:number[])=>Exprs):(...args:T)=>Expr => {
     let vars:Variable[] = [];
     for(let i = 0;i < fn.length;i++) vars.push(defvar());
@@ -28,7 +34,7 @@ inject ${path}\n`
 }
 
 export const defres = (name: string, resource: string):Expr => {
-    const realname = ":" + name;
+    const realname = ":res_" + name;
     if(tags.has(realname)) throw new ReferenceError("Already defined resource: "+name);
     resdefines += realname + "\n";
     resdefines += "inject_fromB64 " + btoa(resource) + "\n";
@@ -36,7 +42,7 @@ export const defres = (name: string, resource: string):Expr => {
 }
 
 export const defExprRes = (name: string, res: Expr):Expr => {
-    const realname = ":" + name;
+    const realname = ":exprres_" + name;
     if(tags.has(realname)) throw new ReferenceError("Already defined exprres: "+name);
     resdefines += realname + "\n";
     resdefines += res;

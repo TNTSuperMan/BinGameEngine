@@ -1,8 +1,8 @@
-import { not } from "bool";
 import { If } from "./control";
 import { defn } from "./fn";
 import { add, Expr, greater, num, ret, sub } from "./native";
 import { Pointer, Variable, defvar as defBvar, toptr, vr, set, vrP, setP } from "./var";
+import genid from "genid";
 
 export type ShortVar = [Variable, Variable];
 
@@ -23,7 +23,7 @@ export const useSutil = ()=>({
         set(v[0], `${e}\n/ pop\n`)+
         set(v[1], `${e}\n`)+"/ pop\n",
     
-    Add:defn<[Expr,Expr,Expr,Expr,Expr]>("su_add",(addr00,addr01,addr10,addr11,expr)=>
+    Add:defn<[Expr,Expr,Expr,Expr,Expr]>("su_add_"+genid(),(addr00,addr01,addr10,addr11,expr)=>
         {
         const addr0:Pointer = [vr(addr00),vr(addr01)];
         const addr1:Pointer = [vr(addr10),vr(addr11)];
@@ -35,7 +35,7 @@ export const useSutil = ()=>({
         ret()
     ]}),
     
-    Sub:defn<[Expr,Expr,Expr,Expr,Expr]>("su_sub",(addr00,addr01,addr10,addr11,expr)=>
+    Sub:defn<[Expr,Expr,Expr,Expr,Expr]>("su_sub_"+genid(),(addr00,addr01,addr10,addr11,expr)=>
         {
         const addr0:Pointer = [vr(addr00),vr(addr01)];
         const addr1:Pointer = [vr(addr10),vr(addr11)];

@@ -1,6 +1,7 @@
 import { Expr, num } from "./native";
 
 export const vars: [string, number][] = [];
+export const optVars: string[] = [];
 export type Pointer = [Expr, Expr];
 
 export const echoVars = () =>
@@ -9,10 +10,11 @@ export const echoVars = () =>
 let i:Variable = 0xa000;
 export type Variable = number;
 export const defvar = (description?: string):Variable => {
-    if(i >= 0xffff){
+    if(i >= 0xf000){
         throw new RangeError("Too many vars")
     }else{
         if(description) vars.push([description, i]);
+        optVars.push((new Error).stack ?? "unknown");
         return i++;
     }
 }

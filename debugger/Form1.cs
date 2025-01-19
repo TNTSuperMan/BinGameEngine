@@ -86,6 +86,7 @@ namespace debugger
         }
         private void updateDumps()
         {
+            pc = vm.debug.PC;
             if (programTexts.Count <= PC2Line())
             {
                 programListBox.Items.Clear();
@@ -100,7 +101,6 @@ namespace debugger
                         programListBox.Items.Add((start + i == PC2Line() ? "@" : ">") + " " + programTexts[start + i]);
             }
             pcBox.Text = pc.ToString();
-            pc = vm.debug.PC;
             stackListBox.Items.Clear();
             foreach (var stack in vm.debug.StackList)
                 stackListBox.Items.Add(stack);

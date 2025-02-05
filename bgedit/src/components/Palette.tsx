@@ -2,10 +2,14 @@ import { useEffect, useState } from "react";
 import "./Palette.scss";
 
 export type Color = {R:number, G:number, B:number, isTransparent:boolean};
-function Palette(props: {changeState: (c:Color)=>void}){
+function Palette(props: {changeState: (c:Color)=>void, changeSize: (c:number)=>void}){
     const [color, changeColor] = useState<Color>({R:0,G:0,B:0,isTransparent:false});
     useEffect(()=>props.changeState(color), [color, props]);
+
+    const [size, setSize] = useState(0);
+    useEffect(()=>props.changeSize(size), [size, props]);
     return <div className="palette">
+        <input type="number" min={0} value={size} onChange={e=>setSize(e.target.valueAsNumber)} />
         <div className="prev" style={{background:color.isTransparent ?
             "" : `rgb(${color.R*85},${color.G*85},${color.B*85})`}}/>
         R:<input type="range" name="R" value={color.R} min={0} max={3} onChange={e=>
